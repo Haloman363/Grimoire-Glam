@@ -69,3 +69,11 @@ Set `SQUARE_WEBHOOK_URL` and `GITHUB_REPO` in `wrangler.toml`.
 - **Gift cards** link out to Square's gift card page (unchanged).
 - GitHub pauses scheduled workflows after 60 days with no repo activity. The sync commits on every catalog change, which counts, but if the shop goes quiet for two months, press Run workflow once.
 - Don't commit tokens. `.env`/`.dev.vars` are git-ignored.
+
+## Safe to make public
+Nothing in this repo is a credential, so it can be made public later:
+- **Secrets live outside the repo**: the Square token in GitHub Actions secrets and Cloudflare Worker secrets; webhook key and GitHub token likewise. `.env`, `.dev.vars` and `.wrangler/` are git-ignored.
+- What is committed is already public on the live site: business email, social links, product data and photos. Square location/item IDs are identifiers, not credentials (they appear in any storefront's page source).
+- Product photos are re-encoded by the sync, so they carry no EXIF/GPS data.
+- The test fixture (`scripts/fixtures/catalog.json`) is a trimmed copy of the public catalog. Don't replace it with a raw API dump that includes customers, orders or costs.
+- Before making the repo public, turn on **Settings → Code security → Secret scanning + push protection**.
