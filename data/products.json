@@ -1,6 +1,39 @@
 {
   "currency": "USD",
   "modifierLists": {
+    "246WEOVSZCU4LEZ4VMDPC66L": {
+      "name": "Paste your sizing code from our Sizing page (or 10 nail widths in mm)",
+      "kind": "text",
+      "maxLength": 140,
+      "options": []
+    },
+    "KLV473EAQVYL53FMBJRWM3Z7": {
+      "name": "Length",
+      "kind": "list",
+      "maxLength": null,
+      "options": [
+        {
+          "id": "CCVSAQOQ7SIM4KG6QD5NR7PH",
+          "name": "Short (~18mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "7MCI5XLDSQRTYJFZFYBHOBS5",
+          "name": "Medium (~25mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "TYYXVPPVBAHDMMUB3VVEN7OK",
+          "name": "Long (~30mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "52CTKM4K7XYN4BDZMC57IWHM",
+          "name": "Extra Long (~40mm)",
+          "priceCents": 0
+        }
+      ]
+    },
     "EITKJQNGTQUI2N3RZRC4ZGL2": {
       "name": "Size",
       "kind": "list",
@@ -34,39 +67,6 @@
         {
           "id": "3NW65DA4BLSVUABIDODMGINW",
           "name": "Custom (enter measurements below)",
-          "priceCents": 0
-        }
-      ]
-    },
-    "246WEOVSZCU4LEZ4VMDPC66L": {
-      "name": "Paste your sizing code from our Sizing page (or 10 nail widths in mm)",
-      "kind": "text",
-      "maxLength": 140,
-      "options": []
-    },
-    "KLV473EAQVYL53FMBJRWM3Z7": {
-      "name": "Length",
-      "kind": "list",
-      "maxLength": null,
-      "options": [
-        {
-          "id": "CCVSAQOQ7SIM4KG6QD5NR7PH",
-          "name": "Short (~18mm)",
-          "priceCents": 0
-        },
-        {
-          "id": "7MCI5XLDSQRTYJFZFYBHOBS5",
-          "name": "Medium (~25mm)",
-          "priceCents": 0
-        },
-        {
-          "id": "TYYXVPPVBAHDMMUB3VVEN7OK",
-          "name": "Long (~30mm)",
-          "priceCents": 0
-        },
-        {
-          "id": "52CTKM4K7XYN4BDZMC57IWHM",
-          "name": "Extra Long (~40mm)",
           "priceCents": 0
         }
       ]
@@ -1056,5 +1056,5 @@
       "updatedAt": "2026-09-05T06:25:10.177Z"
     }
   ],
-  "generatedAt": "2026-10-11T20:55:20.194Z"
+  "generatedAt": "2026-10-11T20:59:31.294Z"
 }
