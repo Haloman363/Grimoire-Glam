@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Pulls the live catalog (items, prices, modifiers, photos, stock) from Square and writes
 //   data/products.json            what the site is built from
-//   assets/img/products/<id>.jpg  full size (<=1400px) photo   <id>-sm.jpg  640px thumbnail
+//   assets/img/products/<id>.webp  full size (<=1200px) photo   <id>-sm.webp  520px thumbnail (cards display at most ~255px wide, 2x = ~510)
 //
 // Usage:
 //   SQUARE_ACCESS_TOKEN=... node scripts/sync-catalog.mjs          live, from Square
@@ -92,8 +92,8 @@ async function fetchImage(url, dest) {
   if (!res.ok) throw new Error(`${url} -> ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
   const img = sharp(buf).rotate();
-  await img.clone().resize(1400, 1400, { fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 82, progressive: true, mozjpeg: true }).toFile(`${dest}.jpg`);
-  await img.clone().resize(640, 640, { fit: 'inside', withoutEnlargement: true }).jpeg({ quality: 78, progressive: true, mozjpeg: true }).toFile(`${dest}-sm.jpg`);
+  await img.clone().resize(1200, 1200, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 78 }).toFile(`${dest}.webp`);
+  await img.clone().resize(520, 520, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 70 }).toFile(`${dest}-sm.webp`);
 }
 
 const raw = fileIdx >= 0 ? await loadFromFile(args[fileIdx + 1]) : await loadFromSquare();
@@ -109,7 +109,7 @@ await Promise.all(
   Array.from({ length: 6 }, async () => {
     while (queue.length) {
       const id = queue.pop();
-      if (await exists(path.join(imgDir, `${id}.jpg`))) continue;
+      if (await exists(path.join(imgDir, `${id}.webp`)) && (await exists(path.join(imgDir, `${id}-sm.webp`)))) continue;
       try {
         await fetchImage(urls.get(id), path.join(imgDir, id));
         downloaded++;
@@ -122,7 +122,8 @@ await Promise.all(
 );
 for (const p of data.products) p.images = p.images.filter((id) => wanted.has(id));
 for (const f of await readdir(imgDir)) {
-  if (!wanted.has(f.replace(/(-sm)?\.jpg$/, ''))) await rm(path.join(imgDir, f));
+  // drop photos no longer in the catalog, and any leftover non-webp files from the old JPEG pipeline
+  if (!f.endsWith('.webp') || !wanted.has(f.replace(/(-sm)?\.webp$/, ''))) await rm(path.join(imgDir, f));
 }
 
 // Keep the file stable between runs when nothing changed so the workflow does not make empty commits.

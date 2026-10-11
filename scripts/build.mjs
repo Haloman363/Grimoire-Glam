@@ -22,7 +22,7 @@ const basePath = (process.env.BASE_PATH ?? '').replace(/\/$/, '');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const money = (cents) => `$${(cents / 100).toFixed(2)}`;
 const url = (p) => `${basePath}${p}`;
-const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.jpg`);
+const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.webp`);
 const categorySlug = (name) => slugify(name);
 
 const mods = data.modifierLists;
@@ -95,9 +95,8 @@ ${noindex ? '<meta name="robots" content="noindex">' : ''}${canonical ? `<link r
 ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<meta property="og:image" content="${og}">` : ''}
 <meta name="twitter:card" content="${og ? 'summary_large_image' : 'summary'}">
 <link rel="icon" href="${url('/assets/favicon.svg')}" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Taviraj:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap">
+<link rel="preload" href="${url('/assets/fonts/rock-salt-400.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${url('/assets/fonts/taviraj-300.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${url('/css/site.css')}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
@@ -108,7 +107,7 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="main-nav" aria-label="Main"><ul>${navHtml}</ul></nav>
     <button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="search-panel">${icon.search}</button>
-    <a class="cart-link" href="${url('/cart/')}" aria-label="Cart">${icon.cart}<span class="cart-count" hidden>0</span></a>
+    <a class="cart-link" href="${url('/cart/')}" aria-label="Cart">${icon.cart}<span class="cart-count" aria-hidden="true" hidden></span></a>
   </div>
   <div class="search-panel" id="search-panel" hidden>
     <div class="wrap">
@@ -146,7 +145,7 @@ const add = (p, html) => pages.push([p, html]);
 function card(p) {
   const first = p.images[0];
   const image = first
-    ? `<img src="${img(first, true)}" alt="${esc(p.name)}" loading="lazy" width="640" height="640">`
+    ? `<img src="${img(first, true)}" alt="${esc(p.name)}" loading="lazy" width="520" height="520">`
     : '<div class="ph" role="img" aria-label="Photo coming soon">?</div>';
   return `<li class="card" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
   <a href="${url(`/shop/${p.slug}/`)}">
@@ -260,7 +259,7 @@ for (const p of data.products) {
         .join('\n')
     : '';
   const gallery = p.images.length
-    ? `<div class="gallery"><img class="main-img" src="${img(p.images[0])}" alt="${esc(p.name)}" width="1400" height="1400">
+    ? `<div class="gallery"><img class="main-img" src="${img(p.images[0])}" alt="${esc(p.name)}" width="1200" height="1200" fetchpriority="high">
   ${p.images.length > 1 ? `<ul class="thumbs">${p.images.map((id, n) => `<li><button type="button" data-full="${img(id)}" aria-label="Photo ${n + 1}"><img src="${img(id, true)}" alt="" loading="lazy" width="120" height="120"></button></li>`).join('')}</ul>` : ''}
 </div>`
     : '<div class="gallery"><div class="ph big" role="img" aria-label="Photo coming soon">?</div></div>';

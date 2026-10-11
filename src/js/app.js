@@ -20,7 +20,9 @@
   }
   function badge() {
     var n = load().reduce(function (s, l) { return s + l.qty; }, 0);
-    $$('.cart-count').forEach(function (el) { el.textContent = n; el.hidden = !n; });
+    $$('.cart-count').forEach(function (el) { el.textContent = n || ''; el.hidden = !n; });
+    // the visible number must be part of the accessible name (WCAG label-in-name)
+    $$('.cart-link').forEach(function (a) { a.setAttribute('aria-label', n ? 'Cart, ' + n + (n === 1 ? ' item' : ' items') : 'Cart'); });
   }
   if (document.body.classList.contains('page-thanks')) save([]); // order placed: empty the cart
   badge();
