@@ -9,5 +9,5 @@
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
   "squareLocationId": "L4YE869D48SSP",
   "lowStockThreshold": 3,
-  "checkoutApi": ""
+  "checkoutApi": "https://checkout.grimmoiregalm.com"
 }

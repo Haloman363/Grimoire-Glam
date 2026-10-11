@@ -31,23 +31,24 @@ Square Developer Dashboard → create an application → **Production** access t
 2. **Settings → Secrets and variables → Actions → New secret**: `SQUARE_ACCESS_TOKEN`.
 3. Merge to `main`. The workflow in `.github/workflows/deploy.yml` syncs, builds and deploys. Until the domain is connected, the site is at `https://haloman363.github.io/Grimoire-Glam/`.
 
-### 3. Checkout worker (free Cloudflare account)
+### 3. Checkout worker (free Cloudflare account, same one that holds grimmoiregalm.com)
 ```bash
 cd worker
 npx wrangler login
-# edit wrangler.toml: ALLOWED_ORIGINS and REDIRECT_URL (your domain)
-npx wrangler secret put SQUARE_ACCESS_TOKEN
-npx wrangler deploy          # prints https://grimoire-glam-checkout.<you>.workers.dev
+npx wrangler secret put SQUARE_ACCESS_TOKEN     # paste the token at the prompt; never into chat, a file or an issue
+npx wrangler deploy                             # serves it at https://checkout.grimmoiregalm.com
 ```
-Put that URL in `config/site.json` → `"checkoutApi"`, commit, done. **Until `checkoutApi` is set, the cart button says checkout isn't connected.**
+`config/site.json` already points `checkoutApi` at `https://checkout.grimmoiregalm.com`, so deploy the worker **before** merging to `main` or the cart's Checkout button will error.
 
-### 4. Custom domain
-1. Add a file named `CNAME` at the repo root containing just your domain, e.g. `grimoireglam.com`. The build picks it up (canonical URLs, sitemap, root-relative links).
-2. At your registrar's DNS:
-   - Apex (`grimoireglam.com`): four **A** records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `www`: a **CNAME** → `haloman363.github.io`
-3. Repo → Settings → Pages → enter the domain → tick **Enforce HTTPS** once the certificate is issued (can take up to an hour).
-4. Add the domain to `ALLOWED_ORIGINS` / `REDIRECT_URL` in `worker/wrangler.toml` and `npx wrangler deploy` again.
+### 4. Custom domain: grimmoiregalm.com
+The repo already contains `CNAME` = `grimmoiregalm.com` and the worker allows that origin. In **Cloudflare → DNS** for the domain:
+1. Remove any existing apex / `www` records that point at Square or anything else.
+2. Add four **A** records for `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+3. Add a **CNAME** `www` → `haloman363.github.io`.
+4. Set all of those to **DNS only** (grey cloud) until GitHub has issued the HTTPS certificate. If you later want Cloudflare's proxy on, set SSL/TLS mode to **Full**, never Flexible.
+5. Repo → Settings → Pages → Custom domain: `grimmoiregalm.com` → tick **Enforce HTTPS** once it is available (up to an hour).
+
+The `checkout` subdomain is created automatically by `wrangler deploy`; do not add it by hand.
 
 ### 5. Optional: instant updates (instead of waiting up to 30 min)
 Square Developer Dashboard → Webhooks → subscribe `catalog.version.updated` and `inventory.count.updated` to `https://<worker>/square-webhook`. Then:

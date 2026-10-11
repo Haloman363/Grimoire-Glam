@@ -2,15 +2,18 @@ name = "grimoire-glam-checkout"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
 
+# Serves the worker at https://checkout.grimmoiregalm.com (needs the domain on the same Cloudflare account).
+routes = [{ pattern = "checkout.grimmoiregalm.com", custom_domain = true }]
+
 [vars]
 SQUARE_LOCATION_ID = "L4YE869D48SSP"
 # Comma separated: every address the storefront is served from (no trailing slash).
-ALLOWED_ORIGINS = "https://YOUR-DOMAIN.com,https://www.YOUR-DOMAIN.com,https://haloman363.github.io"
+ALLOWED_ORIGINS = "https://grimmoiregalm.com,https://www.grimmoiregalm.com,https://haloman363.github.io"
 # Where Square sends the customer after paying.
-REDIRECT_URL = "https://YOUR-DOMAIN.com/thank-you/"
+REDIRECT_URL = "https://grimmoiregalm.com/thank-you/"
 # Optional instant-rebuild webhook (see README):
 GITHUB_REPO = "haloman363/Grimoire-Glam"
-SQUARE_WEBHOOK_URL = "https://grimoire-glam-checkout.YOUR-SUBDOMAIN.workers.dev/square-webhook"
+SQUARE_WEBHOOK_URL = "https://checkout.grimmoiregalm.com/square-webhook"
 
 # Secrets are NOT stored here. Set them with:
 #   npx wrangler secret put SQUARE_ACCESS_TOKEN
