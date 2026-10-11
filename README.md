@@ -23,30 +23,37 @@ The 5 seasonal items have no Square category, so `config/overrides.json` files t
 
 ## One-time setup
 
-### 1. Square access token (read-only is enough for the sync)
-Square Developer Dashboard → create an application → **Production** access token. The sync needs `ITEMS_READ` and `INVENTORY_READ`. The checkout worker needs `ORDERS_WRITE`, `PAYMENTS_WRITE` (payment links), `ITEMS_READ`, `INVENTORY_READ`. Easiest is one token with those scopes, stored in two places below.
+### 1. Square access token
+1. Go to https://developer.squareup.com/apps and sign in with your Square seller account.
+2. Click **+** to create an application. Name it `Grimoire Glam Website` (any name works).
+3. Open it → left menu **Credentials**. At the top, switch from **Sandbox** to **Production**.
+4. Under **Production**, click **Show** on the **Access token** and copy it.
+
+A token created this way is a *personal access token*. As far as Square documents it, it can do everything your seller account can (scopes can only be limited with OAuth, which this site does not use). So treat it like a password: it only ever goes into the two secret stores below, never into a file, chat or issue. If it leaks, open the same Credentials page and **Regenerate** it (the old one stops working at once), then update both secrets.
+
+The same token is used in two places: GitHub (read-only sync) and the Cloudflare Worker (creates checkout links).
 
 ### 2. GitHub
 1. Repo → **Settings → Pages → Source: GitHub Actions**.
-2. **Settings → Secrets and variables → Actions → New secret**: `SQUARE_ACCESS_TOKEN`.
+2. **Settings → Secrets and variables → Actions → New repository secret**: name `SQUARE_ACCESS_TOKEN`, value = the token.
 3. Merge to `main`. The workflow in `.github/workflows/deploy.yml` syncs, builds and deploys. Until the domain is connected, the site is at `https://haloman363.github.io/Grimoire-Glam/`.
 
-### 3. Checkout worker (free Cloudflare account, same one that holds grimmoiregalm.com)
+### 3. Checkout worker (free Cloudflare account, same one that holds grimoireglam.com)
 ```bash
 cd worker
 npx wrangler login
 npx wrangler secret put SQUARE_ACCESS_TOKEN     # paste the token at the prompt; never into chat, a file or an issue
-npx wrangler deploy                             # serves it at https://checkout.grimmoiregalm.com
+npx wrangler deploy                             # serves it at https://checkout.grimoireglam.com
 ```
-`config/site.json` already points `checkoutApi` at `https://checkout.grimmoiregalm.com`, so deploy the worker **before** merging to `main` or the cart's Checkout button will error.
+`config/site.json` already points `checkoutApi` at `https://checkout.grimoireglam.com`, so deploy the worker **before** merging to `main` or the cart's Checkout button will error.
 
-### 4. Custom domain: grimmoiregalm.com
-The repo already contains `CNAME` = `grimmoiregalm.com` and the worker allows that origin. In **Cloudflare → DNS** for the domain:
+### 4. Custom domain: grimoireglam.com
+The repo already contains `CNAME` = `grimoireglam.com` and the worker allows that origin. In **Cloudflare → DNS** for the domain:
 1. Remove any existing apex / `www` records that point at Square or anything else.
 2. Add four **A** records for `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
 3. Add a **CNAME** `www` → `haloman363.github.io`.
 4. Set all of those to **DNS only** (grey cloud) until GitHub has issued the HTTPS certificate. If you later want Cloudflare's proxy on, set SSL/TLS mode to **Full**, never Flexible.
-5. Repo → Settings → Pages → Custom domain: `grimmoiregalm.com` → tick **Enforce HTTPS** once it is available (up to an hour).
+5. Repo → Settings → Pages → Custom domain: `grimoireglam.com` → tick **Enforce HTTPS** once it is available (up to an hour).
 
 The `checkout` subdomain is created automatically by `wrangler deploy`; do not add it by hand.
 
