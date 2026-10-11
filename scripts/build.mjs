@@ -121,7 +121,7 @@ ${body}
 </main>
 <footer class="site-footer">
   <div class="wrap foot">
-    <p class="pay">Secure checkout by Square &middot; Apple Pay &middot; Google Pay &middot; Cash App Pay &middot; all major cards</p>
+    <p class="pay">Secure checkout by Square</p>
     <ul class="social">
       <li><a href="mailto:${esc(site.email)}" aria-label="Email">${icon.mail}</a></li>
       <li><a href="${esc(site.instagram)}" rel="noopener" aria-label="Instagram">${icon.instagram}</a></li>
