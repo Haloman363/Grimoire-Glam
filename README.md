@@ -35,7 +35,7 @@ npm run dev         # build and serve on http://localhost:8080
 ## Configuration
 - **Secrets** are never committed. The Square token lives in the repository's Actions secrets (for the sync) and in the worker's secrets (for checkout). `.env`, `.dev.vars` and `.wrangler/` are git-ignored.
 - **Domain**: the `CNAME` file holds the custom domain; pages are built for the site root.
-- **Worker settings** (allowed origins, redirect URL, location ID) are in `worker/wrangler.toml`. Deploy it with `npx wrangler deploy` from `worker/`.
+- **Worker settings** (allowed origins, redirect URL, location ID) are in `worker/wrangler.toml`. Changes under `worker/` deploy automatically via `.github/workflows/worker.yml` once the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets exist (it skips with a warning otherwise). Manual deploy: `npx wrangler deploy` from `worker/`.
 
 ## Notes
 - Prices are never sent from the browser. The worker builds the order from Square catalog IDs, checks the chosen options belong to the item, and re-checks live stock before creating the checkout link.
