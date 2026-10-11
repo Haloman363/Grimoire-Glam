@@ -38,6 +38,51 @@
     });
   });
 
+
+  // ---- search (client side, over /search-index.json built from the Square catalog) ----
+  var sBtn = $('.search-toggle'), sPanel = $('#search-panel');
+  if (sBtn && sPanel) {
+    var sInput = $('.search-input', sPanel), sList = $('.search-results', sPanel), index = null, loading = null;
+    var loadIndex = function () {
+      if (!loading) loading = fetch(base + '/search-index.json').then(function (r) { return r.json(); }).then(function (j) { index = j; }).catch(function () { index = []; });
+      return loading;
+    };
+    var closeSearch = function () { sPanel.hidden = true; sBtn.setAttribute('aria-expanded', 'false'); };
+    var openSearch = function () {
+      sPanel.hidden = false; sBtn.setAttribute('aria-expanded', 'true'); sInput.focus(); loadIndex().then(render);
+    };
+    var render = function () {
+      sList.textContent = '';
+      var q = sInput.value.trim().toLowerCase();
+      if (!q || !index) return;
+      var terms = q.split(/\s+/);
+      var hits = index.filter(function (p) { return terms.every(function (t) { return p.k.indexOf(t) !== -1; }); }).slice(0, 8);
+      if (!hits.length) { var none = document.createElement('li'); none.className = 'search-empty'; none.textContent = 'No sets match \u201c' + sInput.value.trim() + '\u201d.'; sList.appendChild(none); return; }
+      hits.forEach(function (p) {
+        var li = document.createElement('li'), a = document.createElement('a');
+        a.href = p.u; a.setAttribute('role', 'option');
+        if (p.i) { var im = document.createElement('img'); im.src = p.i; im.alt = ''; im.width = 48; im.height = 48; a.appendChild(im); }
+        var t = document.createElement('span'), n = document.createElement('span'), m = document.createElement('span');
+        n.className = 'r-name'; n.textContent = p.n; m.className = 'r-meta'; m.textContent = p.p + (p.c ? ' \u00b7 ' + p.c : '');
+        t.appendChild(n); t.appendChild(m); a.appendChild(t); li.appendChild(a); sList.appendChild(li);
+      });
+    };
+    sBtn.addEventListener('click', function () { sPanel.hidden ? openSearch() : closeSearch(); });
+    sInput.addEventListener('input', function () { loadIndex().then(render); });
+    sInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { var first = $('a', sList); if (first) { e.preventDefault(); location.href = first.href; } }
+      if (e.key === 'ArrowDown') { var a1 = $('a', sList); if (a1) { e.preventDefault(); a1.focus(); } }
+    });
+    sList.addEventListener('keydown', function (e) {
+      var cur = document.activeElement; if (!cur || cur.tagName !== 'A') return;
+      var links = $$('a', sList), i = links.indexOf(cur);
+      if (e.key === 'ArrowDown' && links[i + 1]) { e.preventDefault(); links[i + 1].focus(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); (i > 0 ? links[i - 1] : sInput).focus(); }
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !sPanel.hidden) { closeSearch(); sBtn.focus(); } });
+    document.addEventListener('click', function (e) { if (!sPanel.hidden && !sPanel.contains(e.target) && !sBtn.contains(e.target)) closeSearch(); });
+  }
+
   // ---- shop filter ----
   var chips = $$('.chip');
   if (chips.length) {

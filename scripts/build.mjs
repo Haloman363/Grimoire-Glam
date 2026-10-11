@@ -58,6 +58,7 @@ const nav = [
 ];
 
 const icon = {
+  search: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
   cart: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h3l2.5 12h11L21 7H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>',
   mail: '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm9 7.2L4.5 7v10.5h15V7L12 12.2z"/></svg>',
   instagram: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
@@ -106,7 +107,14 @@ ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(
     <a class="logo" href="${url('/')}">The Grimoire<br>Glam Co</a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <nav class="main-nav" aria-label="Main"><ul>${navHtml}</ul></nav>
+    <button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="search-panel">${icon.search}</button>
     <a class="cart-link" href="${url('/cart/')}" aria-label="Cart">${icon.cart}<span class="cart-count" hidden>0</span></a>
+  </div>
+  <div class="search-panel" id="search-panel" hidden>
+    <div class="wrap">
+      <input class="search-input" type="search" placeholder="Search sets" aria-label="Search sets" autocomplete="off">
+      <ul class="search-results" role="listbox" aria-label="Search results"></ul>
+    </div>
   </div>
 </header>
 <main>
@@ -446,6 +454,20 @@ for (const [p, html] of pages) {
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, noEmDash(html));
 }
+const priceText = (p) => priceLabel(p);
+await writeFile(
+  path.join(dist, 'search-index.json'),
+  JSON.stringify(
+    data.products.map((p) => ({
+      n: noEmDash(p.name),
+      u: url(`/shop/${p.slug}/`),
+      c: p.category || '',
+      p: priceText(p),
+      i: p.images[0] ? img(p.images[0], true) : '',
+      k: [p.name, p.category, ...p.variations.map((v) => v.name), p.description.slice(0, 400)].join(' ').toLowerCase(),
+    })),
+  ),
+);
 await cp(path.join(root, 'src/css'), path.join(dist, 'css'), { recursive: true });
 await cp(path.join(root, 'src/js'), path.join(dist, 'js'), { recursive: true });
 await cp(path.join(root, 'assets'), path.join(dist, 'assets'), { recursive: true });
