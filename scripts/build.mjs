@@ -142,7 +142,8 @@ const pages = []; // [path, html]
 const add = (p, html) => pages.push([p, html]);
 
 // ---------- cards ----------
-function card(p) {
+// level: heading level of the product name. Listing pages put cards directly under the h1 (h2); the home page nests them under an h2 section (h3).
+function card(p, level = 'h2') {
   const first = p.images[0];
   const image = first
     ? `<img src="${img(first, true)}" alt="${esc(p.name)}" loading="lazy" width="520" height="520">`
@@ -150,12 +151,12 @@ function card(p) {
   return `<li class="card" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
   <a href="${url(`/shop/${p.slug}/`)}">
     <div class="card-img">${image}${badge(p)}</div>
-    <h3>${esc(p.name)}</h3>
-    <p class="price">${priceLabel(p)}</p>
+    <${level} class="card-title">${esc(p.name)}</${level}>
+    <p class="price">${esc(priceLabel(p))}</p>
   </a>
 </li>`;
 }
-const grid = (list) => `<ul class="grid">${list.map(card).join('\n')}</ul>`;
+const grid = (list, level = 'h2') => `<ul class="grid">${list.map((p) => card(p, level)).join('\n')}</ul>`;
 
 // ---------- home ----------
 const featured = data.products.filter((p) => p.images.length).slice(0, 6);
@@ -179,7 +180,7 @@ add(
   <p><em>Welcome to Grimoire Glam.</em></p>
   <p><a class="btn" href="${url('/shop/')}">Shop now</a></p>
 </div></div></section>
-${featured.length ? `<section class="wrap featured"><h2>Featured sets</h2>${grid(featured)}<p class="center"><a class="btn btn-ghost" href="${url('/shop/')}">View all sets</a></p></section>` : ''}`,
+${featured.length ? `<section class="wrap featured"><h2>Featured sets</h2>${grid(featured, 'h3')}<p class="center"><a class="btn btn-ghost" href="${url('/shop/')}">View all sets</a></p></section>` : ''}`,
   }),
 );
 
@@ -304,7 +305,7 @@ for (const p of data.products) {
     ${gallery}
     <div class="info">
       <h1>${esc(p.name)}</h1>
-      <p class="price big" id="price" data-base="${min}">${priceLabel(p)} ${badge(p)}</p>
+      <p class="price big" id="price" data-base="${min}">${esc(priceLabel(p))} ${badge(p)}</p>
       ${productForm(p)}
       <div class="desc">${paras}</div>
     </div>
@@ -397,7 +398,7 @@ add(
 <button class="generate" id="generate" type="button">Generate my code</button>
 <div class="err" id="err" role="alert"></div>
 <div class="out" id="out"><h3>Your sizing code</h3>
-  <textarea class="code" id="code" rows="3" readonly></textarea>
+  <textarea class="code" id="code" rows="3" readonly aria-label="Your sizing code"></textarea>
   <div class="count" id="count"></div>
   <button class="copycode" id="copycode" type="button">Copy code</button>
   <p class="note"><b>Key:</b> T=thumb, I=index, M=middle, R=ring, P=pinky &middot; each reads <b>Width/Arch/Length</b> in mm. Paste this into the <b>sizing code</b> box on the product page, and choose <b>Custom</b> for size. I take it from there.</p>

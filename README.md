@@ -1,87 +1,46 @@
-# The Grimoire Glam Co: storefront
+# The Grimoire Glam Co
 
-A static site on **GitHub Pages** (your domain, your design) with **Square** still running the catalog, payments, tax, orders, inventory and payouts.
+A static storefront for resin-printed press-on nails. Products, prices, photos and stock come from Square; the site is rebuilt from that catalog automatically and served as plain HTML from GitHub Pages. Square still handles checkout, tax, orders and payouts.
 
 ```
-Square catalog ──(every 30 min, or instantly via webhook)──▶ GitHub Action ──▶ rebuilt site on GitHub Pages
-Customer cart ──▶ Cloudflare Worker (holds the Square token) ──▶ Square-hosted checkout page
+Square catalog ──▶ sync script ──▶ data/products.json + photos ──▶ static pages
+Cart ──▶ checkout worker (holds the Square token) ──▶ Square-hosted checkout
 ```
 
-Add a product, change a price, upload photos, or sell the last one in Square and the site follows. No code edits.
+## What updates by itself
+Add, edit or hide an item in Square and the site follows: product pages, collections, prices, option lists (shape, size, length), photos, stock badges and search. The workflow in `.github/workflows/deploy.yml` re-syncs on every push to `main`, every 30 minutes, on demand, and when the optional webhook fires.
 
-## What updates automatically
-| In Square | On the site |
+## Layout
+| Path | Purpose |
 |---|---|
-| New item (visible online) | New card on Shop All **and** its own page `/shop/<name>/` |
-| Price, name, description, photos | Updated |
-| Shape / Size / Length options and the custom-sizing text field | Updated (they come from the item's variations and modifier lists) |
-| Stock hits 0 | "Sold out"; low counts show "Low stock" |
-| Item hidden online, archived or deleted | Removed |
-| New Square category | New filter chip + `/collections/<name>/` page |
+| `scripts/sync-catalog.mjs` | Pulls the catalog and inventory from Square, resizes photos to WebP |
+| `scripts/lib/transform.mjs` | Pure data shaping (tested against a saved catalog) |
+| `scripts/build.mjs` | Generates every page, the sitemap and the search index into `dist/` |
+| `src/` | Stylesheet and browser scripts (cart, search, product form, sizing tool) |
+| `worker/` | Cloudflare Worker that turns a cart into a Square checkout link |
+| `config/site.json` | Site name, contact links, checkout address, low-stock threshold |
+| `config/overrides.json` | Per-item tweaks keyed by Square item ID (URL name, grouping) |
+| `assets/` | Fonts, favicon and synced product photos |
 
-The 5 seasonal items have no Square category, so `config/overrides.json` files them under "Seasonal Sets". Give them a real "Seasonal Sets" category in Square and that override becomes unnecessary.
-
-## One-time setup
-
-### 1. Square access token
-1. Go to https://developer.squareup.com/apps and sign in with your Square seller account.
-2. Click **+** to create an application. Name it `Grimoire Glam Website` (any name works).
-3. Open it → left menu **Credentials**. At the top, switch from **Sandbox** to **Production**.
-4. Under **Production**, click **Show** on the **Access token** and copy it.
-
-A token created this way is a *personal access token*. As far as Square documents it, it can do everything your seller account can (scopes can only be limited with OAuth, which this site does not use). So treat it like a password: it only ever goes into the two secret stores below, never into a file, chat or issue. If it leaks, open the same Credentials page and **Regenerate** it (the old one stops working at once), then update both secrets.
-
-The same token is used in two places: GitHub (read-only sync) and the Cloudflare Worker (creates checkout links).
-
-### 2. GitHub
-1. Repo → **Settings → Pages → Source: GitHub Actions**.
-2. **Settings → Secrets and variables → Actions → New repository secret**: name `SQUARE_ACCESS_TOKEN`, value = the token.
-3. Merge to `main`. The workflow in `.github/workflows/deploy.yml` syncs, builds and deploys. Until the domain is connected, the site is at `https://haloman363.github.io/Grimoire-Glam/`.
-
-### 3. Checkout worker (free Cloudflare account, same one that holds grimoireglam.com)
+## Commands
 ```bash
-cd worker
-npx wrangler login
-npx wrangler secret put SQUARE_ACCESS_TOKEN     # paste the token at the prompt; never into chat, a file or an issue
-npx wrangler deploy                             # serves it at https://checkout.grimoireglam.com
+npm ci
+npm test            # catalog transform + worker (Square mocked)
+npm run sync        # needs SQUARE_ACCESS_TOKEN in the environment
+npm run build       # writes dist/
+npm run dev         # build and serve on http://localhost:8080
 ```
-`config/site.json` already points `checkoutApi` at `https://checkout.grimoireglam.com`, so deploy the worker **before** merging to `main` or the cart's Checkout button will error.
+`node scripts/sync-catalog.mjs --from-file scripts/fixtures/catalog.json` runs the sync offline against a saved catalog.
 
-### 4. Custom domain: grimoireglam.com
-The repo already contains `CNAME` = `grimoireglam.com` and the worker allows that origin. In **Cloudflare → DNS** for the domain:
-1. Remove any existing apex / `www` records that point at Square or anything else.
-2. Add four **A** records for `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
-3. Add a **CNAME** `www` → `haloman363.github.io`.
-4. Set all of those to **DNS only** (grey cloud) until GitHub has issued the HTTPS certificate. If you later want Cloudflare's proxy on, set SSL/TLS mode to **Full**, never Flexible.
-5. Repo → Settings → Pages → Custom domain: `grimoireglam.com` → tick **Enforce HTTPS** once it is available (up to an hour).
+## Configuration
+- **Secrets** are never committed. The Square token lives in the repository's Actions secrets (for the sync) and in the worker's secrets (for checkout). `.env`, `.dev.vars` and `.wrangler/` are git-ignored.
+- **Domain**: the `CNAME` file holds the custom domain; pages are built for the site root.
+- **Worker settings** (allowed origins, redirect URL, location ID) are in `worker/wrangler.toml`. Deploy it with `npx wrangler deploy` from `worker/`.
 
-The `checkout` subdomain is created automatically by `wrangler deploy`; do not add it by hand.
+## Notes
+- Prices are never sent from the browser. The worker builds the order from Square catalog IDs, checks the chosen options belong to the item, and re-checks live stock before creating the checkout link.
+- Site text never contains em dashes: Square text is cleaned during the sync and the build sweeps every page.
+- Stock shown on a page can be up to 30 minutes old; checkout always uses live inventory.
 
-### 5. Optional: instant updates (instead of waiting up to 30 min)
-Square Developer Dashboard → Webhooks → subscribe `catalog.version.updated` and `inventory.count.updated` to `https://<worker>/square-webhook`. Then:
-```bash
-npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY   # from the webhook subscription
-npx wrangler secret put GITHUB_TOKEN                   # fine-grained PAT, this repo only, "Contents: read & write"
-```
-Set `SQUARE_WEBHOOK_URL` and `GITHUB_REPO` in `wrangler.toml`.
-
-## Day to day
-- Edit text/design: `scripts/build.mjs` (pages), `src/css/site.css`, `src/js/`, `config/site.json`.
-- Force a refresh now: Actions tab → "Sync Square and deploy" → **Run workflow**.
-- Local preview: `npm ci && SQUARE_ACCESS_TOKEN=... npm run sync && npm run dev` → http://localhost:8080
-- Tests: `npm test` (catalog transform against a saved copy of your real catalog; worker with Square mocked).
-
-## Things to know
-- **Stock can be up to 30 min stale on the page.** The worker re-checks live inventory at checkout and refuses sold-out items, so you won't oversell because of the static page.
-- **Shipping**: checkout collects a shipping address, but the worker does not add a shipping fee. Square Online's shipping rules don't carry over to payment links. Decide how you want to charge shipping (flat fee, free, included in price) before launch.
-- **Gift cards** link out to Square's gift card page (unchanged).
-- GitHub pauses scheduled workflows after 60 days with no repo activity. The sync commits on every catalog change, which counts, but if the shop goes quiet for two months, press Run workflow once.
-- Don't commit tokens. `.env`/`.dev.vars` are git-ignored.
-
-## Safe to make public
-Nothing in this repo is a credential, so it can be made public later:
-- **Secrets live outside the repo**: the Square token in GitHub Actions secrets and Cloudflare Worker secrets; webhook key and GitHub token likewise. `.env`, `.dev.vars` and `.wrangler/` are git-ignored.
-- What is committed is already public on the live site: business email, social links, product data and photos. Square location/item IDs are identifiers, not credentials (they appear in any storefront's page source).
-- Product photos are re-encoded by the sync, so they carry no EXIF/GPS data.
-- The test fixture (`scripts/fixtures/catalog.json`) is a trimmed copy of the public catalog. Don't replace it with a raw API dump that includes customers, orders or costs.
-- Before making the repo public, turn on **Settings → Code security → Secret scanning + push protection**.
+## Contributors
+- [Haloman363](https://github.com/Haloman363): owner and maintainer

@@ -51,9 +51,9 @@
     };
     var closeSearch = function () { sPanel.hidden = true; sBtn.setAttribute('aria-expanded', 'false'); };
     var openSearch = function () {
-      sPanel.hidden = false; sBtn.setAttribute('aria-expanded', 'true'); sInput.focus(); loadIndex().then(render);
+      sPanel.hidden = false; sBtn.setAttribute('aria-expanded', 'true'); sInput.focus(); loadIndex().then(renderResults);
     };
-    var render = function () {
+    var renderResults = function () {
       sList.textContent = '';
       var q = sInput.value.trim().toLowerCase();
       if (!q || !index) return;
@@ -70,7 +70,7 @@
       });
     };
     sBtn.addEventListener('click', function () { sPanel.hidden ? openSearch() : closeSearch(); });
-    sInput.addEventListener('input', function () { loadIndex().then(render); });
+    sInput.addEventListener('input', function () { loadIndex().then(renderResults); });
     sInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') { var first = $('a', sList); if (first) { e.preventDefault(); location.href = first.href; } }
       if (e.key === 'ArrowDown') { var a1 = $('a', sList); if (a1) { e.preventDefault(); a1.focus(); } }
@@ -185,7 +185,7 @@
   var root = $('#cart-root');
   if (root) {
     var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
-    var render = function () {
+    var renderCart = function () {
       var lines = load();
       root.textContent = '';
       if (!lines.length) {
@@ -208,10 +208,10 @@
         var q = el('div', 'qty');
         var minus = el('button', null, '−'); minus.type = 'button'; minus.setAttribute('aria-label', 'Decrease quantity');
         var plus = el('button', null, '+'); plus.type = 'button'; plus.setAttribute('aria-label', 'Increase quantity');
-        minus.onclick = function () { if (l.qty > 1) { l.qty--; save(lines); render(); } };
-        plus.onclick = function () { if (l.qty < (l.cap || 99)) { l.qty++; save(lines); render(); } };
+        minus.onclick = function () { if (l.qty > 1) { l.qty--; save(lines); renderCart(); } };
+        plus.onclick = function () { if (l.qty < (l.cap || 99)) { l.qty++; save(lines); renderCart(); } };
         var rm = el('button', 'linkbtn', 'Remove'); rm.type = 'button';
-        rm.onclick = function () { lines.splice(i, 1); save(lines); render(); };
+        rm.onclick = function () { lines.splice(i, 1); save(lines); renderCart(); };
         q.appendChild(minus); q.appendChild(el('span', null, String(l.qty))); q.appendChild(plus); q.appendChild(rm);
         mid.appendChild(q);
         row.appendChild(mid);
@@ -231,11 +231,15 @@
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lines: lines.map(function (l) { return { variationId: l.variationId, modifierIds: l.modifiers.map(function (m) { return m.id; }), note: l.note, quantity: l.qty }; }) })
         }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Checkout failed'); return j; }); })
-          .then(function (j) { location.href = j.url; })
+          .then(function (j) {
+            // only ever leave for Square's hosted checkout, whatever the API returns
+            if (!/^https:\/\/([a-z0-9-]+\.)*(square\.link|squareup\.com|square\.site|squareupsandbox\.com)\//i.test(String(j.url))) throw new Error('Checkout returned an unexpected address.');
+            location.href = j.url;
+          })
           .catch(function (e) { msg.textContent = e.message || 'Something went wrong. Please try again.'; msg.hidden = false; go.disabled = false; go.textContent = 'Checkout'; });
       };
       foot.appendChild(go); foot.appendChild(msg); root.appendChild(foot);
     };
-    render();
+    renderCart();
   }
 })();

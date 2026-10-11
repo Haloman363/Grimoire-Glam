@@ -10,9 +10,7 @@ on:
     types: [square-catalog-updated]  # fired by the Worker when Square reports a change (near-instant)
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 concurrency:
   group: pages
@@ -21,6 +19,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # the sync step commits catalog changes back to main
     steps:
       - uses: actions/checkout@v4
 
@@ -71,6 +71,9 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

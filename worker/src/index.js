@@ -66,11 +66,46 @@ async function square(env, fetchImpl, method, path, body) {
   return data;
 }
 
+// The browser only sends option IDs; make sure each one really belongs to that item and that required / maximum
+// selections are respected, so an option (and its price) from another product can never be attached to an order.
+async function checkModifiers(env, fetchImpl, lines, variations, items) {
+  const listIds = [...new Set([...items.values()].flatMap((i) => (i.item_data?.modifier_list_info ?? []).map((m) => m.modifier_list_id)))];
+  const lists = new Map();
+  if (listIds.length) {
+    const r = await square(env, fetchImpl, 'POST', '/v2/catalog/batch-retrieve', { object_ids: listIds });
+    for (const o of r.objects ?? []) lists.set(o.id, o);
+  }
+  const bad = () => new HttpError(400, 'One of the options in your cart is not available for that item.');
+  for (const l of lines) {
+    const item = items.get(variations.get(l.variationId).item_variation_data.item_id);
+    const infos = (item?.item_data?.modifier_list_info ?? []).filter((m) => m.enabled !== false);
+    const owner = new Map(); // modifier id -> list id
+    for (const info of infos) {
+      for (const m of lists.get(info.modifier_list_id)?.modifier_list_data?.modifiers ?? []) if (!m.is_deleted) owner.set(m.id, info.modifier_list_id);
+    }
+    const counts = new Map();
+    for (const id of l.modifierIds) {
+      const listId = owner.get(id);
+      if (!listId) throw bad();
+      counts.set(listId, (counts.get(listId) ?? 0) + 1);
+    }
+    for (const info of infos) {
+      const data = lists.get(info.modifier_list_id)?.modifier_list_data;
+      if (!data || data.modifier_type === 'TEXT') continue;
+      const n = counts.get(info.modifier_list_id) ?? 0;
+      const min = info.min_selected_modifiers ?? 0;
+      const max = info.max_selected_modifiers ?? -1;
+      if (n < min || (max >= 0 && n > max)) throw new HttpError(400, `Please choose an option for "${data.name}".`);
+    }
+  }
+}
+
 // Reject lines that are unknown, not sellable, or exceed what is in stock (the static site can be a few minutes stale).
 async function checkAvailability(env, fetchImpl, lines) {
   const ids = [...new Set(lines.map((l) => l.variationId))];
-  const cat = await square(env, fetchImpl, 'POST', '/v2/catalog/batch-retrieve', { object_ids: ids });
+  const cat = await square(env, fetchImpl, 'POST', '/v2/catalog/batch-retrieve', { object_ids: ids, include_related_objects: true });
   const variations = new Map((cat.objects ?? []).map((o) => [o.id, o]));
+  const items = new Map((cat.related_objects ?? []).filter((o) => o.type === 'ITEM').map((o) => [o.id, o]));
   const wanted = new Map();
   for (const l of lines) wanted.set(l.variationId, (wanted.get(l.variationId) ?? 0) + l.quantity);
 
@@ -81,6 +116,7 @@ async function checkAvailability(env, fetchImpl, lines) {
     if (v.item_variation_data.sellable === false) throw new HttpError(409, 'One of the items in your cart is no longer available.');
     if (v.item_variation_data.track_inventory) tracked.push(id);
   }
+  await checkModifiers(env, fetchImpl, lines, variations, items);
   if (!tracked.length) return;
 
   const counts = new Map();
