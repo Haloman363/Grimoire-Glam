@@ -1,6 +1,8 @@
 // Pure data shaping: raw Square catalog objects -> the compact JSON the site is built from.
 // No network or filesystem access here so it can be unit tested against saved API responses.
 
+import { noEmDash, noEmDashName } from './text.mjs';
+
 export function slugify(s) {
   return String(s)
     .toLowerCase()
@@ -36,19 +38,27 @@ export function transformCatalog({ items, related, categories, counts, overrides
     .sort((a, b) => (a.category_data.parent_category?.ordinal ?? 0) - (b.category_data.parent_category?.ordinal ?? 0))
     .map((c) => c.category_data.name);
 
-  const modifierLists = {};
+  let modifierLists = {};
   for (const o of related) {
     if (o.type !== 'MODIFIER_LIST' || o.is_deleted) continue;
     const m = o.modifier_list_data;
     modifierLists[o.id] = {
-      name: m.name,
+      name: noEmDashName(m.name),
       kind: m.modifier_type === 'TEXT' ? 'text' : 'list',
       maxLength: m.max_length ?? null,
       options: (m.modifiers ?? [])
         .filter((x) => !x.is_deleted)
-        .map((x) => ({ id: x.id, name: x.modifier_data.name, priceCents: x.modifier_data.price_money?.amount ?? 0 })),
+        .sort((a, b) => (a.modifier_data.ordinal ?? 0) - (b.modifier_data.ordinal ?? 0))
+        .map((x) => ({ id: x.id, name: noEmDashName(x.modifier_data.name), priceCents: x.modifier_data.price_money?.amount ?? 0 })),
     };
   }
+
+  // Square returns related objects in varying order; sort so unchanged catalogs produce identical output
+  // (otherwise the sync workflow would commit on every run).
+  const listOrder = (id) => byId.get(id)?.modifier_list_data?.ordinal ?? 0;
+  modifierLists = Object.fromEntries(
+    Object.entries(modifierLists).sort(([a], [b]) => listOrder(a) - listOrder(b) || (a < b ? -1 : 1)),
+  );
 
   const usedSlugs = new Set();
   const products = [];
@@ -70,7 +80,7 @@ export function transformCatalog({ items, related, categories, counts, overrides
         const unit = byId.get(d.measurement_unit_id)?.measurement_unit_data?.measurement_unit?.custom_unit?.name ?? null;
         return {
           id: v.id,
-          name: d.name,
+          name: noEmDashName(d.name),
           priceCents: d.price_money?.amount ?? null,
           unit,
           ...stockFor(d, countMap, lowStockThreshold),
@@ -92,9 +102,9 @@ export function transformCatalog({ items, related, categories, counts, overrides
     products.push({
       id: o.id,
       slug,
-      name: i.name,
-      description: (i.description_plaintext ?? i.description ?? '').trim(),
-      category: ov.category ?? catName.get(catId) ?? null,
+      name: noEmDashName(i.name),
+      description: noEmDash((i.description_plaintext ?? i.description ?? '').trim()),
+      category: ov.category ?? (catName.get(catId) ? noEmDashName(catName.get(catId)) : null),
       variations,
       modifierLists: modifierListIds,
       images: (i.image_ids ?? []).filter((id) => byId.has(id)),

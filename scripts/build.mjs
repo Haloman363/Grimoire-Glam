@@ -6,6 +6,7 @@ import { readFile, writeFile, mkdir, cp, rm, access } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { slugify } from './lib/transform.mjs';
+import { noEmDash } from './lib/text.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
@@ -165,7 +166,7 @@ add(
 </div></section>
 <section class="band"><div class="wrap narrow"><div class="panel center">
   <p><em>Not printed on. Printed as.</em></p>
-  <p>Every nail you see was 3D modeled by hand and resin printed in my garage in Utah. The base. The designs. Every raised detail. All of it &mdash; printed from scratch because I wanted to make something that didn't exist yet.</p>
+  <p>Every nail you see was 3D modeled by hand and resin printed in my garage in Utah. The base. The designs. Every raised detail. All of it, printed from scratch because I wanted to make something that didn't exist yet.</p>
   <p>Wearable sculpture for the ones who've always wanted more from their fingertips.</p>
   <p>Everything is made to order and with intention to details.</p>
   <p><em>Welcome to Grimoire Glam.</em></p>
@@ -361,7 +362,7 @@ const sizingRows = (side) =>
     .map(
       (f, i) =>
         `<div class="srow"><div class="finger">${f}</div>${['w', 'a', 'l']
-          .map((k) => `<div class="sfield"><input type="number" inputmode="decimal" min="1" max="40" id="${side}_${k}_${i}" placeholder="&mdash;" aria-label="${side === 'L' ? 'Left' : 'Right'} ${f} ${{ w: 'width', a: 'arch', l: 'length' }[k]} in millimeters"></div>`)
+          .map((k) => `<div class="sfield"><input type="number" inputmode="decimal" min="1" max="40" id="${side}_${k}_${i}" placeholder="-" aria-label="${side === 'L' ? 'Left' : 'Right'} ${f} ${{ w: 'width', a: 'arch', l: 'length' }[k]} in millimeters"></div>`)
           .join('')}</div>`,
     )
     .join('');
@@ -375,11 +376,11 @@ add(
     body: `<section class="wrap sizing-tool"><h1 class="page-title">Nail Sizing</h1>
 <p class="tag">Measure once. Fits like it was cast for you.</p>
 <details><summary>How to measure</summary><div class="howto">
-  <p>You'll enter three numbers per nail, all in <b>millimeters (mm)</b>. Round to the nearest whole number &mdash; no decimals.</p>
-  <p><b>Width</b> &mdash; measure straight across the <b>widest</b> part of your nail, from one side wall to the other.</p>
-  <p><b>Arch</b> &mdash; measure across the <b>curved base</b> of your nail, right where it meets your cuticle.</p>
-  <p><b>Length</b> &mdash; measure from your <b>cuticle to the tip</b> of your natural nail (how long your nail bed is).</p>
-  <p>Do all ten, both hands &mdash; hands aren't always the same. When in doubt, round up.</p>
+  <p>You'll enter three numbers per nail, all in <b>millimeters (mm)</b>. Round to the nearest whole number, no decimals.</p>
+  <p><b>Width</b>: measure straight across the <b>widest</b> part of your nail, from one side wall to the other.</p>
+  <p><b>Arch</b>: measure across the <b>curved base</b> of your nail, right where it meets your cuticle.</p>
+  <p><b>Length</b>: measure from your <b>cuticle to the tip</b> of your natural nail (how long your nail bed is).</p>
+  <p>Do all ten, both hands, since hands aren't always the same. When in doubt, round up.</p>
 </div></details>
 <div class="hand"><h2>Left Hand</h2><div class="sub">Thumb &rarr; Pinky &middot; all in mm</div>
   <div class="shead"><span>Finger</span><span>Width</span><span>Arch</span><span>Length</span></div>${sizingRows('L')}</div>
@@ -423,7 +424,7 @@ add(
     path: '/thank-you/',
     noindex: true,
     bodyClass: 'page-thanks',
-    body: `<section class="wrap narrow center"><h1 class="page-title">Thank you</h1><p>Your order is in. Square is emailing your receipt, and your set goes into the print queue &mdash; everything here is made to order.</p><p>Questions about sizing or your order? <a href="mailto:${esc(site.email)}">${esc(site.email)}</a></p><p><a class="btn" href="${url('/shop/')}">Keep browsing</a></p></section>`,
+    body: `<section class="wrap narrow center"><h1 class="page-title">Thank you</h1><p>Your order is in. Square is emailing your receipt, and your set goes into the print queue. Everything here is made to order.</p><p>Questions about sizing or your order? <a href="mailto:${esc(site.email)}">${esc(site.email)}</a></p><p><a class="btn" href="${url('/shop/')}">Keep browsing</a></p></section>`,
   }),
 );
 
@@ -434,7 +435,7 @@ add(
     title: 'Page not found',
     path: '/404.html',
     noindex: true,
-    body: `<section class="wrap narrow center"><h1 class="page-title">Lost in the stacks</h1><p>That page doesn't exist &mdash; maybe it was a set that sold out.</p><p><a class="btn" href="${url('/shop/')}">Browse the shop</a></p></section>`,
+    body: `<section class="wrap narrow center"><h1 class="page-title">Lost in the stacks</h1><p>That page doesn't exist. Maybe it was a set that sold out.</p><p><a class="btn" href="${url('/shop/')}">Browse the shop</a></p></section>`,
   }),
 );
 
@@ -443,7 +444,7 @@ await rm(dist, { recursive: true, force: true });
 for (const [p, html] of pages) {
   const file = p.endsWith('.html') ? path.join(dist, p) : path.join(dist, p, 'index.html');
   await mkdir(path.dirname(file), { recursive: true });
-  await writeFile(file, html);
+  await writeFile(file, noEmDash(html));
 }
 await cp(path.join(root, 'src/css'), path.join(dist, 'css'), { recursive: true });
 await cp(path.join(root, 'src/js'), path.join(dist, 'js'), { recursive: true });

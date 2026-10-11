@@ -62,3 +62,18 @@ test('duplicate names get distinct slugs', () => {
   const d = run({ items: [fx.objects[0], a] });
   assert.equal(new Set(d.products.map((p) => p.slug)).size, 2);
 });
+
+test('no em dashes survive in site data, and prose reads cleanly', async () => {
+  const { noEmDash, noEmDashName } = await import('./lib/text.mjs');
+  assert.equal(noEmDashName('Noir et Blanc — The Ribbon Collection'), 'Noir et Blanc - The Ribbon Collection');
+  assert.equal(noEmDash('Black and white — the oldest argument'), 'Black and white, the oldest argument');
+  assert.equal(noEmDash('a&mdash;b'), 'a, b');
+  assert.equal(JSON.stringify(run()).includes('—'), false);
+});
+
+test('output is stable when Square returns related objects in a different order', () => {
+  const a = run();
+  const b = run({ related: [...fx.related_objects].reverse() });
+  assert.equal(JSON.stringify(a), JSON.stringify(b));
+  assert.deepEqual(Object.values(a.modifierLists).map((m) => m.name.slice(0, 4)), ['Size', 'Leng', 'Past']);
+});
