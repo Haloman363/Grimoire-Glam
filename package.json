@@ -1,0 +1,17 @@
+{
+  "name": "grimoire-glam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The Grimoire Glam Co storefront: static site on GitHub Pages, catalog and payments from Square.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "sync": "node scripts/sync-catalog.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node --test \"scripts/*.test.mjs\" \"worker/*.test.mjs\"",
+    "dev": "node scripts/build.mjs && npx http-server dist -p 8080 -c-1"
+  },
+  "dependencies": {
+    "sharp": "^0.34.0"
+  }
+}

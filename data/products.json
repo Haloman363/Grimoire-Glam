@@ -1,0 +1,1060 @@
+{
+  "currency": "USD",
+  "modifierLists": {
+    "KLV473EAQVYL53FMBJRWM3Z7": {
+      "name": "Length",
+      "kind": "list",
+      "maxLength": null,
+      "options": [
+        {
+          "id": "CCVSAQOQ7SIM4KG6QD5NR7PH",
+          "name": "Short (~18mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "7MCI5XLDSQRTYJFZFYBHOBS5",
+          "name": "Medium (~25mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "TYYXVPPVBAHDMMUB3VVEN7OK",
+          "name": "Long (~30mm)",
+          "priceCents": 0
+        },
+        {
+          "id": "52CTKM4K7XYN4BDZMC57IWHM",
+          "name": "Extra Long (~40mm)",
+          "priceCents": 0
+        }
+      ]
+    },
+    "246WEOVSZCU4LEZ4VMDPC66L": {
+      "name": "Paste your sizing code from our Sizing page (or 10 nail widths in mm)",
+      "kind": "text",
+      "maxLength": 140,
+      "options": []
+    },
+    "EITKJQNGTQUI2N3RZRC4ZGL2": {
+      "name": "Size",
+      "kind": "list",
+      "maxLength": null,
+      "options": [
+        {
+          "id": "5B3CL5GVRM5NEFHLLBM4KSOJ",
+          "name": "XS",
+          "priceCents": 0
+        },
+        {
+          "id": "ZB2WAY4K7X3SY2H3JRU6THSM",
+          "name": "S",
+          "priceCents": 0
+        },
+        {
+          "id": "65IBM5GMYV6DWLI5INIRXJYG",
+          "name": "M",
+          "priceCents": 0
+        },
+        {
+          "id": "3SPSB2PV4NP4GYLVAHAE6K2R",
+          "name": "L",
+          "priceCents": 0
+        },
+        {
+          "id": "K2GTGMZQXDRZDV4ZDAKMY6O7",
+          "name": "XL",
+          "priceCents": 0
+        },
+        {
+          "id": "3NW65DA4BLSVUABIDODMGINW",
+          "name": "Custom (enter measurements below)",
+          "priceCents": 0
+        }
+      ]
+    }
+  },
+  "categories": [
+    "The Ossuary",
+    "Relics",
+    "The Conservatory",
+    "Ribbons & Rites",
+    "Whispers to Come",
+    "Seasonal Sets"
+  ],
+  "products": [
+    {
+      "id": "QQXX3DZG74F2QSVC6NA7RZPX",
+      "slug": "the-grimoire",
+      "name": "The Grimoire",
+      "description": "A Grimoire was never merely just a book. It was a relic. A covenant. Written in ink that did not wash clean.\n\nThese nails were made in the same spirit. I wanted something that would stop you mid-scroll. Something Iconic. Something that the moment you saw it, you just knew.\n\nThese nails use a translucent base pale as candlelight through cathedral glass, marked by two lines of deep crimson that rise like a gothic arch and meet at the tip like a blade laid upon an altar. At the crown of each nail, a 3D sculpted cross in gunmetal and chrome. Hand-placed. Intentional. Unmistakably ours.\n\nBut underneath of all of that, this set was made as a quiet signal. For the ones who have always lived a little sideways from the world. The alt girls. The dark romantics. The ones who paint their nails like armor. This is me saying I see you. I'm here too. This was made for you.\n\nBecause it was.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Relics",
+      "variations": [
+        {
+          "id": "K6QQIFP7PP3XYPQZLRXPCRSC",
+          "name": "Stiletto",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "M3CLM5ILSCSWTFN6GL6DJ6Y3",
+          "name": "Coffin",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "CN5PSXLAWFIJ7LI5NVMSPNOM",
+          "name": "Almond",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "ZPMSSVQNBOI6CDSLLSIHSPUB",
+          "name": "Square",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "VPFN7BZNRHV5UG25TWX2BYPH",
+          "name": "Squoval",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "QJYF2HW3BJLK32RX3637GVZV",
+        "FVF2VEF2VB567CPRTSFGFD77",
+        "OGP326MHYZ5CEAEEEVJ3AXMR",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "GVRLDBVFRFUGZSXSGN46NPGA",
+        "EULZAMX57TUKTNKDO6LGE5KP"
+      ],
+      "updatedAt": "2026-09-23T04:44:55.475Z"
+    },
+    {
+      "id": "3HM26BEEVXD7SWVXO5V2OL2Q",
+      "slug": "noir-et-blanc-the-ribbon-collection",
+      "name": "Noir et Blanc — The Ribbon Collection",
+      "description": "Noir et blanc. Black and white — the oldest argument there is, and the most beautiful. This set doesn't choose a side; it wears both like a ribbon tied at the throat. A bright porcelain base crossed with inkstroke stripes, finished in liquid chrome and crowned with a single sculpted bow. Demure and dangerous in the same breath — the kind of soft that has teeth. The first of the Ribbon Collection, for those who like their elegance with something tied round its neck.\n\nTied in contrast. Worn like a confession.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Ribbons & Rites",
+      "variations": [
+        {
+          "id": "NQMCXRS3MDNO54PVWDHFG3PW",
+          "name": "Stiletto",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "QOSJLAT6VBE7YEVCGFYHAQBJ",
+          "name": "Coffin",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "NJINBXFO7KPXW4T2K3IMUZMD",
+          "name": "Almond",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "XABOZ7Y76WOKWIG2NDRFCR72",
+          "name": "Square",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "JH5PBITDCIJKQ5ZQTI7LVEVD",
+          "name": "Squoval",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "RF5JT4WC6DUKLOBMDLU45ANL",
+        "42O6CJPY5YKU72L3LFRJEJ5T",
+        "ZC5PE5YOKEPD3EIAIMLJ2ZGA",
+        "AO75JPQXDBBCCLXBMRQ2BF3V",
+        "TIULUGUU65IZKMRFKA3CW3D2",
+        "UGR5T4QDSBYNXO3OWWVWEXT7"
+      ],
+      "updatedAt": "2026-09-23T04:44:56.142Z"
+    },
+    {
+      "id": "ZFUZUCFQZO2E2H7XSEFAGJTO",
+      "slug": "la-fraise-jardin-collection",
+      "name": "La Fraise — Jardin Collection",
+      "description": "La fraise. The strawberry — sweetest thing in the garden, and the first to be devoured. This is the opening bloom of the Jardin Collection, where everything pretty hides a little rot beneath it. A sculpted strawberry sits ripe at the tip, dotted in white seed and fed by a single green leaf — fruit rendered like a still life left one day too long. Sweet, saturated, faintly sinful. For the ones who reach for the forbidden one on purpose.\n\nGrown in the garden. Worn without apology.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "The Conservatory",
+      "variations": [
+        {
+          "id": "QTEO65B7MPTMNPFMSHLOLEGJ",
+          "name": "Stiletto",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "7LNKXXFTFGWXOUN3HKSQSPEI",
+          "name": "Coffin",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "KPALSDHT4OPK65XZQQULLR54",
+          "name": "Almond",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "2IYE5RJCWDZ4LI6ZAAKHYGDZ",
+          "name": "Square",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "JO4NTZO7OIUOUENI3IBD4MQD",
+          "name": "Squoval",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "DLFI4XTLYUWRQZ6KSSAIGI4H",
+        "CZOFWFAFUWE7E7Q6BWV3VWOX",
+        "KROF6OWH666QJL7Q6LTIBAAY",
+        "ZPVW4BSL47S2I5HFREB6RZ76",
+        "QFEZRCFGMKQ67MG75VGBD2IE",
+        "2JCMZY5CCDLVY6F6JGMPCU7S",
+        "K3PXUHMZG7CXEAI3EBK2Y4SC",
+        "GVRLDBVFRFUGZSXSGN46NPGA",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "EULZAMX57TUKTNKDO6LGE5KP"
+      ],
+      "updatedAt": "2026-09-23T04:44:56.803Z"
+    },
+    {
+      "id": "KTMGKO3E32M6XLP4JN56PXMZ",
+      "slug": "leviathan-x-benthic",
+      "name": "Leviathan x Benthic",
+      "description": "Leviathan. The thing the old maps warned you about, drawn in the margins where the water goes black. This set descends — deep green bleeding into abyssal black, textured like the hide of something vast and patient in the cold. A single gem catches the light like an eye opening in the dark. From the Benthic depths, where pressure makes monsters of us all. For those who were never afraid of what's down there. They were curious.\n\nRisen from the deep. Worn like a warning.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Relics",
+      "variations": [
+        {
+          "id": "QDWDAT52EZNRJHALP5P4SFPX",
+          "name": "Stiletto",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "W4YURBYS3ZJ6CFKMZNOKSMQD",
+          "name": "Coffin",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "QRWUQTNS5HIPIPVHGLEHPPWZ",
+          "name": "Almond",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "G72PDUO4JUHCNCMPNYQXMGNF",
+          "name": "Square",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "OLZUAEXBFD6J3YHKLHM647IV",
+          "name": "Squoval",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "FIF5SAWXPWZ244SB6VHOX43R",
+        "4EMKMTHFU33QUWAACCS225XO",
+        "LWR75T65WUIBO3NVZRSJPEFQ",
+        "OOX4IYQSLWZMUYFZAAZOCSR4",
+        "Q4LLQZIMWFI4FSATJ76Y3JTF",
+        "ZLPEZU5XFYCXYFX4ONCUEZMJ",
+        "TPYQLABWHTYTY2NZPHHTGWJC"
+      ],
+      "updatedAt": "2026-09-23T04:44:57.443Z"
+    },
+    {
+      "id": "54TUDMR5PMS6MY7RQI7VFZ7L",
+      "slug": "the-specter",
+      "name": "The Specter",
+      "description": "The Specter. Not every haunting wears chains. Some are quiet — a presence at the edge of the room, gone when you turn to look. This set is restraint made beautiful: clean matte white, no charm, no noise, only the cold elegance of something not quite of this world. Minimal. Ghostly. Unforgettable for what it withholds. For those who don't need to be loud to be felt.\n\nSeen for a moment. Remembered far longer.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "The Ossuary",
+      "variations": [
+        {
+          "id": "XUJUCRYDVU63YJCNYMX4UKH3",
+          "name": "Stiletto",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "47OYOD2C5DZ7ZQ4MJR3SB3T5",
+          "name": "Coffin",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "QXUTWECCOX3UY5MCI7CMVUCR",
+          "name": "Almond",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "X3CMQ7KUX6IDM2ESYKTAUF3M",
+          "name": "Square",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "TJBZG3Y4BDFUK6IBAN6PNKDX",
+          "name": "Squoval",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "ZT5FQKXQZA7PQZMK3J4J4IH4",
+        "QD2NPREZLON35WIDO3LJNYUL",
+        "VAKMNVVE5MUSRXDW2CITGTH7"
+      ],
+      "updatedAt": "2026-09-23T04:44:58.073Z"
+    },
+    {
+      "id": "2ITJRKMIV5HTC6OPFYBRQVKM",
+      "slug": "void",
+      "name": "Void",
+      "description": "Void. The beginning of everything, and the absence of it. This is the staple — pure black, no charm, just the deep and total dark that goes with everything you own and everything you are. The set you'll reach for again and again. Some call it basic. We call it the foundation. For those who know black was never a phase — it was the answer.\n\nNothing added. Nothing needed.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "The Ossuary",
+      "variations": [
+        {
+          "id": "D2H4MKDFGEQ3VUCVXZNGKSUS",
+          "name": "Stiletto",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "IVQUUV3WKC6QYHX2MMYWRF2J",
+          "name": "Coffin",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "VSE2EBDEIQL4T77JI623PZIO",
+          "name": "Almond",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "IPOAXMD2HNVSYZ5F647LCDQY",
+          "name": "Square",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "RG3F2XN6O4NSJIYIC6CZES4A",
+          "name": "Squoval",
+          "priceCents": 2500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "DUL4XOPOVK6MDSJL3Z5KL75F",
+        "67A5G4GHVC77L2PA54QCGTQ3",
+        "Z7G3HKF4TKXDXUQLKJKD43T4",
+        "SOAWF5FBUMH4EA7KIKCM625M",
+        "FOXU6CYSB75ST67XMKVDND2H",
+        "STMMSMVO4T3CNA2GDXM3EHIK",
+        "DS4GQ4BTR63FCQDRABRKKQPW"
+      ],
+      "updatedAt": "2026-09-23T04:44:58.602Z"
+    },
+    {
+      "id": "AQ3KN7AAVX6HMR7SHCQDRNUU",
+      "slug": "the-armory",
+      "name": "The Armory",
+      "description": "The Armory. Some days you don't dress — you suit up. This set is full chrome, poured like liquid metal and set hard, a mirror finish that throws the light back at anyone who looks too long. Armor for the hand: cold, gleaming, impenetrable. For the days you decide nothing's getting through. You always said you paint your nails like armor — so we made them exactly that.\n\nForged, not worn. Armor for the hand.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Relics",
+      "variations": [
+        {
+          "id": "IWLOGZMDVTQFXAJIY2JQ6PUD",
+          "name": "Stiletto",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "6ABP3TPR73G3GUHVNBMOLVFB",
+          "name": "Coffin",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "N66ZMVR54DF3BBNJMZ6X2UK5",
+          "name": "Almond",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "UYZO34D6URAHRT25IMLPPHQJ",
+          "name": "Square",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "ML3OWANY3JITSCO6LSLEHNVI",
+          "name": "Squoval",
+          "priceCents": 3000,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "Y72YF7JONRX7K6HCTIIB3FHK",
+        "U7XBPX7OJJO3RMOQ65AWZPRD",
+        "Z7MB3FOE75NZFZS4JT3BM2VU",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "GVRLDBVFRFUGZSXSGN46NPGA",
+        "EULZAMX57TUKTNKDO6LGE5KP"
+      ],
+      "updatedAt": "2026-09-23T04:44:58.794Z"
+    },
+    {
+      "id": "6ANCO2AFLJZDVTXT2D2BJM6H",
+      "slug": "the-fool-s-decree",
+      "name": "The Fool's Decree",
+      "description": "The Fool's Decree. The jester was the only one in the court who could tell the king the truth — and live. This set is that license made visible: a harlequin diamond pattern in dramatic contrast, hung with tiny bells that announce you before you speak. Playful and merciless in equal measure. For the ones who laugh at what they're supposed to fear.\n\nThe fool speaks last. And laughing.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Whispers to Come",
+      "variations": [
+        {
+          "id": "BUZWFEHDEYLRLIIO4GQANN2B",
+          "name": "Stiletto",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "CWWIR6JOTF5A322S6GHRZMJG",
+          "name": "Coffin",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "24ITKAHVT5MGJY6HM76C3J2C",
+          "name": "Almond",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "UOBMOUSLHQG7IMYNCVT76HKT",
+          "name": "Square",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "AYAMOQRLEQFSXUPMN5RQEOD4",
+          "name": "Squoval",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "B5K5O2UBD3Z7EHVAY3JNG4DR",
+        "GIFBEB56QLVMQLQRLSUM6YNX",
+        "QUXYC3OBK4BVJIEVH6DT5I6E",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "GVRLDBVFRFUGZSXSGN46NPGA",
+        "EULZAMX57TUKTNKDO6LGE5KP"
+      ],
+      "updatedAt": "2026-09-23T04:44:58.992Z"
+    },
+    {
+      "id": "XOXS4ZTCFP65O25JLOPFV3BP",
+      "slug": "dusk",
+      "name": "Dusk",
+      "description": "Dusk. The hour the world softens and the dark comes in gentle — not a death, just a turning. This set melts a bare, candlelit nude into deep midnight at the tip, a gradient like the last light leaving a room. Quiet. Romantic. Inevitable. For those who find the most beauty in the moment the light gives way.\n\nWhere the light surrenders. Worn at the edge of night.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Whispers to Come",
+      "variations": [
+        {
+          "id": "FJYDEARYBPQCBZWSRV7UTFXW",
+          "name": "Stiletto",
+          "priceCents": 2800,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "J5HPZVAL4QWTJA7JY7BVB7Q3",
+          "name": "Coffin",
+          "priceCents": 2800,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "GD3XHLQ3O3EVAZARHW3MII2L",
+          "name": "Almond",
+          "priceCents": 2800,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "OMTI4VK3AM64OIYU2VJ7JOF2",
+          "name": "Square",
+          "priceCents": 2800,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "KWOCXJFVAO6FXWOWJHH64443",
+          "name": "Squoval",
+          "priceCents": 2800,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "NW2SM5XZGVXBA7OVE4TRYFQE",
+        "2JUYHZGFIVPRC4VEUXG5LQOO",
+        "HX7OBCBYORFE6S5HSLJKAX5B",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "GVRLDBVFRFUGZSXSGN46NPGA",
+        "EULZAMX57TUKTNKDO6LGE5KP"
+      ],
+      "updatedAt": "2026-09-23T04:44:59.332Z"
+    },
+    {
+      "id": "4L5TSAQPHAAC5W2OZEG6TRDY",
+      "slug": "both-altars",
+      "name": "Both Altars",
+      "description": "Both Altars. Some hearts were never built to kneel at just one. This set is devotion in two directions at once — a deep matte base scattered with a cascade of 3D hearts in rose, violet, and blue, the colors of those who love without choosing a side. Two truths held in the same hand, and no apology owed for either. Inverted, doubled, refusing the line someone else drew. For the ones who go both ways and were told it made them less — it never did. It made you whole.\n\nWorn in both lights. Devoted twice over.\n\nChoose your nail shape:\n\nStiletto - sharp and Unapologetic.\n\nCoffin - Beautiful in the finite.\n\nAlmond - Soft-spoken with darkness behind the eyes\n\nSquare - Deliberate and grounded\n\nSquoval - For those who never quite fit in one category.\n\nStandard sizing for immediate wear. Custom fitted if you want them made exactly for your hand - because something this intentional deserves to fit like it was cast from you directly.\n\nThe Grimoire Set\nCast in Darkness. Worn with intention.",
+      "category": "Relics",
+      "variations": [
+        {
+          "id": "IB47FBH2AI2PU7A7ACEAW72K",
+          "name": "Stiletto",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "QMTIF54O5IEOM7UBV5XI6J7G",
+          "name": "Coffin",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "SFIMJJINRUUM2NLVGGRM7DKS",
+          "name": "Almond",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "LX7D6FCQJWCE6WDKEXPCMOZX",
+          "name": "Square",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "IAXAYBAADXL4LSTNDB4AUSPZ",
+          "name": "Squoval",
+          "priceCents": 3200,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [
+        "JIH2LZ5APO37MROT34YJFLIB",
+        "UUBDYFHU3NBKNY57XLJ7LYNJ",
+        "OOTK3VDTGVDOH4P3VMQCESCQ",
+        "YQLT2WAGD7VFEVCJEBP2HMRP",
+        "XHHUDXCHYQX2QOFGRGHW6632",
+        "A5OA5V7S47WRSXVCRKVF7PM5",
+        "QTYWTWQQRTOKSYRMKP2WVFNK"
+      ],
+      "updatedAt": "2026-07-02T16:59:47.692Z"
+    },
+    {
+      "id": "F7MX5C2B6EEZG6JZQRGQNJ43",
+      "slug": "surprise-me-the-mystery-set",
+      "name": "Surprise Me — The Mystery Set",
+      "description": "Surprise Me — The Mystery Set. Hand your fate to the artist. You choose only your shape and size; everything else — color, concept, charms, the whole story — is ours to decide. A one-of-a-kind set designed end to end at our discretion, made for those who trust the dark to know what suits them. No two are ever alike.\n\nTell us your shape and size. We'll dream up the rest.\n\nChoose your shape:\nStiletto — sharp and unapologetic.\nCoffin — beautiful in the finite.\nAlmond — soft-spoken, with darkness behind the eyes.\nSquare — deliberate and grounded.\nSquoval — for those who never quite fit one category.\n\nStandard sizing for immediate wear, or custom-fitted to your hand. Made to order.",
+      "category": "Relics",
+      "variations": [
+        {
+          "id": "CRLQIY5FFRW263RFSBFBKDY6",
+          "name": "Stiletto",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "RWVYTSXDN2GJXEQFLZDBF2A2",
+          "name": "Coffin",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "IJVWLRQV3OV4H2DTTR52J4I2",
+          "name": "Almond",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "XSP2RTZN4EKJ6ZWUQ6GHAK6E",
+          "name": "Square",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        },
+        {
+          "id": "3FDWGN24SVE4KDFTJZT4YLWU",
+          "name": "Squoval",
+          "priceCents": 3500,
+          "unit": null,
+          "stock": "low",
+          "quantity": 1
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "id": "246WEOVSZCU4LEZ4VMDPC66L",
+          "min": 0,
+          "max": null
+        }
+      ],
+      "images": [],
+      "updatedAt": "2026-09-23T04:44:59.822Z"
+    },
+    {
+      "id": "7XQPUEX3VSKGUWNLXQKTXECS",
+      "slug": "uranium-nails",
+      "name": "Uranium Nails",
+      "description": "",
+      "category": "Seasonal Sets",
+      "variations": [
+        {
+          "id": "S3LURBKI75ZW7LCP5AC6LJU3",
+          "name": "Regular",
+          "priceCents": 3500,
+          "unit": "Set",
+          "stock": "in",
+          "quantity": 5
+        }
+      ],
+      "modifierLists": [],
+      "images": [
+        "33XHDIQASUUD3COICQC3H6LA",
+        "D2KXSUIKXLRTQ5XHD2JAJG3H",
+        "DKMA4RBSUJN6NDPTYYXL5GI5",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "EULZAMX57TUKTNKDO6LGE5KP",
+        "GVRLDBVFRFUGZSXSGN46NPGA"
+      ],
+      "updatedAt": "2026-09-05T06:10:50.619Z"
+    },
+    {
+      "id": "764VFLZTRIITQXSFNJI6QJMF",
+      "slug": "bone-black",
+      "name": "Bone Black",
+      "description": "",
+      "category": "Seasonal Sets",
+      "variations": [
+        {
+          "id": "CEFJVEQWD6ZA2ECLFFSQECXL",
+          "name": "Regular",
+          "priceCents": 3500,
+          "unit": "Set",
+          "stock": "in",
+          "quantity": 5
+        }
+      ],
+      "modifierLists": [],
+      "images": [
+        "SA5Q6Y26XEY47I2SMVM3TKSG",
+        "MMYY46VTAD272QJDRQTOX3NN",
+        "HBVRAMGE7CBVEL5MLNVF7MDP",
+        "OL7DPVMO4FPEMYESJC5NVTGQ",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "EULZAMX57TUKTNKDO6LGE5KP",
+        "GVRLDBVFRFUGZSXSGN46NPGA"
+      ],
+      "updatedAt": "2026-09-05T06:13:25.738Z"
+    },
+    {
+      "id": "MWLG5E7DXQVGIO5YBOYZC2RU",
+      "slug": "beetlejuice",
+      "name": "Beatlejuice... BeatleJuice.... BeatleJui",
+      "description": "",
+      "category": "Seasonal Sets",
+      "variations": [
+        {
+          "id": "R4GZARLMDHNLIVXZWP6UNKDZ",
+          "name": "Regular",
+          "priceCents": 3500,
+          "unit": "Set",
+          "stock": "in",
+          "quantity": 5
+        }
+      ],
+      "modifierLists": [],
+      "images": [
+        "JLZ5WBHNQ622IVVOIQWFRTCX",
+        "HJCBOT37KKAUCZSUCWY3OAI7",
+        "RUDMXNZDSLJXE27EGQDWTMSZ",
+        "524CF5LFZAB2TBRLW3YVZHCC"
+      ],
+      "updatedAt": "2026-09-05T06:18:51.931Z"
+    },
+    {
+      "id": "F23AOGWEWKCGG73T6XSBQ373",
+      "slug": "creepy-bone",
+      "name": "Creepy Bone",
+      "description": "",
+      "category": "Seasonal Sets",
+      "variations": [
+        {
+          "id": "CKXJBTI6RQFCOSLURY6AQHHY",
+          "name": "Regular",
+          "priceCents": 3500,
+          "unit": "Set",
+          "stock": "in",
+          "quantity": 5
+        }
+      ],
+      "modifierLists": [],
+      "images": [
+        "SRTZRGLTWTHPCAAEM26FAP3S",
+        "FZSASSJW7R6X2JXNH6MOGMHZ",
+        "4ES3UEHJGCHQ3OZXQMR7QISL",
+        "E6Q27BZKPDAFKH5KOHOCD2M4",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "EULZAMX57TUKTNKDO6LGE5KP",
+        "GVRLDBVFRFUGZSXSGN46NPGA"
+      ],
+      "updatedAt": "2026-09-05T06:21:17.708Z"
+    },
+    {
+      "id": "HIG2T3AMLS6GZGWDVRC2MBLO",
+      "slug": "bright-pumpkin",
+      "name": "Bright Pumpkin",
+      "description": "",
+      "category": "Seasonal Sets",
+      "variations": [
+        {
+          "id": "TZ4T2JGIVAI726ITPHPN6BPQ",
+          "name": "Regular",
+          "priceCents": 3500,
+          "unit": "Set",
+          "stock": "in",
+          "quantity": 5
+        }
+      ],
+      "modifierLists": [],
+      "images": [
+        "ANPPQCFI4K7TSXTUSQGQMOXA",
+        "GOITQJRCSUQWTLLI3IRU7Y3U",
+        "DOJHECR7JAKUJU7RD3LJFZRI",
+        "DHUQ5VMAWYI5RFNDNDUAOHPH",
+        "JUT3WD7L5PBPP3WYPYILNMUM",
+        "EULZAMX57TUKTNKDO6LGE5KP",
+        "GVRLDBVFRFUGZSXSGN46NPGA"
+      ],
+      "updatedAt": "2026-09-05T06:25:10.177Z"
+    }
+  ],
+  "generatedAt": "2026-10-11T19:48:23.690Z"
+}

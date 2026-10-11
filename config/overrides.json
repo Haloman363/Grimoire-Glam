@@ -1,0 +1,10 @@
+{
+  "_help": "Manual tweaks keyed by Square item ID. Supported: slug (URL name), category (group name when the item has no Square category). Adding a real category in Square makes the category override unnecessary.",
+  "items": {
+    "MWLG5E7DXQVGIO5YBOYZC2RU": { "slug": "beetlejuice", "category": "Seasonal Sets" },
+    "7XQPUEX3VSKGUWNLXQKTXECS": { "category": "Seasonal Sets" },
+    "764VFLZTRIITQXSFNJI6QJMF": { "category": "Seasonal Sets" },
+    "F23AOGWEWKCGG73T6XSBQ373": { "category": "Seasonal Sets" },
+    "HIG2T3AMLS6GZGWDVRC2MBLO": { "category": "Seasonal Sets" }
+  }
+}
