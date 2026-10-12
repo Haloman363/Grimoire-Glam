@@ -515,8 +515,8 @@ add(
 <p>Every set is made to order, so it takes a little time to make. Orders ship within 7-10 days of being placed.</p>
 <p>${esc(shippingLine)} We ship within the United States only, for now.</p>
 <h2>Exchanges and store credit</h2>
-<p>Because each set is made to order and often sized to you, we don't accept returns. If your set doesn't fit or isn't what you hoped for, email us within 14 days of delivery and we'll offer an exchange or store credit toward another set.</p>
-<p>If your order arrives damaged or isn't what you ordered, email us within 14 days of delivery with a photo, and we'll make it right.</p>
+<p>Because each set is made to order and often sized to you, we don't accept returns. If your set doesn't fit or isn't what you hoped for, email us within 14 days of delivery and we'll offer an exchange or store credit toward another set. Exchanges ship with the flat ${dollars(ship.flatRateCents)} shipping rate, and there's no need to send the original back.</p>
+<p>If your order arrives damaged or isn't what you ordered, email us within 14 days of delivery with a photo, and we'll remake or replace it and cover the shipping.</p>
 <h2>Before you order</h2>
 <p>The best way to get a great fit is to use the <a href="${url('/sizing-info/')}">sizing chart</a> or the <a href="${url('/custom-sizing/')}">custom sizing tool</a>. Please double-check your sizes before checkout, since we begin making your set soon after you order.</p>
 <h2>Questions</h2>
