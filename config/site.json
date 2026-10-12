@@ -8,6 +8,7 @@
   "vimeo": "https://vimeo.com/Emi-Bunce",
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
   "squareLocationId": "L4YE869D48SSP",
+  "trackStock": false,
   "lowStockThreshold": 3,
   "checkoutApi": "https://checkout.grimoireglam.com"
 }

@@ -12,8 +12,8 @@ export function slugify(s) {
     .replace(/^-+|-+$/g, '');
 }
 
-function stockFor(variationData, countsByVariation, lowThreshold) {
-  if (!variationData.track_inventory) return { stock: 'untracked', quantity: null };
+function stockFor(variationData, countsByVariation, lowThreshold, trackStock) {
+  if (!trackStock || !variationData.track_inventory) return { stock: 'untracked', quantity: null };
   const qty = Number(countsByVariation.get(variationData.__id) ?? 0);
   if (qty <= 0) return { stock: 'out', quantity: 0 };
   return { stock: qty <= lowThreshold ? 'low' : 'in', quantity: qty };
@@ -27,9 +27,10 @@ function stockFor(variationData, countsByVariation, lowThreshold) {
  * @param {Map<string,number>|object} input.counts   variationId -> in-stock quantity at the selling location
  * @param {object} input.overrides          config/overrides.json
  * @param {number} input.lowStockThreshold
+ * @param {boolean} input.trackStock        false = ignore Square counts; nothing is ever low or sold out
  * @param {string} input.locationId         only variations sellable at this location are kept
  */
-export function transformCatalog({ items, related, categories, counts, overrides = {}, lowStockThreshold = 3, locationId }) {
+export function transformCatalog({ items, related, categories, counts, overrides = {}, lowStockThreshold = 3, trackStock = true, locationId }) {
   const byId = new Map(related.map((o) => [o.id, o]));
   const countMap = counts instanceof Map ? counts : new Map(Object.entries(counts ?? {}));
   const catName = new Map(categories.filter((c) => !c.is_deleted).map((c) => [c.id, c.category_data.name]));
@@ -83,7 +84,7 @@ export function transformCatalog({ items, related, categories, counts, overrides
           name: noEmDashName(d.name),
           priceCents: d.price_money?.amount ?? null,
           unit,
-          ...stockFor(d, countMap, lowStockThreshold),
+          ...stockFor(d, countMap, lowStockThreshold, trackStock),
         };
       })
       .filter((v) => v.priceCents !== null);

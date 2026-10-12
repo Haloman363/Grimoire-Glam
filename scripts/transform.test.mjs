@@ -33,6 +33,11 @@ test('modifier lists keep the custom sizing text field', () => {
   assert.equal(grimoire.modifierLists.length, 3);
 });
 
+test('trackStock false ignores counts entirely', () => {
+  const v = run({ trackStock: false }).products.flatMap((p) => p.variations);
+  assert.equal(v.every((x) => x.stock === 'untracked' && x.quantity === null), true);
+});
+
 test('stock states follow inventory counts', () => {
   const grimoire = (d) => d.products.find((p) => p.slug === 'the-grimoire').variations;
   assert.equal(grimoire(run())[0].stock, 'low');

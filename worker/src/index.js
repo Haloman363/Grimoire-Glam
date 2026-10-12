@@ -114,7 +114,7 @@ async function checkAvailability(env, fetchImpl, lines) {
     const v = variations.get(id);
     if (!v || v.is_deleted || v.type !== 'ITEM_VARIATION') throw new HttpError(409, 'One of the items in your cart is no longer available.');
     if (v.item_variation_data.sellable === false) throw new HttpError(409, 'One of the items in your cart is no longer available.');
-    if (v.item_variation_data.track_inventory) tracked.push(id);
+    if (v.item_variation_data.track_inventory && env.CHECK_STOCK !== 'false') tracked.push(id);
   }
   await checkModifiers(env, fetchImpl, lines, variations, items);
   if (!tracked.length) return;

@@ -93,40 +93,40 @@
           "name": "Stiletto",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "M3CLM5ILSCSWTFN6GL6DJ6Y3",
           "name": "Coffin",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "CN5PSXLAWFIJ7LI5NVMSPNOM",
           "name": "Almond",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "ZPMSSVQNBOI6CDSLLSIHSPUB",
           "name": "Square",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "VPFN7BZNRHV5UG25TWX2BYPH",
           "name": "Squoval",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -170,40 +170,40 @@
           "name": "Stiletto",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "QOSJLAT6VBE7YEVCGFYHAQBJ",
           "name": "Coffin",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "NJINBXFO7KPXW4T2K3IMUZMD",
           "name": "Almond",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "XABOZ7Y76WOKWIG2NDRFCR72",
           "name": "Square",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "JH5PBITDCIJKQ5ZQTI7LVEVD",
           "name": "Squoval",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -245,40 +245,40 @@
           "name": "Stiletto",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "7LNKXXFTFGWXOUN3HKSQSPEI",
           "name": "Coffin",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "KPALSDHT4OPK65XZQQULLR54",
           "name": "Almond",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "2IYE5RJCWDZ4LI6ZAAKHYGDZ",
           "name": "Square",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "JO4NTZO7OIUOUENI3IBD4MQD",
           "name": "Squoval",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -326,40 +326,40 @@
           "name": "Stiletto",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "W4YURBYS3ZJ6CFKMZNOKSMQD",
           "name": "Coffin",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "QRWUQTNS5HIPIPVHGLEHPPWZ",
           "name": "Almond",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "G72PDUO4JUHCNCMPNYQXMGNF",
           "name": "Square",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "OLZUAEXBFD6J3YHKLHM647IV",
           "name": "Squoval",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -402,40 +402,40 @@
           "name": "Stiletto",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "47OYOD2C5DZ7ZQ4MJR3SB3T5",
           "name": "Coffin",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "QXUTWECCOX3UY5MCI7CMVUCR",
           "name": "Almond",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "X3CMQ7KUX6IDM2ESYKTAUF3M",
           "name": "Square",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "TJBZG3Y4BDFUK6IBAN6PNKDX",
           "name": "Squoval",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -474,40 +474,40 @@
           "name": "Stiletto",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "IVQUUV3WKC6QYHX2MMYWRF2J",
           "name": "Coffin",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "VSE2EBDEIQL4T77JI623PZIO",
           "name": "Almond",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "IPOAXMD2HNVSYZ5F647LCDQY",
           "name": "Square",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "RG3F2XN6O4NSJIYIC6CZES4A",
           "name": "Squoval",
           "priceCents": 2500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -550,40 +550,40 @@
           "name": "Stiletto",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "6ABP3TPR73G3GUHVNBMOLVFB",
           "name": "Coffin",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "N66ZMVR54DF3BBNJMZ6X2UK5",
           "name": "Almond",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "UYZO34D6URAHRT25IMLPPHQJ",
           "name": "Square",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "ML3OWANY3JITSCO6LSLEHNVI",
           "name": "Squoval",
           "priceCents": 3000,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -627,40 +627,40 @@
           "name": "Stiletto",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "CWWIR6JOTF5A322S6GHRZMJG",
           "name": "Coffin",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "24ITKAHVT5MGJY6HM76C3J2C",
           "name": "Almond",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "UOBMOUSLHQG7IMYNCVT76HKT",
           "name": "Square",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "AYAMOQRLEQFSXUPMN5RQEOD4",
           "name": "Squoval",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -704,40 +704,40 @@
           "name": "Stiletto",
           "priceCents": 2800,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "J5HPZVAL4QWTJA7JY7BVB7Q3",
           "name": "Coffin",
           "priceCents": 2800,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "GD3XHLQ3O3EVAZARHW3MII2L",
           "name": "Almond",
           "priceCents": 2800,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "OMTI4VK3AM64OIYU2VJ7JOF2",
           "name": "Square",
           "priceCents": 2800,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "KWOCXJFVAO6FXWOWJHH64443",
           "name": "Squoval",
           "priceCents": 2800,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -781,40 +781,40 @@
           "name": "Stiletto",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "QMTIF54O5IEOM7UBV5XI6J7G",
           "name": "Coffin",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "SFIMJJINRUUM2NLVGGRM7DKS",
           "name": "Almond",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "LX7D6FCQJWCE6WDKEXPCMOZX",
           "name": "Square",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "IAXAYBAADXL4LSTNDB4AUSPZ",
           "name": "Squoval",
           "priceCents": 3200,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -857,40 +857,40 @@
           "name": "Stiletto",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "RWVYTSXDN2GJXEQFLZDBF2A2",
           "name": "Coffin",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "IJVWLRQV3OV4H2DTTR52J4I2",
           "name": "Almond",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "XSP2RTZN4EKJ6ZWUQ6GHAK6E",
           "name": "Square",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         },
         {
           "id": "3FDWGN24SVE4KDFTJZT4YLWU",
           "name": "Squoval",
           "priceCents": 3500,
           "unit": null,
-          "stock": "low",
-          "quantity": 1
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [
@@ -925,8 +925,8 @@
           "name": "Regular",
           "priceCents": 3500,
           "unit": "Set",
-          "stock": "in",
-          "quantity": 5
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [],
@@ -954,8 +954,8 @@
           "name": "Regular",
           "priceCents": 3500,
           "unit": "Set",
-          "stock": "in",
-          "quantity": 5
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [],
@@ -984,8 +984,8 @@
           "name": "Regular",
           "priceCents": 3500,
           "unit": "Set",
-          "stock": "in",
-          "quantity": 5
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [],
@@ -1009,8 +1009,8 @@
           "name": "Regular",
           "priceCents": 3500,
           "unit": "Set",
-          "stock": "in",
-          "quantity": 5
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [],
@@ -1039,8 +1039,8 @@
           "name": "Regular",
           "priceCents": 3500,
           "unit": "Set",
-          "stock": "in",
-          "quantity": 5
+          "stock": "untracked",
+          "quantity": null
         }
       ],
       "modifierLists": [],
