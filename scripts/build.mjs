@@ -320,7 +320,7 @@ function productForm(p) {
   ${modControls}
   <p class="form-error" role="alert" hidden></p>
   <button class="btn btn-buy" type="submit"${soldOut ? ' disabled' : ''}>${soldOut ? 'Sold out' : 'Add to cart'}</button>
-  <p class="hint">Made to order. Shipping and tax are calculated at checkout.</p>
+  <p class="hint">Made to order, ships in 7-10 days. Shipping and tax are calculated at checkout.</p>
 </form>`;
 }
 
