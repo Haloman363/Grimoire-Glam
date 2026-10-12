@@ -4,11 +4,14 @@
   "description": "Hand-modeled, resin-printed press-on nails, made to order in Utah. Wearable sculpture for the ones who've always wanted more from their fingertips.",
   "email": "buncebeauty@gmail.com",
   "instagram": "https://www.instagram.com/thegrimoireglam",
-  "pinterest": "https://www.pinterest.com/Unikeuser",
-  "vimeo": "https://vimeo.com/Emi-Bunce",
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
   "squareLocationId": "L4YE869D48SSP",
   "trackStock": false,
   "lowStockThreshold": 3,
-  "checkoutApi": "https://checkout.grimoireglam.com"
+  "checkoutApi": "https://checkout.grimoireglam.com",
+  "shipping": {
+    "country": "US",
+    "flatRateCents": 1000,
+    "freeOverCents": null
+  }
 }

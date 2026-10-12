@@ -21,6 +21,13 @@ const basePath = (process.env.BASE_PATH ?? '').replace(/\/$/, '');
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const money = (cents) => `$${(cents / 100).toFixed(2)}`;
+const dollars = (cents) => (cents % 100 === 0 ? `$${cents / 100}` : money(cents));
+// Shipping wording shown in the cart and on product pages. Set shipping.freeOverCents in config/site.json ONLY after the
+// matching free-shipping rule is live in Square, so the site never promises something checkout does not do.
+const ship = site.shipping ?? { flatRateCents: 1000, freeOverCents: null };
+const shippingLine = ship.freeOverCents
+  ? `Flat-rate US shipping, ${dollars(ship.flatRateCents)}. Free over ${dollars(ship.freeOverCents)}.`
+  : `Flat-rate US shipping, ${dollars(ship.flatRateCents)}.`;
 const url = (p) => `${basePath}${p}`;
 const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.webp`);
 const categorySlug = (name) => slugify(name);
@@ -100,7 +107,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 <link rel="stylesheet" href="${url('/css/site.css')}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
-<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}">
+<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}">
 <div class="announce">Made to order, ships in 7-10 days &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Sizes XS to XL or custom fit</a></div>
 <header class="site-header">
   <div class="wrap bar">
@@ -140,6 +147,7 @@ ${body}
     <div class="foot-col"><h2>Help</h2><ul>
       <li><a href="${url('/sizing-info/')}">Sizing Info</a></li>
       <li><a href="${url('/custom-sizing/')}">Custom Sizing</a></li>
+      <li><a href="${url('/shipping-returns/')}">Shipping &amp; Returns</a></li>
       <li><a href="mailto:${esc(site.email)}">Contact</a></li>
     </ul></div>
     <div class="foot-col"><h2>Follow</h2><ul>
@@ -318,7 +326,7 @@ function productForm(p) {
   ${modControls}
   <p class="form-error" role="alert" hidden></p>
   <button class="btn btn-buy" type="submit"${soldOut ? ' disabled' : ''}>${soldOut ? 'Sold out' : 'Add to cart'}</button>
-  <p class="hint">Made to order, ships in 7-10 days. Shipping and tax are calculated at checkout.</p>
+  <p class="hint">Made to order, ships in 7-10 days. ${shippingLine} Tax, if any, is added at checkout. <a href="${url('/shipping-returns/')}">Shipping &amp; returns</a></p>
 </form>`;
 }
 
@@ -491,6 +499,29 @@ add(
 <div class="acc"><h2>Nail Storage</h2><p>Here are some cute nail storage items that will help you stay organized when switching sets or even taking a break from your Grimoire nails.</p></div>
 <div class="acc"><h2>Extra Items</h2><p>I love designing and printing things to help them come to life. Here are other items that would just be fun to have in your home. I know I've loved them.</p></div>
 <p class="center">New accessories are coming soon.</p></section>`,
+  }),
+);
+
+// ---------- shipping & returns ----------
+add(
+  '/shipping-returns/',
+  layout({
+    title: 'Shipping & Returns',
+    description: `Shipping, exchanges and store credit for ${site.name}.`,
+    path: '/shipping-returns/',
+    bodyClass: 'page-policy',
+    body: `<section class="wrap narrow"><h1 class="page-title">Shipping &amp; Returns</h1>
+<h2>Shipping</h2>
+<p>Every set is made to order, so it takes a little time to make. Orders ship within 7-10 days of being placed.</p>
+<p>${esc(shippingLine)} We ship within the United States only, for now.</p>
+<h2>Exchanges and store credit</h2>
+<p>Because each set is made to order and often sized to you, we don't accept returns. If your set doesn't fit or isn't what you hoped for, email us within 14 days of delivery and we'll offer an exchange or store credit toward another set.</p>
+<p>If your order arrives damaged or isn't what you ordered, email us within 14 days of delivery with a photo, and we'll make it right.</p>
+<h2>Before you order</h2>
+<p>The best way to get a great fit is to use the <a href="${url('/sizing-info/')}">sizing chart</a> or the <a href="${url('/custom-sizing/')}">custom sizing tool</a>. Please double-check your sizes before checkout, since we begin making your set soon after you order.</p>
+<h2>Questions</h2>
+<p>Email <a href="mailto:${esc(site.email)}">${esc(site.email)}</a> and we'll help.</p>
+</section>`,
   }),
 );
 

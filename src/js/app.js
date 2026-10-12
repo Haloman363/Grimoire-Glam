@@ -219,7 +219,7 @@
         root.appendChild(row);
       });
       var t = el('div', 'cart-total'); t.appendChild(el('span', null, 'Subtotal')); t.appendChild(el('strong', null, money(total))); root.appendChild(t);
-      root.appendChild(el('p', 'hint', 'Shipping and tax are calculated at checkout. Everything is made to order.'));
+      root.appendChild(el('p', 'hint', (document.body.getAttribute('data-shipping') || 'Shipping is added at checkout.') + ' Tax, if any, is added at checkout. Everything is made to order.'));
       var foot = el('div', 'cart-foot');
       var go = el('button', 'btn', 'Checkout'); go.type = 'button';
       var msg = el('p', 'form-error'); msg.hidden = true; msg.setAttribute('role', 'alert');
