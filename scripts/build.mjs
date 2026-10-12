@@ -101,7 +101,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
 <body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}">
-<div class="announce">Hand-modeled and resin printed in Utah &nbsp;&middot;&nbsp; Every set made to order &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Custom sizing guide</a></div>
+<div class="announce">Made to order, ships in 7-10 days &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Sizes XS to XL or custom fit</a></div>
 <header class="site-header">
   <div class="wrap bar">
     <a class="logo" href="${url('/')}" aria-label="${esc(site.name)}, home"><img src="${url('/assets/img/brand/logo-character.webp')}" alt="" width="84" height="85"></a>
@@ -129,26 +129,24 @@ ${body}
   <div class="wrap foot">
     <div class="foot-brand">
       <img src="${url('/assets/img/brand/logo-character.webp')}" alt="${esc(site.name)}" width="88" height="89" loading="lazy">
-      <p>Hand-modeled, resin-printed press-on nails, made to order in Utah. Secure checkout by Square.</p>
+      <p>Resin-printed press-on nails, made to order in Utah.</p>
     </div>
     <div class="foot-col"><h2>Shop</h2><ul>
-      <li><a href="${url('/shop/')}">Shop all</a></li>
+      <li><a href="${url('/shop/')}">Shop All</a></li>
       <li><a href="${url('/#collections')}">Collections</a></li>
-      <li><a href="${url('/nail-accessories/')}">Nail accessories</a></li>
-      <li><a href="${esc(site.giftCardUrl)}" rel="noopener">Gift card</a></li>
+      <li><a href="${url('/nail-accessories/')}">Nail Accessories</a></li>
+      <li><a href="${esc(site.giftCardUrl)}" rel="noopener">Gift Card</a></li>
     </ul></div>
     <div class="foot-col"><h2>Help</h2><ul>
-      <li><a href="${url('/sizing-info/')}">Sizing info</a></li>
-      <li><a href="${url('/custom-sizing/')}">Custom sizing</a></li>
+      <li><a href="${url('/sizing-info/')}">Sizing Info</a></li>
+      <li><a href="${url('/custom-sizing/')}">Custom Sizing</a></li>
       <li><a href="mailto:${esc(site.email)}">Contact</a></li>
     </ul></div>
     <div class="foot-col"><h2>Follow</h2><ul>
       <li><a href="${esc(site.instagram)}" rel="noopener">Instagram</a></li>
-      <li><a href="${esc(site.pinterest)}" rel="noopener">Pinterest</a></li>
-      <li><a href="${esc(site.vimeo)}" rel="noopener">Vimeo</a></li>
     </ul></div>
   </div>
-  <div class="legal"><p>&copy; ${new Date().getFullYear()} ${esc(site.name)}. All designs 3D modeled and printed by hand in Utah.</p></div>
+  <div class="legal"><p>&copy; ${new Date().getFullYear()} ${esc(site.name)}. &nbsp;&middot;&nbsp; Secure checkout by Square</p></div>
 </footer>
 <script src="${url('/js/app.js')}" defer></script>
 ${bodyClass.split(/\s+/).includes('page-sizing') ?`<script src="${url('/js/sizing.js')}" defer></script>` : ''}

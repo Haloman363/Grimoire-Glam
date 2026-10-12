@@ -252,9 +252,9 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .page-home .site-footer { margin-top: 0; }
 .site-footer { margin-top: var(--gy); background: var(--ink); color: #d9cbbd; }
 .foot { display: flex; flex-wrap: wrap; gap: 48px; justify-content: space-between; padding-top: 56px; padding-bottom: 32px; }
-.foot-brand { flex: 1 1 280px; }
-.foot-brand img { height: 88px; width: auto; margin: 0 0 16px; filter: drop-shadow(0 0 1px var(--cream)) drop-shadow(0 0 1px var(--cream)); }
-.foot-brand p { max-width: 300px; font-size: 14px; }
+.foot-brand { flex: 1 1 280px; text-align: center; }
+.foot-brand img { height: 88px; width: auto; margin: 0 auto 16px; filter: drop-shadow(0 0 1px var(--cream)) drop-shadow(0 0 1px var(--cream)); }
+.foot-brand p { max-width: 300px; margin: 0 auto; font-size: 14px; }
 .foot-col { flex: 1 1 160px; font-size: 14px; }
 .foot-col h2 { margin: 0 0 12px; font: 500 11px var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--cream); }
 .foot-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
