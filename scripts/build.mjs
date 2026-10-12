@@ -43,9 +43,9 @@ const stockOf = (p) => {
 const badge = (p) => ({ out: '<span class="badge badge-out">Sold out</span>', low: '<span class="badge">Low stock</span>', in: '' })[stockOf(p)];
 
 const nav = [
-  { label: 'Home', href: '/' },
-  { label: 'Sizing Info', href: '/sizing-info/' },
   { label: 'Shop All', href: '/shop/' },
+  { label: 'Collections', href: '/#collections' },
+  { label: 'Sizing Info', href: '/sizing-info/' },
   { label: 'Custom Sizing', href: '/custom-sizing/' },
   {
     label: 'More',
@@ -95,19 +95,25 @@ ${noindex ? '<meta name="robots" content="noindex">' : ''}${canonical ? `<link r
 ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<meta property="og:image" content="${og}">` : ''}
 <meta name="twitter:card" content="${og ? 'summary_large_image' : 'summary'}">
 <link rel="icon" href="${url('/assets/favicon.svg')}" type="image/svg+xml">
-<link rel="preload" href="${url('/assets/fonts/rock-salt-400.woff2')}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="${url('/assets/fonts/taviraj-300.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${url('/assets/fonts/bodoni-moda.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${url('/assets/fonts/jost.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${url('/css/site.css')}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
 <body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}">
+<div class="announce">Hand-modeled and resin printed in Utah &nbsp;&middot;&nbsp; Every set made to order &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Custom sizing guide</a></div>
 <header class="site-header">
   <div class="wrap bar">
-    <a class="logo" href="${url('/')}">The Grimoire<br>Glam Co</a>
-    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <nav class="main-nav" aria-label="Main"><ul>${navHtml}</ul></nav>
-    <button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="search-panel">${icon.search}</button>
-    <a class="cart-link" href="${url('/cart/')}" aria-label="Cart">${icon.cart}<span class="cart-count" aria-hidden="true" hidden></span></a>
+    <a class="logo" href="${url('/')}" aria-label="${esc(site.name)}, home"><img src="${url('/assets/img/brand/logo-character.webp')}" alt="" width="84" height="85"></a>
+    <div class="hmid">
+      <nav class="main-nav" aria-label="Main"><ul>${navHtml}</ul></nav>
+      <a class="wordmark" href="${url('/')}">Grimoire Glam</a>
+    </div>
+    <div class="hicons">
+      <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="search-toggle" type="button" aria-label="Search" aria-expanded="false" aria-controls="search-panel">${icon.search}</button>
+      <a class="cart-link" href="${url('/cart/')}" aria-label="Cart">${icon.cart}<span class="cart-count" aria-hidden="true" hidden></span></a>
+    </div>
   </div>
   <div class="search-panel" id="search-panel" hidden>
     <div class="wrap">
@@ -121,13 +127,26 @@ ${body}
 </main>
 <footer class="site-footer">
   <div class="wrap foot">
-    <p class="pay">Secure checkout by Square</p>
-    <ul class="social">
-      <li><a href="mailto:${esc(site.email)}" aria-label="Email">${icon.mail}</a></li>
-      <li><a href="${esc(site.instagram)}" rel="noopener" aria-label="Instagram">${icon.instagram}</a></li>
-      <li><a href="${esc(site.pinterest)}" rel="noopener" aria-label="Pinterest">${icon.pinterest}</a></li>
-      <li><a href="${esc(site.vimeo)}" rel="noopener" aria-label="Vimeo">${icon.vimeo}</a></li>
-    </ul>
+    <div class="foot-brand">
+      <img src="${url('/assets/img/brand/logo-character.webp')}" alt="${esc(site.name)}" width="88" height="89" loading="lazy">
+      <p>Hand-modeled, resin-printed press-on nails, made to order in Utah. Secure checkout by Square.</p>
+    </div>
+    <div class="foot-col"><h2>Shop</h2><ul>
+      <li><a href="${url('/shop/')}">Shop all</a></li>
+      <li><a href="${url('/#collections')}">Collections</a></li>
+      <li><a href="${url('/nail-accessories/')}">Nail accessories</a></li>
+      <li><a href="${esc(site.giftCardUrl)}" rel="noopener">Gift card</a></li>
+    </ul></div>
+    <div class="foot-col"><h2>Help</h2><ul>
+      <li><a href="${url('/sizing-info/')}">Sizing info</a></li>
+      <li><a href="${url('/custom-sizing/')}">Custom sizing</a></li>
+      <li><a href="mailto:${esc(site.email)}">Contact</a></li>
+    </ul></div>
+    <div class="foot-col"><h2>Follow</h2><ul>
+      <li><a href="${esc(site.instagram)}" rel="noopener">Instagram</a></li>
+      <li><a href="${esc(site.pinterest)}" rel="noopener">Pinterest</a></li>
+      <li><a href="${esc(site.vimeo)}" rel="noopener">Vimeo</a></li>
+    </ul></div>
   </div>
   <div class="legal"><p>&copy; ${new Date().getFullYear()} ${esc(site.name)}. All designs 3D modeled and printed by hand in Utah.</p></div>
 </footer>
@@ -151,6 +170,7 @@ function card(p, level = 'h2') {
   return `<li class="card" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
   <a href="${url(`/shop/${p.slug}/`)}">
     <div class="card-img">${image}${badge(p)}</div>
+    ${p.category ? `<p class="card-cat">${esc(p.category)}</p>` : ''}
     <${level} class="card-title">${esc(p.name)}</${level}>
     <p class="price">${esc(priceLabel(p))}</p>
   </a>
@@ -159,28 +179,80 @@ function card(p, level = 'h2') {
 const grid = (list, level = 'h2') => `<ul class="grid">${list.map((p) => card(p, level)).join('\n')}</ul>`;
 
 // ---------- home ----------
-const featured = data.products.filter((p) => p.images.length).slice(0, 6);
+const withPhotos = data.products.filter((p) => p.images.length);
+const featured = withPhotos.slice(0, 8);
+const heroProduct = withPhotos.find((p) => p.slug === 'the-specter') || withPhotos[0];
+const tiles = data.categories
+  .map((c) => ({ name: c, slug: categorySlug(c), product: withPhotos.find((p) => p.category === c) }))
+  .filter((t) => t.product)
+  .slice(0, 6);
+const trust = [
+  ['Hand-modeled', 'Every design sculpted in 3D'],
+  ['Resin printed', 'Raised detail, not printed on'],
+  ['Made to order', 'Sized to your hands'],
+  ['Secure checkout', 'Powered by Square'],
+];
+const steps = [
+  ['Choose your set', 'Browse the collections and pick the design you can\u2019t stop looking at.'],
+  ['Measure your hands', 'Use the sizing tool to get a precise fit for every finger.'],
+  ['We print it to fit', 'Your set is modeled, printed and finished to order, then shipped to you.'],
+];
 add(
   '/',
   layout({
     title: site.name,
     description: site.description,
     path: '/',
-    ogImage: featured[0] ? img(featured[0].images[0]) : '',
+    ogImage: heroProduct ? img(heroProduct.images[0]) : '',
     bodyClass: 'page-home',
-    body: `<section class="hero"><div class="wrap">
-  <h1>Welcome to Grimoire Glam</h1>
-  <p class="sub">${esc(site.tagline)}<br>Resin Printed Press-on Nails</p>
+    body: `<section class="wrap hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Resin-printed press-on nails</p>
+    <h1>For those who&rsquo;d<br>rather wear a spell.</h1>
+    <p class="lead">Sculpted by hand and conjured in resin, each set is made to order in Utah. Raised detail, true sculpture, fitted to you alone.</p>
+    <a class="btn" href="${url('/shop/')}">Shop the sets</a>
+  </div>
+  ${heroProduct ? `<figure class="hero-media"><img src="${img(heroProduct.images[0])}" alt="${esc(heroProduct.name)} press-on nail set" width="1200" height="1200" fetchpriority="high"><figcaption>${esc(heroProduct.name)}${heroProduct.category ? `, ${esc(heroProduct.category)}` : ''}</figcaption></figure>` : ''}
+</section>
+<section class="trust-strip"><div class="wrap trust">
+${trust.map(([h, t]) => `<div><p class="t-head">${h}</p><p class="t-body">${t}</p></div>`).join('\n')}
 </div></section>
-<section class="band"><div class="wrap narrow"><div class="panel center">
-  <p><em>Not printed on. Printed as.</em></p>
-  <p>Every nail you see was 3D modeled by hand and resin printed in my garage in Utah. The base. The designs. Every raised detail. All of it, printed from scratch because I wanted to make something that didn't exist yet.</p>
-  <p>Wearable sculpture for the ones who've always wanted more from their fingertips.</p>
-  <p>Everything is made to order and with intention to details.</p>
-  <p><em>Welcome to Grimoire Glam.</em></p>
-  <p><a class="btn" href="${url('/shop/')}">Shop now</a></p>
-</div></div></section>
-${featured.length ? `<section class="wrap featured"><h2>Featured sets</h2>${grid(featured, 'h3')}<p class="center"><a class="btn btn-ghost" href="${url('/shop/')}">View all sets</a></p></section>` : ''}`,
+${featured.length ? `<section class="wrap section" id="sets">
+  <div class="section-head"><div><h2>Charmed Sculptures</h2><p class="sub-line">Made for your hands.</p></div><a class="textlink" href="${url('/shop/')}">View all sets</a></div>
+  ${grid(featured, 'h3')}
+</section>` : ''}
+<section class="story" id="story"><div class="wrap">
+  <div class="story-photos">
+    <img src="${url('/assets/img/lifestyle/striped-dress-black-nails-3x4.webp')}" alt="A hand with long black Grimoire Glam nails resting on a striped dress" width="900" height="1200" loading="lazy">
+    <img src="${url('/assets/img/lifestyle/black-top-pink-nails-3x4.webp')}" alt="Hands with black and pink Grimoire Glam nails held against a black top" width="900" height="1200" loading="lazy">
+  </div>
+  <div class="story-copy">
+    <p class="eyebrow">Why I make them</p>
+    <h2>I took the press-on and gave it a spell of its own.</h2>
+    <p>The base and the design are sculpted by hand, then conjured from scratch in resin. Made for those who have always wanted more from their fingertips.</p>
+    <p>Each set is made to order. Creativity and artistry in every detail.</p>
+  </div>
+</div></section>
+${tiles.length ? `<section class="wrap section" id="collections">
+  <h2 class="section-title">Browse the Collections</h2>
+  <div class="tiles">
+${tiles.map((t) => `    <a class="tile" href="${url(`/collections/${t.slug}/`)}"><img src="${img(t.product.images[0], true)}" alt="" loading="lazy" width="520" height="520"><span class="tile-label"><b>${esc(t.name)}</b><span>Shop the collection</span></span></a>`).join('\n')}
+  </div>
+</section>` : ''}
+<section class="wrap section" id="sizing">
+  <div class="sizing-head">
+    <h2>Tailored to fit you</h2>
+    <div class="sizing-links"><a class="textlink" href="${url('/custom-sizing/')}">Open the sizing tool</a><a class="textlink" href="${url('/sizing-info/')}">How custom sizing works</a></div>
+  </div>
+  <div class="steps">
+${steps.map(([h, t]) => `    <div class="step"><h3>${h}</h3><p>${t}</p></div>`).join('\n')}
+  </div>
+</section>
+<section class="closing">
+  <h2>Wearable sculpture,<br><em>made for your hands.</em></h2>
+  <p>Every set is made to order. Pick one and I&rsquo;ll print it to fit.</p>
+  <a class="btn" href="${url('/shop/')}">Shop the sets</a>
+</section>`,
   }),
 );
 
