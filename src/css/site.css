@@ -316,3 +316,19 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
   .story-photos img + img { margin-top: 32px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+
+/* review page */
+.review form { display: grid; gap: 10px; margin-top: 18px; }
+.review label { font-weight: 500; }
+.review input[type=text], .review textarea { width: 100%; padding: 12px; border: 1px solid var(--line); background: var(--paper); font: inherit; color: var(--ink); }
+.review .stars { border: 0; padding: 0; margin: 0; display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
+.review .rate-label { text-align: center; font-weight: 500; margin: 6px 0 0; }
+.review .stars input { position: absolute; opacity: 0; }
+.review .stars label { font-size: 46px; line-height: 1; color: var(--line); cursor: pointer; padding: 0 4px; }
+.review .stars input:checked ~ label, .review .stars label:hover, .review .stars label:hover ~ label { color: var(--accent); }
+.review .stars input:focus-visible + label { outline: 2px solid var(--accent); }
+.review .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.review .check { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; }
+.review .follow { margin-top: 26px; }
+.review .err { display: none; color: var(--accent); }
+.review .err.show { display: block; }

@@ -158,7 +158,7 @@ ${body}
 </footer>
 <script src="${url('/js/app.js')}" defer></script>
 ${bodyClass.split(/\s+/).includes('page-sizing') ?`<script src="${url('/js/sizing.js')}" defer></script>` : ''}
-${bodyClass.split(/\s+/).includes('page-market') ?`<script src="${url('/js/market.js')}" defer></script>` : ''}
+${bodyClass.split(/\s+/).includes('page-market') ?`<script src="${url('/js/market.js')}" defer></script>` : ''}${bodyClass.split(/\s+/).includes('page-review') ? `<script src="${url('/js/review.js')}" defer></script>` : ''}
 </body>
 </html>
 `;
@@ -535,6 +535,36 @@ add(
   }),
 );
 
+// ---------- review (NFC tag at the market table opens this) ----------
+add(
+  '/review/',
+  layout({
+    title: 'Leave a Review',
+    description: `Tell us how your ${site.name} set is treating you.`,
+    path: '/review/',
+    noindex: true,
+    bodyClass: 'page-review',
+    body: `<section class="wrap narrow review"><h1 class="page-title">Leave a Review</h1>
+<p class="tag">Thank you for supporting a small shop. Tell us how your set is treating you.</p>
+<form id="r-form" novalidate>
+  <p class="rate-label" id="r-rl">Your rating</p>
+  <fieldset class="stars" id="r-stars" aria-labelledby="r-rl">
+    ${[5, 4, 3, 2, 1].map((n) => `<input type="radio" name="rating" id="r${n}" value="${n}"><label for="r${n}" title="${n} star${n > 1 ? 's' : ''}"><span class="sr">${n} star${n > 1 ? 's' : ''}</span>&#9733;</label>`).join('')}
+  </fieldset>
+  <label for="r-name">Your first name</label>
+  <input id="r-name" type="text" autocomplete="given-name" maxlength="60">
+  <label for="r-text">Your review</label>
+  <textarea id="r-text" rows="5" maxlength="1500" placeholder="Which set did you get? What did you love?"></textarea>
+  <label class="check"><input type="checkbox" id="r-share" checked> It is okay to share my review on the website</label>
+  <div class="err" id="r-err" role="alert"></div>
+  <button class="btn" id="r-send" type="submit">Send my review</button>
+  <p class="note">This opens an email to the shop with your review filled in. Just press send.</p>
+</form>
+<p class="center follow">Love your nails? Follow along on <a href="${site.instagram}" rel="noopener">Instagram</a> and tag us in your photos.</p>
+</section>`,
+  }),
+);
+
 // ---------- accessories ----------
 add(
   '/nail-accessories/',
@@ -625,7 +655,7 @@ if (cname) await writeFile(path.join(dist, 'CNAME'), cname + '\n');
 await writeFile(path.join(dist, '.nojekyll'), '');
 await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n${siteUrl ? `Sitemap: ${siteUrl}/sitemap.xml\n` : ''}`);
 if (siteUrl) {
-  const urls = pages.map(([p]) => p).filter((p) => !p.endsWith('.html') && p !== '/cart/' && p !== '/thank-you/' && p !== '/market/');
+  const urls = pages.map(([p]) => p).filter((p) => !p.endsWith('.html') && p !== '/cart/' && p !== '/thank-you/' && p !== '/market/' && p !== '/review/');
   await writeFile(
     path.join(dist, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((p) => `  <url><loc>${siteUrl}${p}</loc></url>`).join('\n')}\n</urlset>\n`,
