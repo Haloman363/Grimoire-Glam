@@ -512,17 +512,16 @@ add(
 <div class="hand"><h2>Left Hand</h2><div class="sub">Thumb to pinky</div>${sizeRows('L')}</div>
 <div class="hand"><h2>Right Hand</h2><div class="sub">Thumb to pinky</div>
   <button class="copybtn" id="m-copy" type="button">Copy Left &rarr; Right</button>${sizeRows('R')}</div>
-<button class="generate" id="m-show" type="button">Show my sizes</button>
-<div class="err" id="m-err" role="alert"></div>
-<div class="out" id="m-out"><h3>Your sizes</h3>
+<div class="msizes" id="m-out"><h3>Your sizes</h3>
   <div class="msum"><div><b>Left</b><p id="m-left"></p></div><div><b>Right</b><p id="m-right"></p></div></div>
-  <textarea class="code" id="m-code" rows="2" readonly aria-label="Your sizing code"></textarea>
+  <textarea class="code" id="m-code" rows="2" readonly aria-label="Your sizing code" placeholder="Choose a size for all ten fingers to see your code."></textarea>
   <button class="copycode" id="m-copycode" type="button">Copy sizes</button>
   <div class="save-row">
     <button class="savebtn" id="m-save" type="button">Save my sizes on this device</button>
-    <a class="savebtn" id="m-email" href="mailto:">Email me my sizes</a>
-    <a class="savebtn" id="m-shop" href="mailto:">Send my sizes to the shop</a>
+    <a class="savebtn" id="m-email" href="#">Email me my sizes</a>
+    <a class="savebtn" id="m-shop" href="#">Send my sizes to the shop</a>
   </div>
+  <div class="err" id="m-err" role="alert"></div>
   <p class="note">Saving keeps your sizes in this browser only, so they are ready next time you order. Nothing is sent to us unless you tap &ldquo;Send my sizes to the shop&rdquo;. When you order online, choose <b>Custom</b> for size and paste your sizes into the sizing box.</p>
   <p class="center"><a class="btn" href="${url('/shop/')}">Shop sets</a></p></div>
 <div class="toast" id="m-toast" role="status">Copied!</div>
