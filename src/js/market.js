@@ -91,6 +91,68 @@
     else toast('Saving is not available in this browser');
   });
 
+  // ---- save as a picture (share sheet on phones, on-screen picture otherwise) ----
+  function drawCard(L, R, done) {
+    var W = 1080, H = 1620;
+    var c = document.createElement('canvas'); c.width = W; c.height = H;
+    var x = c.getContext('2d');
+    x.fillStyle = '#f4ecdf'; x.fillRect(0, 0, W, H);
+    x.strokeStyle = '#3d0a0c'; x.lineWidth = 6; x.strokeRect(36, 36, W - 72, H - 72);
+    var finish = function (logo) {
+      if (logo) { var h = 230, w = h * logo.width / logo.height; x.drawImage(logo, (W - w) / 2, 96, w, h); }
+      x.textAlign = 'center'; x.fillStyle = '#1c0f0f';
+      x.font = "400 92px 'Bodoni Moda', Georgia, serif"; x.fillText('My Sizes', W / 2, 470);
+      x.fillStyle = '#6b1219'; x.font = "500 30px 'Jost', Arial, sans-serif";
+      x.fillText('GRIMOIRE GLAM  ·  SIZES 1 TO 10', W / 2, 530);
+      [['LEFT HAND', L, 300], ['RIGHT HAND', R, 780]].forEach(function (col) {
+        x.fillStyle = '#6a5a55'; x.font = "500 28px 'Jost', Arial, sans-serif"; x.fillText(col[0], col[2], 650);
+        for (var i = 0; i < 5; i++) {
+          var y = 760 + i * 150;
+          x.strokeStyle = '#d8cab6'; x.lineWidth = 2; x.beginPath(); x.moveTo(col[2] - 190, y - 70); x.lineTo(col[2] + 190, y - 70); x.stroke();
+          x.fillStyle = '#4a3a36'; x.textAlign = 'left'; x.font = "400 34px 'Jost', Arial, sans-serif"; x.fillText(fingers[i], col[2] - 190, y);
+          x.fillStyle = '#1c0f0f'; x.textAlign = 'right'; x.font = "500 84px 'Jost', Arial, sans-serif"; x.fillText(col[1][i], col[2] + 190, y + 8);
+          x.textAlign = 'center';
+        }
+      });
+      x.fillStyle = '#6a5a55'; x.font = "400 30px 'Jost', Arial, sans-serif";
+      x.fillText('Show this when you order, or choose Custom size and paste your sizes.', W / 2, 1500);
+      x.fillText('grimoireglam.com', W / 2, 1550);
+      c.toBlob(done, 'image/png');
+    };
+    var logo = new Image();
+    logo.onload = function () { finish(logo); };
+    logo.onerror = function () { finish(null); };
+    logo.src = (document.body.getAttribute('data-base') || '') + '/assets/img/brand/logo-character.webp';
+  }
+  function showPicture(blob) {
+    var url = URL.createObjectURL(blob);
+    byId('m-pic-img').src = url;
+    byId('m-pic-dl').href = url;
+    byId('m-pic').hidden = false;
+    byId('m-pic').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  byId('m-pic-btn').addEventListener('click', function () {
+    if (!guard()) return;
+    var L = readHand('L'), R = readHand('R');
+    var fontsReady = document.fonts && document.fonts.load
+      ? Promise.all([document.fonts.load("400 40px 'Bodoni Moda'"), document.fonts.load("500 30px 'Jost'")]).catch(function () {})
+      : Promise.resolve();
+    fontsReady.then(function () {
+      drawCard(L, R, function (blob) {
+        if (!blob) { toast('Could not make the picture'); return; }
+        var file = null;
+        try { file = new File([blob], 'grimoire-glam-sizes.png', { type: 'image/png' }); } catch (e) {}
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: 'My Grimoire Glam sizes' }).catch(function (err) {
+            if (!err || err.name !== 'AbortError') showPicture(blob);
+          });
+        } else {
+          showPicture(blob);
+        }
+      });
+    });
+  });
+
   byId('m-email').addEventListener('click', guard);
   byId('m-shop').addEventListener('click', guard);
 

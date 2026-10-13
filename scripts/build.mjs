@@ -517,9 +517,15 @@ add(
   <textarea class="code" id="m-code" rows="2" readonly aria-label="Your sizing code" placeholder="Choose a size for all ten fingers to see your code."></textarea>
   <button class="copycode" id="m-copycode" type="button">Copy sizes</button>
   <div class="save-row">
+    <button class="savebtn" id="m-pic-btn" type="button">Save as picture</button>
     <button class="savebtn" id="m-save" type="button">Save my sizes on this device</button>
     <a class="savebtn" id="m-email" href="#">Email me my sizes</a>
     <a class="savebtn" id="m-shop" href="#">Send my sizes to the shop</a>
+  </div>
+  <div class="mpic" id="m-pic" hidden>
+    <img id="m-pic-img" alt="Your sizes as a picture" width="540" height="810">
+    <p class="note">Press and hold the picture, then choose Save to Photos (iPhone) or Download image (Android).</p>
+    <a class="savebtn" id="m-pic-dl" href="#" download="grimoire-glam-sizes.png">Download picture</a>
   </div>
   <div class="err" id="m-err" role="alert"></div>
   <p class="note">Saving keeps your sizes in this browser only, so they are ready next time you order. Nothing is sent to us unless you tap &ldquo;Send my sizes to the shop&rdquo;. When you order online, choose <b>Custom</b> for size and paste your sizes into the sizing box.</p>
