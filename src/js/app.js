@@ -110,6 +110,23 @@
     var form = $('.buy');
     var err = $('.form-error', form);
 
+    // Offer sizes saved from the custom sizing tool (this browser only).
+    var sizeBox = form.querySelector('textarea[name^="text:"]');
+    var savedSizes = null;
+    try { savedSizes = JSON.parse(localStorage.getItem('grimoireSizes.v1')); } catch (e) {}
+    if (sizeBox && savedSizes && savedSizes.code) {
+      var useBtn = document.createElement('button');
+      useBtn.type = 'button';
+      useBtn.className = 'savebtn';
+      useBtn.textContent = 'Use my saved sizes';
+      useBtn.addEventListener('click', function () {
+        sizeBox.value = savedSizes.code;
+        sizeBox.dispatchEvent(new Event('input', { bubbles: true }));
+        useBtn.textContent = 'Saved sizes added';
+      });
+      sizeBox.parentNode.insertBefore(useBtn, sizeBox.nextSibling);
+    }
+
     $$('.thumbs button').forEach(function (b, i) {
       if (!i) b.classList.add('is-active');
       b.addEventListener('click', function () {

@@ -461,6 +461,7 @@ add(
     bodyClass: 'page-sizing',
     body: `<section class="wrap sizing-tool"><h1 class="page-title">Nail Sizing</h1>
 <p class="tag">Measure once. Fits like it was cast for you.</p>
+<div class="saved-banner" id="saved-banner" role="status" hidden><span>Welcome back. Your saved sizes are filled in below.</span> <button class="linkbtn" id="clear-saved" type="button">Clear saved sizes</button></div>
 <details><summary>How to measure</summary><div class="howto">
   <p>You'll enter three numbers per nail, all in <b>millimeters (mm)</b>. Round to the nearest whole number, no decimals.</p>
   <p><b>Width</b>: measure straight across the <b>widest</b> part of your nail, from one side wall to the other.</p>
@@ -479,6 +480,11 @@ add(
   <textarea class="code" id="code" rows="3" readonly aria-label="Your sizing code"></textarea>
   <div class="count" id="count"></div>
   <button class="copycode" id="copycode" type="button">Copy code</button>
+  <div class="save-row">
+    <button class="savebtn" id="save-sizes" type="button">Save my sizes on this device</button>
+    <a class="savebtn" id="email-code" href="mailto:">Email me my code</a>
+  </div>
+  <p class="note" id="save-note">Saving keeps your sizes in this browser only, so they are ready next time you order. Nothing is sent to us. Clearing your browser data will remove them.</p>
   <p class="note"><b>Key:</b> T=thumb, I=index, M=middle, R=ring, P=pinky &middot; each reads <b>Width/Arch/Length</b> in mm. Paste this into the <b>sizing code</b> box on the product page, and choose <b>Custom</b> for size. I take it from there.</p>
   <p class="center"><a class="btn" href="${url('/shop/')}">Shop sets</a></p></div>
 <div class="toast" id="toast" role="status">Copied!</div>

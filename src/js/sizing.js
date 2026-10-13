@@ -39,6 +39,39 @@
     out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  // ---- saved sizes (this browser only, nothing is sent anywhere) ----
+  var STORE = 'grimoireSizes.v1';
+  var ids = [];
+  ['L', 'R'].forEach(function (side) { for (var i = 0; i < 5; i++) ['w', 'a', 'l'].forEach(function (k) { ids.push(side + '_' + k + '_' + i); }); });
+  function loadSaved() { try { return JSON.parse(localStorage.getItem(STORE)); } catch (e) { return null; } }
+  function storeSaved(obj) { try { localStorage.setItem(STORE, JSON.stringify(obj)); return true; } catch (e) { return false; } }
+  function clearSaved() { try { localStorage.removeItem(STORE); } catch (e) {} }
+
+  var saved = loadSaved();
+  if (saved && saved.vals) {
+    ids.forEach(function (id) { if (saved.vals[id] != null) byId(id).value = saved.vals[id]; });
+    byId('saved-banner').hidden = false;
+  }
+  byId('clear-saved').addEventListener('click', function () {
+    clearSaved();
+    ids.forEach(function (id) { byId(id).value = ''; });
+    byId('saved-banner').hidden = true;
+    byId('out').classList.remove('show');
+    showToast('Saved sizes cleared');
+  });
+  byId('save-sizes').addEventListener('click', function () {
+    var vals = {};
+    ids.forEach(function (id) { vals[id] = byId(id).value.trim(); });
+    if (storeSaved({ code: byId('code').value, vals: vals, savedAt: Date.now() })) showToast('Sizes saved on this device');
+    else showToast('Saving is not available in this browser');
+  });
+  function syncEmailLink() {
+    var code = byId('code').value;
+    byId('email-code').href = 'mailto:?subject=' + encodeURIComponent('My Grimoire Glam sizing code') +
+      '&body=' + encodeURIComponent('My custom sizing code for Grimoire Glam (paste it into the sizing box when you order):\n\n' + code + '\n');
+  }
+  byId('generate').addEventListener('click', syncEmailLink);
+
   byId('copycode').addEventListener('click', function () {
     var ta = byId('code');
     ta.select(); ta.setSelectionRange(0, 99999);
