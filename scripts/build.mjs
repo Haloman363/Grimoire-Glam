@@ -107,7 +107,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 <link rel="stylesheet" href="${url('/css/site.css')}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
-<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}">
+<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}" data-email="${esc(site.email)}">
 <div class="announce">Made to order, ships in 7-10 days &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Sizes XS to XL or custom fit</a></div>
 <header class="site-header">
   <div class="wrap bar">
@@ -158,6 +158,7 @@ ${body}
 </footer>
 <script src="${url('/js/app.js')}" defer></script>
 ${bodyClass.split(/\s+/).includes('page-sizing') ?`<script src="${url('/js/sizing.js')}" defer></script>` : ''}
+${bodyClass.split(/\s+/).includes('page-market') ?`<script src="${url('/js/market.js')}" defer></script>` : ''}
 </body>
 </html>
 `;
@@ -492,6 +493,43 @@ add(
   }),
 );
 
+// ---------- market sizing (QR code on the market table opens this) ----------
+const sizeSelect = (side, i) =>
+  `<select id="M${side}${i}" aria-label="${side === 'L' ? 'Left' : 'Right'} ${['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'][i]} size"><option value="">Size</option>${Array.from({ length: 10 }, (_, n) => `<option value="${n + 1}">${n + 1}</option>`).join('')}</select>`;
+const sizeRows = (side) =>
+  ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky'].map((f, i) => `<div class="mrow"><label for="M${side}${i}">${f}</label>${sizeSelect(side, i)}</div>`).join('');
+add(
+  '/market/',
+  layout({
+    title: 'Find Your Size',
+    description: 'Pick your nail size, 1 to 10, for each finger.',
+    path: '/market/',
+    noindex: true,
+    bodyClass: 'page-market',
+    body: `<section class="wrap sizing-tool"><h1 class="page-title">Find Your Size</h1>
+<p class="tag">Choose a size from 1 to 10 for each finger, on both hands.</p>
+<div class="saved-banner" id="m-banner" role="status" hidden><span>Welcome back. Your saved sizes are filled in below.</span> <button class="linkbtn" id="m-clear" type="button">Clear saved sizes</button></div>
+<div class="hand"><h2>Left Hand</h2><div class="sub">Thumb to pinky</div>${sizeRows('L')}</div>
+<div class="hand"><h2>Right Hand</h2><div class="sub">Thumb to pinky</div>
+  <button class="copybtn" id="m-copy" type="button">Copy Left &rarr; Right</button>${sizeRows('R')}</div>
+<button class="generate" id="m-show" type="button">Show my sizes</button>
+<div class="err" id="m-err" role="alert"></div>
+<div class="out" id="m-out"><h3>Your sizes</h3>
+  <div class="msum"><div><b>Left</b><p id="m-left"></p></div><div><b>Right</b><p id="m-right"></p></div></div>
+  <textarea class="code" id="m-code" rows="2" readonly aria-label="Your sizing code"></textarea>
+  <button class="copycode" id="m-copycode" type="button">Copy sizes</button>
+  <div class="save-row">
+    <button class="savebtn" id="m-save" type="button">Save my sizes on this device</button>
+    <a class="savebtn" id="m-email" href="mailto:">Email me my sizes</a>
+    <a class="savebtn" id="m-shop" href="mailto:">Send my sizes to the shop</a>
+  </div>
+  <p class="note">Saving keeps your sizes in this browser only, so they are ready next time you order. Nothing is sent to us unless you tap &ldquo;Send my sizes to the shop&rdquo;. When you order online, choose <b>Custom</b> for size and paste your sizes into the sizing box.</p>
+  <p class="center"><a class="btn" href="${url('/shop/')}">Shop sets</a></p></div>
+<div class="toast" id="m-toast" role="status">Copied!</div>
+</section>`,
+  }),
+);
+
 // ---------- accessories ----------
 add(
   '/nail-accessories/',
@@ -582,7 +620,7 @@ if (cname) await writeFile(path.join(dist, 'CNAME'), cname + '\n');
 await writeFile(path.join(dist, '.nojekyll'), '');
 await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n${siteUrl ? `Sitemap: ${siteUrl}/sitemap.xml\n` : ''}`);
 if (siteUrl) {
-  const urls = pages.map(([p]) => p).filter((p) => !p.endsWith('.html') && p !== '/cart/' && p !== '/thank-you/');
+  const urls = pages.map(([p]) => p).filter((p) => !p.endsWith('.html') && p !== '/cart/' && p !== '/thank-you/' && p !== '/market/');
   await writeFile(
     path.join(dist, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((p) => `  <url><loc>${siteUrl}${p}</loc></url>`).join('\n')}\n</urlset>\n`,

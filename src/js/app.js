@@ -113,7 +113,12 @@
     // Offer sizes saved from the custom sizing tool (this browser only).
     var sizeBox = form.querySelector('textarea[name^="text:"]');
     var savedSizes = null;
-    try { savedSizes = JSON.parse(localStorage.getItem('grimoireSizes.v1')); } catch (e) {}
+    ['grimoireSizes.v1', 'grimoireMarketSizes.v1'].forEach(function (k) {
+      try {
+        var one = JSON.parse(localStorage.getItem(k));
+        if (one && one.code && (!savedSizes || (one.savedAt || 0) > (savedSizes.savedAt || 0))) savedSizes = one;
+      } catch (e) {}
+    });
     if (sizeBox && savedSizes && savedSizes.code) {
       var useBtn = document.createElement('button');
       useBtn.type = 'button';

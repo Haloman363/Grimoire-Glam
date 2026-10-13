@@ -251,6 +251,13 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .field .savebtn { margin-top: 10px; }
 .saved-banner { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; align-items: baseline; background: var(--paper); border: 1px solid var(--line); padding: 12px 16px; margin: 0 0 18px; font-size: .95rem; text-align: center; }
 .saved-banner[hidden] { display: none; }
+.mrow { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; align-items: center; margin-bottom: 10px; }
+.mrow label { font-size: 1rem; }
+.mrow select { padding: 14px; font-size: 1.1rem; }
+.msum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 14px; }
+.msum b { display: block; font: 500 11px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.msum p { margin: 4px 0 0; font-size: 1.15rem; line-height: 1.5; }
+@media (max-width: 520px) { .msum { grid-template-columns: 1fr; } }
 .saved-banner .linkbtn { margin-left: 0; }
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--cream); padding: 10px 20px; font-size: .9rem; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 50; }
 .toast.show { opacity: 1; }
