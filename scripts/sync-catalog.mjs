@@ -97,7 +97,7 @@ async function fetchImage(url, dest) {
 }
 
 const raw = fileIdx >= 0 ? await loadFromFile(args[fileIdx + 1]) : await loadFromSquare();
-const data = transformCatalog({ ...raw, overrides, lowStockThreshold: site.lowStockThreshold, trackStock: site.trackStock !== false, locationId });
+const data = transformCatalog({ ...raw, overrides, lowStockThreshold: site.lowStockThreshold, trackStock: site.trackStock !== false, locationId, websiteChannelId: site.squareWebsiteChannelId });
 
 // Photos: download any we do not have yet, drop ones no longer referenced.
 await mkdir(imgDir, { recursive: true });

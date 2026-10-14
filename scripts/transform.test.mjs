@@ -61,6 +61,18 @@ test('hidden, archived and deleted items are dropped; new items appear automatic
   assert.ok(d.products.some((p) => p.slug === 'brand-new-set'));
 });
 
+test('items not on the website channel (in-person only) are dropped', () => {
+  const WEB = 'CH_WEB', POS = 'CH_POS';
+  const items = structuredClone(fx.objects);
+  items[0].item_data.channels = [WEB, POS];
+  items[1].item_data.channels = [POS];
+  const d = run({ items, websiteChannelId: WEB });
+  assert.equal(d.products.length, fx.objects.length - 1);
+  assert.ok(!d.products.some((p) => p.name === items[1].item_data.name));
+  // without a channel id (or without channel data on an item) nothing is filtered
+  assert.equal(run({ items }).products.length, fx.objects.length);
+});
+
 test('duplicate names get distinct slugs', () => {
   const a = structuredClone(fx.objects[0]);
   a.id = 'DUPLICATEDUPLICATEDUP01';
