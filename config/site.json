@@ -12,6 +12,6 @@
   "shipping": {
     "country": "US",
     "flatRateCents": 1000,
-    "freeOverCents": null
+    "freeOverCents": 5000
   }
 }

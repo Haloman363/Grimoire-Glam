@@ -26,7 +26,7 @@ const dollars = (cents) => (cents % 100 === 0 ? `$${cents / 100}` : money(cents)
 // matching free-shipping rule is live in Square, so the site never promises something checkout does not do.
 const ship = site.shipping ?? { flatRateCents: 1000, freeOverCents: null };
 const shippingLine = ship.freeOverCents
-  ? `Flat-rate US shipping, ${dollars(ship.flatRateCents)}. Free over ${dollars(ship.freeOverCents)}.`
+  ? `US shipping is ${dollars(ship.flatRateCents)}, and free on orders over ${dollars(ship.freeOverCents)}.`
   : `Flat-rate US shipping, ${dollars(ship.flatRateCents)}.`;
 const url = (p) => `${basePath}${p}`;
 const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.webp`);

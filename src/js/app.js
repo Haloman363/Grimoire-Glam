@@ -249,6 +249,10 @@
         msg.hidden = true;
         if (!checkoutApi) { msg.textContent = 'Checkout is not connected yet. Please email us to place your order.'; msg.hidden = false; return; }
         go.disabled = true; go.textContent = 'Taking you to Square…';
+        // Square's page has no way back to this site, so open it in a new tab and keep the cart open here.
+        // The tab must be opened inside the click; if the browser blocks it, fall back to this tab.
+        var tab = null;
+        try { tab = window.open('', '_blank'); } catch (e) { tab = null; }
         fetch(checkoutApi + '/checkout', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lines: lines.map(function (l) { return { variationId: l.variationId, modifierIds: l.modifiers.map(function (m) { return m.id; }), note: l.note, quantity: l.qty }; }) })
@@ -256,12 +260,16 @@
           .then(function (j) {
             // only ever leave for Square's hosted checkout, whatever the API returns
             if (!/^https:\/\/([a-z0-9-]+\.)*(square\.link|squareup\.com|square\.site|squareupsandbox\.com)\//i.test(String(j.url))) throw new Error('Checkout returned an unexpected address.');
-            location.href = j.url;
+            if (tab && !tab.closed) { tab.location.href = j.url; go.disabled = false; go.textContent = 'Checkout'; } else { location.href = j.url; }
           })
-          .catch(function (e) { msg.textContent = e.message || 'Something went wrong. Please try again.'; msg.hidden = false; go.disabled = false; go.textContent = 'Checkout'; });
+          .catch(function (e) { if (tab && !tab.closed) tab.close(); msg.textContent = e.message || 'Something went wrong. Please try again.'; msg.hidden = false; go.disabled = false; go.textContent = 'Checkout'; });
       };
-      foot.appendChild(go); foot.appendChild(msg); root.appendChild(foot);
+      foot.appendChild(go); foot.appendChild(msg);
+      foot.appendChild(el('p', 'hint', 'You pay on Square\u2019s secure page. Want to add more? Your cart stays saved here.'));
+      root.appendChild(foot);
     };
     renderCart();
+    // after paying in the other tab the thank-you page empties the cart; refresh this one
+    window.addEventListener('storage', function (e) { if (e.key === KEY) renderCart(); });
   }
 })();
