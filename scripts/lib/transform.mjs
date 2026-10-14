@@ -29,8 +29,9 @@ function stockFor(variationData, countsByVariation, lowThreshold, trackStock) {
  * @param {number} input.lowStockThreshold
  * @param {boolean} input.trackStock        false = ignore Square counts; nothing is ever low or sold out
  * @param {string} input.locationId         only variations sellable at this location are kept
+ * @param {string} input.websiteChannelId   Square channel id of the website; items that list channels but not this one (in-person only) are skipped
  */
-export function transformCatalog({ items, related, categories, counts, overrides = {}, lowStockThreshold = 3, trackStock = true, locationId }) {
+export function transformCatalog({ items, related, categories, counts, overrides = {}, lowStockThreshold = 3, trackStock = true, locationId, websiteChannelId }) {
   const byId = new Map(related.map((o) => [o.id, o]));
   const countMap = counts instanceof Map ? counts : new Map(Object.entries(counts ?? {}));
   const catName = new Map(categories.filter((c) => !c.is_deleted).map((c) => [c.id, c.category_data.name]));
@@ -67,6 +68,7 @@ export function transformCatalog({ items, related, categories, counts, overrides
     const i = o.item_data;
     if (o.is_deleted || i.is_archived || i.ecom_visibility === 'HIDDEN' || i.ecom_visibility === 'UNINDEXED') continue;
     if (i.ecom_visibility && i.ecom_visibility !== 'VISIBLE') continue;
+    if (websiteChannelId && Array.isArray(i.channels) && !i.channels.includes(websiteChannelId)) continue; // in-person only
     const ov = overrides.items?.[o.id] ?? {};
 
     const variations = (i.variations ?? [])

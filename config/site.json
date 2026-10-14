@@ -7,6 +7,7 @@
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
   "squareLocationId": "L4YE869D48SSP",
   "trackStock": false,
+  "squareWebsiteChannelId": "CH_ik8tN8yYFtCNHB96TMG6cwGUIQL7kaB0hxofYRlQuYC",
   "lowStockThreshold": 3,
   "checkoutApi": "https://checkout.grimoireglam.com",
   "shipping": {
