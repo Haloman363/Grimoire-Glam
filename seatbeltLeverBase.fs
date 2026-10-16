@@ -120,13 +120,81 @@ export const seatbeltLeverBase = defineFeature(function(context is Context, id i
                 "operationType" : BooleanOperationType.SUBTRACTION
         });
 
-        // 5. Remove the construction sketch bodies
+        // 5. Lever arm (second part). A flat plate with a round eye at the pivot,
+        // sitting against the outer face of the lug, with a bar reaching upward.
+        const armThickness = 3 * millimeter;
+        const armWidth = 12 * millimeter;
+        const armPlaneY = outerD / 2 + lugProtrusion;
+
+        var armSketch = newSketchOnPlane(context, id + "armSketch", {
+                "sketchPlane" : plane(vector(0 * millimeter, armPlaneY, 0 * millimeter), vector(0, 1, 0), vector(-1, 0, 0))
+        });
+        skCircle(armSketch, "eyeCircle", {
+                "center" : vector(0 * millimeter, collarHeight / 2),
+                "radius" : lugRadius
+        });
+        skSolve(armSketch);
+
+        opExtrude(context, id + "eyeExtrude", {
+                "entities" : qSketchRegion(id + "armSketch"),
+                "direction" : vector(0, 1, 0),
+                "endBound" : BoundingType.BLIND,
+                "endDepth" : armThickness
+        });
+
+        var barSketch = newSketchOnPlane(context, id + "barSketch", {
+                "sketchPlane" : plane(vector(0 * millimeter, armPlaneY, 0 * millimeter), vector(0, 1, 0), vector(-1, 0, 0))
+        });
+        skRectangle(barSketch, "barRect", {
+                "firstCorner" : vector(-armWidth / 2, collarHeight / 2),
+                "secondCorner" : vector(armWidth / 2, collarHeight / 2 + definition.leverLength)
+        });
+        skSolve(barSketch);
+
+        opExtrude(context, id + "barExtrude", {
+                "entities" : qSketchRegion(id + "barSketch"),
+                "direction" : vector(0, 1, 0),
+                "endBound" : BoundingType.BLIND,
+                "endDepth" : armThickness
+        });
+
+        opBoolean(context, id + "joinArm", {
+                "tools" : qUnion([qCreatedBy(id + "eyeExtrude", EntityType.BODY), qCreatedBy(id + "barExtrude", EntityType.BODY)]),
+                "operationType" : BooleanOperationType.UNION
+        });
+
+        var armHoleSketch = newSketchOnPlane(context, id + "armHoleSketch", {
+                "sketchPlane" : plane(vector(0 * millimeter, armPlaneY - 1 * millimeter, 0 * millimeter), vector(0, 1, 0), vector(-1, 0, 0))
+        });
+        skCircle(armHoleSketch, "armHoleCircle", {
+                "center" : vector(0 * millimeter, collarHeight / 2),
+                "radius" : pinHoleRadius
+        });
+        skSolve(armHoleSketch);
+
+        opExtrude(context, id + "armHoleExtrude", {
+                "entities" : qSketchRegion(id + "armHoleSketch"),
+                "direction" : vector(0, 1, 0),
+                "endBound" : BoundingType.BLIND,
+                "endDepth" : armThickness + 2 * millimeter
+        });
+
+        opBoolean(context, id + "cutArmHole", {
+                "tools" : qCreatedBy(id + "armHoleExtrude", EntityType.BODY),
+                "targets" : qCreatedBy(id + "eyeExtrude", EntityType.BODY),
+                "operationType" : BooleanOperationType.SUBTRACTION
+        });
+
+        // 6. Remove the construction sketch bodies
         opDeleteBodies(context, id + "deleteSketches", {
                 "entities" : qUnion([
                         qCreatedBy(id + "outerSketch", EntityType.BODY),
                         qCreatedBy(id + "innerSketch", EntityType.BODY),
                         qCreatedBy(id + "lugSketch", EntityType.BODY),
-                        qCreatedBy(id + "holeSketch", EntityType.BODY)
+                        qCreatedBy(id + "holeSketch", EntityType.BODY),
+                        qCreatedBy(id + "armSketch", EntityType.BODY),
+                        qCreatedBy(id + "barSketch", EntityType.BODY),
+                        qCreatedBy(id + "armHoleSketch", EntityType.BODY)
                 ])
         });
     });
