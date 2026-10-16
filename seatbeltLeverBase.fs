@@ -77,7 +77,7 @@ export const seatbeltLeverBase = defineFeature(function(context is Context, id i
         // Sketch plane normal is +Y; X direction is -X so the sketch Y axis is world +Z.
         // The lug starts inside the wall (so it fuses to it) and protrudes outward.
         var lugSketch = newSketchOnPlane(context, id + "lugSketch", {
-                "sketchPlane" : plane(vector(0, outerD / 2 - definition.wallThickness, 0), vector(0, 1, 0), vector(-1, 0, 0))
+                "sketchPlane" : plane(vector(0 * millimeter, outerD / 2 - definition.wallThickness, 0 * millimeter), vector(0, 1, 0), vector(-1, 0, 0))
         });
         skCircle(lugSketch, "lugCircle", {
                 "center" : vector(0 * millimeter, collarHeight / 2),
@@ -93,14 +93,13 @@ export const seatbeltLeverBase = defineFeature(function(context is Context, id i
         });
 
         opBoolean(context, id + "addLug", {
-                "tools" : qCreatedBy(id + "lugExtrude", EntityType.BODY),
-                "targets" : qCreatedBy(id + "outerExtrude", EntityType.BODY),
+                "tools" : qUnion([qCreatedBy(id + "outerExtrude", EntityType.BODY), qCreatedBy(id + "lugExtrude", EntityType.BODY)]),
                 "operationType" : BooleanOperationType.UNION
         });
 
         // 4. Pin hole through the lug only (starts at the outer face of the back wall)
         var holeSketch = newSketchOnPlane(context, id + "holeSketch", {
-                "sketchPlane" : plane(vector(0, outerD / 2, 0), vector(0, 1, 0), vector(-1, 0, 0))
+                "sketchPlane" : plane(vector(0 * millimeter, outerD / 2, 0 * millimeter), vector(0, 1, 0), vector(-1, 0, 0))
         });
         skCircle(holeSketch, "holeCircle", {
                 "center" : vector(0 * millimeter, collarHeight / 2),
