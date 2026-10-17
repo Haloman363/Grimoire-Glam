@@ -223,7 +223,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             const rise = sqrt(R * R - d * d);
             if (rise > H - 2 * E)
                 throw regenError("Board height is too small for this arch radius and width.", ["BoardHeight", "ArchRadius"]);
-            sp.type = "arch";
+            sp.kind = "arch";
             sp.R = R;
             sp.d = d;
             sp.rise = rise;
@@ -231,7 +231,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         }
         else if (shape == PegboardShape.HEADER_PLATE)
         {
-            sp.type = "plate";
+            sp.kind = "plate";
             sp.c = definition.CornerChamfer / millimeter;
             sp.band = definition.HeaderBand / millimeter;
         }
@@ -239,7 +239,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         {
             // flat-top hexagons, centre hex plus six neighbours: 5r wide, 3*sqrt(3)r tall
             const r = min(W / 5, H / (3 * sqrt(3)));
-            sp.type = "hex";
+            sp.kind = "hex";
             sp.r = r;
             sp.H = 3 * sqrt(3) * r;
             sp.cy = 1.5 * sqrt(3) * r;
@@ -247,7 +247,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         }
         else
         {
-            sp.type = "rect";
+            sp.kind = "rect";
             sp.band = definition.HeaderBand / millimeter;
         }
         const Hs = sp.H;
@@ -267,7 +267,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
         // ---------- 1. board solid ----------
         const topPlane = plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0));
-        if (sp.type == "arch")
+        if (sp.kind == "arch")
         {
             const sk = newSketchOnPlane(context, id + "boardSk", { "sketchPlane" : topPlane });
             const hw = W / 2;
@@ -282,7 +282,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             skSolve(sk);
             extrudeUp(context, id + "board", qSketchRegion(id + "boardSk"), T);
         }
-        else if (sp.type == "plate")
+        else if (sp.kind == "plate")
         {
             const sk = newSketchOnPlane(context, id + "boardSk", { "sketchPlane" : topPlane });
             const hw = W / 2;
@@ -291,7 +291,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             skSolve(sk);
             extrudeUp(context, id + "board", qSketchRegion(id + "boardSk"), T);
         }
-        else if (sp.type == "hex")
+        else if (sp.kind == "hex")
         {
             const centers = hexCenters(sp);
             for (var i = 0; i < size(centers); i += 1)
@@ -376,7 +376,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 const hy = y0 + (j + 0.5) * P;
                 if (!okInset(sp, hx, hy, E))
                     continue;
-                if ((sp.type == "plate" || sp.type == "rect") && hy > Hs - sp.band - hr - 6)
+                if ((sp.kind == "plate" || sp.kind == "rect") && hy > Hs - sp.band - hr - 6)
                     continue;
                 holePts = append(holePts, [hx, hy]);
             }
@@ -389,7 +389,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             skSolve(hsk);
             extrudeUp(context, id + "cut" + "holes", qSketchRegion(id + "holeSk"), T + 2);
         }
-        if (sp.type == "plate")
+        if (sp.kind == "plate")
         {
             const inset = max(sp.c, 8) + 4;
             fCuboid(context, id + "cut" + "recess", {
@@ -527,7 +527,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             if (sd >= fh)
                 throw regenError("Slot depth must be smaller than the foot height.", ["SlotDepth"]);
             var fxs = [-definition.FootSpacing / millimeter / 2, definition.FootSpacing / millimeter / 2];
-            if (sp.type == "hex")
+            if (sp.kind == "hex")
             {
                 fxs = [0];
                 reportFeatureInfo(context, id, "Hex cluster has a single flat bottom edge: one centred foot is generated.");
@@ -539,7 +539,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             for (var i = 0; i < size(fxs); i += 1)
             {
                 const fx = fxs[i];
-                const fw2 = (sp.type == "hex") ? min(fw, sp.r - 12) : fw;
+                const fw2 = (sp.kind == "hex") ? min(fw, sp.r - 12) : fw;
                 const fid = id + ("foot" ~ i);
                 fCuboid(context, fid + "body", {
                             "corner1" : vector(fx - fw2 / 2, -(fh - sd), zc - fd / 2) * millimeter,
@@ -634,7 +634,7 @@ function hexCenters(sp is map) returns array
 /** Is the point (mm) inside the board outline? */
 function insideShape(sp is map, x is number, y is number) returns boolean
 {
-    if (sp.type == "arch")
+    if (sp.kind == "arch")
     {
         if (abs(x) > sp.W / 2 || y < 0 || y > sp.H)
             return false;
@@ -643,7 +643,7 @@ function insideShape(sp is map, x is number, y is number) returns boolean
         const dy = y - sp.s;
         return (x - sp.d) * (x - sp.d) + dy * dy <= sp.R * sp.R && (x + sp.d) * (x + sp.d) + dy * dy <= sp.R * sp.R;
     }
-    if (sp.type == "plate")
+    if (sp.kind == "plate")
     {
         const hw = sp.W / 2;
         if (abs(x) > hw || y < 0 || y > sp.H)
@@ -655,7 +655,7 @@ function insideShape(sp is map, x is number, y is number) returns boolean
             return false;
         return true;
     }
-    if (sp.type == "hex")
+    if (sp.kind == "hex")
     {
         const ap = sqrt(3) / 2 * sp.r;
         const centers = hexCenters(sp);
