@@ -22,32 +22,32 @@ import(path : "onshape/std/valueBounds.fs", version : "2144.0");
  * friction/snap fit. Everything is produced as separate solids.
  */
 
-const BOARD_H_BOUNDS = { (meter) : [0.1, 0.55, 1.5], (centimeter) : [10.0, 55.0, 150.0], (millimeter) : [100.0, 550.0, 1500.0], (inch) : [3.937008, 21.653543, 59.055118], (foot) : [0.328084, 1.804462, 4.92126], (yard) : [0.109361, 0.601487, 1.64042] } as LengthBoundSpec;
-const BOARD_W_BOUNDS = { (meter) : [0.1, 0.4, 1.5], (centimeter) : [10.0, 40.0, 150.0], (millimeter) : [100.0, 400.0, 1500.0], (inch) : [3.937008, 15.748031, 59.055118], (foot) : [0.328084, 1.312336, 4.92126], (yard) : [0.109361, 0.437445, 1.64042] } as LengthBoundSpec;
-const PEG_BOUNDS = { (meter) : [0.01, 0.0254, 0.08], (centimeter) : [1.0, 2.54, 8.0], (millimeter) : [10.0, 25.4, 80.0], (inch) : [0.393701, 1.0, 3.149606], (foot) : [0.032808, 0.083333, 0.262467], (yard) : [0.010936, 0.027778, 0.087489] } as LengthBoundSpec;
-const HOLE_BOUNDS = { (meter) : [0.003, 0.00653, 0.015], (centimeter) : [0.3, 0.653, 1.5], (millimeter) : [3.0, 6.53, 15.0], (inch) : [0.11811, 0.257087, 0.590551], (foot) : [0.009843, 0.021424, 0.049213], (yard) : [0.003281, 0.007141, 0.016404] } as LengthBoundSpec;
-const THK_BOUNDS = { (meter) : [0.003, 0.00476, 0.012], (centimeter) : [0.3, 0.476, 1.2], (millimeter) : [3.0, 4.76, 12.0], (inch) : [0.11811, 0.187402, 0.472441], (foot) : [0.009843, 0.015617, 0.03937], (yard) : [0.003281, 0.005206, 0.013123] } as LengthBoundSpec;
-const ARCHR_BOUNDS = { (meter) : [0.05, 0.4, 2.0], (centimeter) : [5.0, 40.0, 200.0], (millimeter) : [50.0, 400.0, 2000.0], (inch) : [1.968504, 15.748031, 78.740157], (foot) : [0.164042, 1.312336, 6.56168], (yard) : [0.054681, 0.437445, 2.187227] } as LengthBoundSpec;
-const EDGE_BOUNDS = { (meter) : [0.01905, 0.01905, 0.1], (centimeter) : [1.905, 1.905, 10.0], (millimeter) : [19.05, 19.05, 100.0], (inch) : [0.75, 0.75, 3.937008], (foot) : [0.0625, 0.0625, 0.328084], (yard) : [0.020833, 0.020833, 0.109361] } as LengthBoundSpec;
-const TOL_BOUNDS = { (meter) : [5e-05, 0.000175, 0.0005], (centimeter) : [0.005, 0.0175, 0.05], (millimeter) : [0.05, 0.175, 0.5], (inch) : [0.001969, 0.00689, 0.019685], (foot) : [0.000164, 0.000574, 0.00164], (yard) : [5.5e-05, 0.000191, 0.000547] } as LengthBoundSpec;
-const BED_BOUNDS = { (meter) : [0.1, 0.256, 0.5], (centimeter) : [10.0, 25.6, 50.0], (millimeter) : [100.0, 256.0, 500.0], (inch) : [3.937008, 10.07874, 19.685039], (foot) : [0.328084, 0.839895, 1.64042], (yard) : [0.109361, 0.279965, 0.546807] } as LengthBoundSpec;
-const DTLEN_BOUNDS = { (meter) : [0.004, 0.008, 0.02], (centimeter) : [0.4, 0.8, 2.0], (millimeter) : [4.0, 8.0, 20.0], (inch) : [0.15748, 0.314961, 0.787402], (foot) : [0.013123, 0.026247, 0.065617], (yard) : [0.004374, 0.008749, 0.021872] } as LengthBoundSpec;
-const DTWID_BOUNDS = { (meter) : [0.006, 0.01, 0.03], (centimeter) : [0.6, 1.0, 3.0], (millimeter) : [6.0, 10.0, 30.0], (inch) : [0.23622, 0.393701, 1.181102], (foot) : [0.019685, 0.032808, 0.098425], (yard) : [0.006562, 0.010936, 0.032808] } as LengthBoundSpec;
-const FEETW_BOUNDS = { (meter) : [0.02, 0.05, 0.15], (centimeter) : [2.0, 5.0, 15.0], (millimeter) : [20.0, 50.0, 150.0], (inch) : [0.787402, 1.968504, 5.905512], (foot) : [0.065617, 0.164042, 0.492126], (yard) : [0.021872, 0.054681, 0.164042] } as LengthBoundSpec;
-const FEETD_BOUNDS = { (meter) : [0.04, 0.09, 0.25], (centimeter) : [4.0, 9.0, 25.0], (millimeter) : [40.0, 90.0, 250.0], (inch) : [1.574803, 3.543307, 9.84252], (foot) : [0.131234, 0.295276, 0.82021], (yard) : [0.043745, 0.098425, 0.273403] } as LengthBoundSpec;
-const FEETH_BOUNDS = { (meter) : [0.01, 0.022, 0.08], (centimeter) : [1.0, 2.2, 8.0], (millimeter) : [10.0, 22.0, 80.0], (inch) : [0.393701, 0.866142, 3.149606], (foot) : [0.032808, 0.072178, 0.262467], (yard) : [0.010936, 0.024059, 0.087489] } as LengthBoundSpec;
-const SLOTD_BOUNDS = { (meter) : [0.005, 0.015, 0.05], (centimeter) : [0.5, 1.5, 5.0], (millimeter) : [5.0, 15.0, 50.0], (inch) : [0.19685, 0.590551, 1.968504], (foot) : [0.016404, 0.049213, 0.164042], (yard) : [0.005468, 0.016404, 0.054681] } as LengthBoundSpec;
-const FEETSP_BOUNDS = { (meter) : [0.02, 0.2, 1.0], (centimeter) : [2.0, 20.0, 100.0], (millimeter) : [20.0, 200.0, 1000.0], (inch) : [0.787402, 7.874016, 39.370079], (foot) : [0.065617, 0.656168, 3.28084], (yard) : [0.021872, 0.218723, 1.093613] } as LengthBoundSpec;
-const EYEHOLE_BOUNDS = { (meter) : [0.003, 0.009525, 0.03], (centimeter) : [0.3, 0.9525, 3.0], (millimeter) : [3.0, 9.525, 30.0], (inch) : [0.11811, 0.375, 1.181102], (foot) : [0.009843, 0.03125, 0.098425], (yard) : [0.003281, 0.010417, 0.032808] } as LengthBoundSpec;
-const EYEWALL_BOUNDS = { (meter) : [0.002, 0.004, 0.012], (centimeter) : [0.2, 0.4, 1.2], (millimeter) : [2.0, 4.0, 12.0], (inch) : [0.07874, 0.15748, 0.472441], (foot) : [0.006562, 0.013123, 0.03937], (yard) : [0.002187, 0.004374, 0.013123] } as LengthBoundSpec;
-const EYESP_BOUNDS = { (meter) : [0.02, 0.2, 1.0], (centimeter) : [2.0, 20.0, 100.0], (millimeter) : [20.0, 200.0, 1000.0], (inch) : [0.787402, 7.874016, 39.370079], (foot) : [0.065617, 0.656168, 3.28084], (yard) : [0.021872, 0.218723, 1.093613] } as LengthBoundSpec;
-const HEADERB_BOUNDS = { (meter) : [0.01, 0.06, 0.3], (centimeter) : [1.0, 6.0, 30.0], (millimeter) : [10.0, 60.0, 300.0], (inch) : [0.393701, 2.362205, 11.811024], (foot) : [0.032808, 0.19685, 0.984252], (yard) : [0.010936, 0.065617, 0.328084] } as LengthBoundSpec;
-const CHAMF_BOUNDS = { (meter) : [0.001, 0.012, 0.05], (centimeter) : [0.1, 1.2, 5.0], (millimeter) : [1.0, 12.0, 50.0], (inch) : [0.03937, 0.472441, 1.968504], (foot) : [0.003281, 0.03937, 0.164042], (yard) : [0.001094, 0.013123, 0.054681] } as LengthBoundSpec;
-const RECESSD_BOUNDS = { (meter) : [0.0002, 0.0012, 0.003], (centimeter) : [0.02, 0.12, 0.3], (millimeter) : [0.2, 1.2, 3.0], (inch) : [0.007874, 0.047244, 0.11811], (foot) : [0.000656, 0.003937, 0.009843], (yard) : [0.000219, 0.001312, 0.003281] } as LengthBoundSpec;
-const HOLECOMP_BOUNDS = { (meter) : [0.0, 0.0001, 0.0005], (centimeter) : [0.0, 0.01, 0.05], (millimeter) : [0.0, 0.1, 0.5], (inch) : [0.0, 0.003937, 0.019685], (foot) : [0.0, 0.000328, 0.00164], (yard) : [0.0, 0.000109, 0.000547] } as LengthBoundSpec;
-const CRUSH_BOUNDS = { (meter) : [0.0, 0.0001, 0.0004], (centimeter) : [0.0, 0.01, 0.04], (millimeter) : [0.0, 0.1, 0.4], (inch) : [0.0, 0.003937, 0.015748], (foot) : [0.0, 0.000328, 0.001312], (yard) : [0.0, 0.000109, 0.000437] } as LengthBoundSpec;
+const BOARD_H_BOUNDS = { (meter) : [0.1, 0.55, 1.5], (centimeter) : 55.0, (millimeter) : 550.0, (inch) : 21.653543, (foot) : 1.804462, (yard) : 0.601487 } as LengthBoundSpec;
+const BOARD_W_BOUNDS = { (meter) : [0.1, 0.4, 1.5], (centimeter) : 40.0, (millimeter) : 400.0, (inch) : 15.748031, (foot) : 1.312336, (yard) : 0.437445 } as LengthBoundSpec;
+const PEG_BOUNDS = { (meter) : [0.01, 0.0254, 0.08], (centimeter) : 2.54, (millimeter) : 25.4, (inch) : 1.0, (foot) : 0.083333, (yard) : 0.027778 } as LengthBoundSpec;
+const HOLE_BOUNDS = { (meter) : [0.003, 0.00653, 0.015], (centimeter) : 0.653, (millimeter) : 6.53, (inch) : 0.257087, (foot) : 0.021424, (yard) : 0.007141 } as LengthBoundSpec;
+const THK_BOUNDS = { (meter) : [0.003, 0.00476, 0.012], (centimeter) : 0.476, (millimeter) : 4.76, (inch) : 0.187402, (foot) : 0.015617, (yard) : 0.005206 } as LengthBoundSpec;
+const ARCHR_BOUNDS = { (meter) : [0.05, 0.4, 2.0], (centimeter) : 40.0, (millimeter) : 400.0, (inch) : 15.748031, (foot) : 1.312336, (yard) : 0.437445 } as LengthBoundSpec;
+const EDGE_BOUNDS = { (meter) : [0.01905, 0.01905, 0.1], (centimeter) : 1.905, (millimeter) : 19.05, (inch) : 0.75, (foot) : 0.0625, (yard) : 0.020833 } as LengthBoundSpec;
+const TOL_BOUNDS = { (meter) : [5e-05, 0.000175, 0.0005], (centimeter) : 0.0175, (millimeter) : 0.175, (inch) : 0.00689, (foot) : 0.000574, (yard) : 0.000191 } as LengthBoundSpec;
+const BED_BOUNDS = { (meter) : [0.1, 0.256, 0.5], (centimeter) : 25.6, (millimeter) : 256.0, (inch) : 10.07874, (foot) : 0.839895, (yard) : 0.279965 } as LengthBoundSpec;
+const DTLEN_BOUNDS = { (meter) : [0.004, 0.008, 0.02], (centimeter) : 0.8, (millimeter) : 8.0, (inch) : 0.314961, (foot) : 0.026247, (yard) : 0.008749 } as LengthBoundSpec;
+const DTWID_BOUNDS = { (meter) : [0.006, 0.01, 0.03], (centimeter) : 1.0, (millimeter) : 10.0, (inch) : 0.393701, (foot) : 0.032808, (yard) : 0.010936 } as LengthBoundSpec;
+const FEETW_BOUNDS = { (meter) : [0.02, 0.05, 0.15], (centimeter) : 5.0, (millimeter) : 50.0, (inch) : 1.968504, (foot) : 0.164042, (yard) : 0.054681 } as LengthBoundSpec;
+const FEETD_BOUNDS = { (meter) : [0.04, 0.09, 0.25], (centimeter) : 9.0, (millimeter) : 90.0, (inch) : 3.543307, (foot) : 0.295276, (yard) : 0.098425 } as LengthBoundSpec;
+const FEETH_BOUNDS = { (meter) : [0.01, 0.022, 0.08], (centimeter) : 2.2, (millimeter) : 22.0, (inch) : 0.866142, (foot) : 0.072178, (yard) : 0.024059 } as LengthBoundSpec;
+const SLOTD_BOUNDS = { (meter) : [0.005, 0.015, 0.05], (centimeter) : 1.5, (millimeter) : 15.0, (inch) : 0.590551, (foot) : 0.049213, (yard) : 0.016404 } as LengthBoundSpec;
+const FEETSP_BOUNDS = { (meter) : [0.02, 0.2, 1.0], (centimeter) : 20.0, (millimeter) : 200.0, (inch) : 7.874016, (foot) : 0.656168, (yard) : 0.218723 } as LengthBoundSpec;
+const EYEHOLE_BOUNDS = { (meter) : [0.003, 0.009525, 0.03], (centimeter) : 0.9525, (millimeter) : 9.525, (inch) : 0.375, (foot) : 0.03125, (yard) : 0.010417 } as LengthBoundSpec;
+const EYEWALL_BOUNDS = { (meter) : [0.002, 0.004, 0.012], (centimeter) : 0.4, (millimeter) : 4.0, (inch) : 0.15748, (foot) : 0.013123, (yard) : 0.004374 } as LengthBoundSpec;
+const EYESP_BOUNDS = { (meter) : [0.02, 0.2, 1.0], (centimeter) : 20.0, (millimeter) : 200.0, (inch) : 7.874016, (foot) : 0.656168, (yard) : 0.218723 } as LengthBoundSpec;
+const HEADERB_BOUNDS = { (meter) : [0.01, 0.06, 0.3], (centimeter) : 6.0, (millimeter) : 60.0, (inch) : 2.362205, (foot) : 0.19685, (yard) : 0.065617 } as LengthBoundSpec;
+const CHAMF_BOUNDS = { (meter) : [0.001, 0.012, 0.05], (centimeter) : 1.2, (millimeter) : 12.0, (inch) : 0.472441, (foot) : 0.03937, (yard) : 0.013123 } as LengthBoundSpec;
+const RECESSD_BOUNDS = { (meter) : [0.0002, 0.0012, 0.003], (centimeter) : 0.12, (millimeter) : 1.2, (inch) : 0.047244, (foot) : 0.003937, (yard) : 0.001312 } as LengthBoundSpec;
+const HOLECOMP_BOUNDS = { (meter) : [0.0, 0.0001, 0.0005], (centimeter) : 0.01, (millimeter) : 0.1, (inch) : 0.003937, (foot) : 0.000328, (yard) : 0.000109 } as LengthBoundSpec;
+const CRUSH_BOUNDS = { (meter) : [0.0, 0.0001, 0.0004], (centimeter) : 0.01, (millimeter) : 0.1, (inch) : 0.003937, (foot) : 0.000328, (yard) : 0.000109 } as LengthBoundSpec;
 
-const ANGLE_BOUNDS = { (degree) : [5, 15, 30], (radian) : [0.0873, 0.2618, 0.5236] } as AngleBoundSpec;
+const ANGLE_BOUNDS = { (degree) : [5, 15, 30], (radian) : 0.2618 } as AngleBoundSpec;
 const EVERY_BOUNDS = { (unitless) : [1, 4, 20] } as IntegerBoundSpec;
 
 const PI = 3.14159265358979;
