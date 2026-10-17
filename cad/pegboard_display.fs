@@ -304,7 +304,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 skSolve(sk);
                 extrudeUp(context, id + ("hex" ~ i), qSketchRegion(id + ("hexSk" ~ i)), T);
             }
-            opBoolean(context, id + "hexUnion", { "tools" : qCreatedBy(id, EntityType.BODY), "operation" : BooleanOperationType.UNION });
+            opBoolean(context, id + "hexUnion", { "tools" : qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
         }
         else
         {
@@ -314,11 +314,12 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                         "entities" : definition.LogoRegions,
                         "direction" : vector(0, 0, 1),
                         "endBound" : BoundingType.BLIND,
-                        "depth" : T * millimeter
+                        "endDepth" : T * millimeter
                     });
         }
 
         // ---------- 2. hanging eyelets ----------
+        var cutList = [];
         var cutters = [];
         if (definition.AddEyelets)
         {
@@ -350,7 +351,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                             "radius" : Ro * millimeter
                         });
             }
-            opBoolean(context, id + "earUnion", { "tools" : qCreatedBy(id, EntityType.BODY), "operation" : BooleanOperationType.UNION });
+            opBoolean(context, id + "earUnion", { "tools" : qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
             for (var side = 0; side < 2; side += 1)
             {
                 const ex = (side == 0 ? -1 : 1) * definition.EyeletSpacing / millimeter / 2;
@@ -358,11 +359,12 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 for (var i = 0; i <= 8; i += 1)
                     yMax = max(yMax, topY(sp, ex - Ro + 2 * Ro * i / 8));
                 const cy = yMax + eyeHole + wall;
-                fCylinder(context, id + "cut" + ("eye" ~ side), {
+                fCylinder(context, id + ("cutEye" ~ side), {
                             "topCenter" : vector(ex, cy, T + 1) * millimeter,
                             "bottomCenter" : vector(ex, cy, -1) * millimeter,
                             "radius" : eyeHole * millimeter
                         });
+                cutList = append(cutList, qCreatedBy(id + ("cutEye" ~ side), EntityType.BODY));
             }
         }
 
@@ -387,22 +389,24 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             for (var n = 0; n < size(holePts); n += 1)
                 skCircle(hsk, "h" ~ n, { "center" : vector(holePts[n][0], holePts[n][1]) * millimeter, "radius" : hr * millimeter });
             skSolve(hsk);
-            extrudeUp(context, id + "cut" + "holes", qSketchRegion(id + "holeSk"), T + 2);
+            extrudeUp(context, id + "cutHoles", qSketchRegion(id + "holeSk"), T + 2);
+            cutList = append(cutList, qCreatedBy(id + "cutHoles", EntityType.BODY));
         }
         if (sp.kind == "plate")
         {
             const inset = max(sp.c, 8) + 4;
-            fCuboid(context, id + "cut" + "recess", {
+            fCuboid(context, id + "cutRecess", {
                         "corner1" : vector(-W / 2 + inset, H - sp.band + 4, T - definition.RecessDepth / millimeter) * millimeter,
                         "corner2" : vector(W / 2 - inset, H - 4, T + 1) * millimeter
                     });
+            cutList = append(cutList, qCreatedBy(id + "cutRecess", EntityType.BODY));
         }
-        if (size(evaluateQuery(context, qCreatedBy(id + "cut", EntityType.BODY))) > 0)
+        if (size(cutList) > 0)
         {
             opBoolean(context, id + "cutBoolean", {
-                        "targets" : qSubtraction(qCreatedBy(id, EntityType.BODY), qCreatedBy(id + "cut", EntityType.BODY)),
-                        "tools" : qCreatedBy(id + "cut", EntityType.BODY),
-                        "operation" : BooleanOperationType.SUBTRACTION
+                        "targets" : qSubtraction(qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), qUnion(cutList)),
+                        "tools" : qUnion(cutList),
+                        "operationType" : BooleanOperationType.SUBTRACTION
                     });
         }
 
@@ -420,6 +424,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             const wt = wn + (DT - g / 2) * tan(alpha * radian);
             const cp = tol / cos(alpha * radian); // horizontal clearance on the slanted flank
             const big = 2000;
+            var kerfList = [];
 
             // dovetail positions
             var dts = [];
@@ -448,15 +453,19 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
             // kerf strips
             for (var s = 0; s < size(seamsX); s += 1)
-                fCuboid(context, id + "kerf" + ("vs" ~ s), {
+                fCuboid(context, id + ("kerfV" ~ s), {
                             "corner1" : vector(seamsX[s] - g / 2, -big, -1) * millimeter,
                             "corner2" : vector(seamsX[s] + g / 2, big, T + 1) * millimeter
                         });
+            for (var s = 0; s < size(seamsX); s += 1)
+                kerfList = append(kerfList, qCreatedBy(id + ("kerfV" ~ s), EntityType.BODY));
             for (var s = 0; s < size(seamsY); s += 1)
-                fCuboid(context, id + "kerf" + ("hs" ~ s), {
+                fCuboid(context, id + ("kerfH" ~ s), {
                             "corner1" : vector(-big, seamsY[s] - g / 2, -1) * millimeter,
                             "corner2" : vector(big, seamsY[s] + g / 2, T + 1) * millimeter
                         });
+            for (var s = 0; s < size(seamsY); s += 1)
+                kerfList = append(kerfList, qCreatedBy(id + ("kerfH" ~ s), EntityType.BODY));
 
             if (size(dts) > 0)
             {
@@ -485,20 +494,21 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 skSolve(sockSk);
                 skSolve(tailSk);
                 skSolve(ribSk);
-                extrudeUp(context, id + "kerf" + "sockets", qSketchRegion(id + "sockSk"), T + 2);
+                extrudeUp(context, id + "kerfSockets", qSketchRegion(id + "sockSk"), T + 2);
+                kerfList = append(kerfList, qCreatedBy(id + "kerfSockets", EntityType.BODY));
                 extrudeUp(context, id + "keep" + "tails", qSketchRegion(id + "tailSk"), T + 2);
                 extrudeUp(context, id + "keep" + "ribs", qSketchRegion(id + "ribSk"), T + 2);
                 // the dovetail tail (and ribs) are not part of the kerf
                 opBoolean(context, id + "kerfTrim", {
-                            "targets" : qCreatedBy(id + "kerf", EntityType.BODY),
-                            "tools" : qCreatedBy(id + "keep", EntityType.BODY),
-                            "operation" : BooleanOperationType.SUBTRACTION
+                            "targets" : qUnion(kerfList),
+                            "tools" : qBodyType(qCreatedBy(id + "keep", EntityType.BODY), BodyType.SOLID),
+                            "operationType" : BooleanOperationType.SUBTRACTION
                         });
             }
             opBoolean(context, id + "splitBoolean", {
-                        "targets" : qSubtraction(qCreatedBy(id, EntityType.BODY), qCreatedBy(id + "kerf", EntityType.BODY)),
-                        "tools" : qCreatedBy(id + "kerf", EntityType.BODY),
-                        "operation" : BooleanOperationType.SUBTRACTION
+                        "targets" : qSubtraction(qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), qUnion(kerfList)),
+                        "tools" : qUnion(kerfList),
+                        "operationType" : BooleanOperationType.SUBTRACTION
                     });
 
             // warn if an eyelet straddles a seam
@@ -550,9 +560,9 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                             "corner2" : vector(fx + fw2 / 2 + 1, sd + 1, zc + S / 2) * millimeter
                         });
                 opBoolean(context, fid + "cutSlot", {
-                            "targets" : qCreatedBy(fid + "body", EntityType.BODY),
-                            "tools" : qCreatedBy(fid + "slot", EntityType.BODY),
-                            "operation" : BooleanOperationType.SUBTRACTION
+                            "targets" : qBodyType(qCreatedBy(fid + "body", EntityType.BODY), BodyType.SOLID),
+                            "tools" : qBodyType(qCreatedBy(fid + "slot", EntityType.BODY), BodyType.SOLID),
+                            "operationType" : BooleanOperationType.SUBTRACTION
                         });
                 // push-fit crush ribs, one on each slot wall
                 fCylinder(context, fid + "ribA", {
@@ -565,7 +575,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                             "bottomCenter" : vector(fx + fw2 / 4, 0, zc + S / 2 - p + rr) * millimeter,
                             "radius" : rr * millimeter
                         });
-                opBoolean(context, fid + "ribUnion", { "tools" : qCreatedBy(fid, EntityType.BODY), "operation" : BooleanOperationType.UNION });
+                opBoolean(context, fid + "ribUnion", { "tools" : qBodyType(qCreatedBy(fid, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
             }
         }
     }, {
@@ -594,7 +604,7 @@ function extrudeUp(context is Context, id is Id, entities is Query, depth is num
                 "entities" : entities,
                 "direction" : vector(0, 0, 1),
                 "endBound" : BoundingType.BLIND,
-                "depth" : depth * millimeter
+                "endDepth" : depth * millimeter
             });
 }
 
