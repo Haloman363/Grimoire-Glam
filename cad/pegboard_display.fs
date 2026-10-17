@@ -47,6 +47,10 @@ const RECESSD_BOUNDS = { (meter) : [0.0002, 0.0012, 0.003], (centimeter) : 0.12,
 const HOLECOMP_BOUNDS = { (meter) : [0.0, 0.0001, 0.0005], (centimeter) : 0.01, (millimeter) : 0.1, (inch) : 0.003937, (foot) : 0.000328, (yard) : 0.000109 } as LengthBoundSpec;
 const CRUSH_BOUNDS = { (meter) : [0.0, 0.0001, 0.0004], (centimeter) : 0.01, (millimeter) : 0.1, (inch) : 0.003937, (foot) : 0.000328, (yard) : 0.000109 } as LengthBoundSpec;
 
+const COFFHEAD_BOUNDS = { (meter) : [0.04, 0.2, 1.0], (centimeter) : 20.0, (millimeter) : 200.0, (inch) : 7.874016, (foot) : 0.656168, (yard) : 0.218723 } as LengthBoundSpec;
+const COFFFOOT_BOUNDS = { (meter) : [0.03, 0.12, 1.0], (centimeter) : 12.0, (millimeter) : 120.0, (inch) : 4.724409, (foot) : 0.393701, (yard) : 0.131234 } as LengthBoundSpec;
+const COFFSHLD_BOUNDS = { (meter) : [0.03, 0.14, 1.0], (centimeter) : 14.0, (millimeter) : 140.0, (inch) : 5.511811, (foot) : 0.459318, (yard) : 0.153106 } as LengthBoundSpec;
+
 const ANGLE_BOUNDS = { (degree) : [5, 15, 30], (radian) : 0.2618 } as AngleBoundSpec;
 const EVERY_BOUNDS = { (unitless) : [1, 4, 20] } as IntegerBoundSpec;
 
@@ -61,7 +65,9 @@ export enum PegboardShape
     annotation { "Name" : "Hex cluster (7 hexagons)" }
     HEX_CLUSTER,
     annotation { "Name" : "Custom logo silhouette (sketch)" }
-    CUSTOM_SILHOUETTE
+    CUSTOM_SILHOUETTE,
+    annotation { "Name" : "Coffin (wall hanging)" }
+    COFFIN
 }
 
 annotation { "Feature Type Name" : "Pegboard display", "Feature Type Description" : "Modular, printable pegboard display with dovetail joints, hanging eyelets and push-fit feet" }
@@ -84,6 +90,18 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         {
             annotation { "Name" : "Arch radius (ArchRadius, >= width / 2)" }
             isLength(definition.ArchRadius, ARCHR_BOUNDS);
+        }
+
+        if (definition.BoardShape == PegboardShape.COFFIN)
+        {
+            annotation { "Name" : "Coffin head width (top)" }
+            isLength(definition.CoffinHead, COFFHEAD_BOUNDS);
+
+            annotation { "Name" : "Coffin foot width (bottom)" }
+            isLength(definition.CoffinFoot, COFFFOOT_BOUNDS);
+
+            annotation { "Name" : "Shoulder distance from top" }
+            isLength(definition.CoffinShoulder, COFFSHLD_BOUNDS);
         }
 
         if (definition.BoardShape == PegboardShape.HEADER_PLATE)
@@ -235,6 +253,15 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             sp.c = definition.CornerChamfer / millimeter;
             sp.band = definition.HeaderBand / millimeter;
         }
+        else if (shape == PegboardShape.COFFIN)
+        {
+            const hh = min(definition.CoffinHead / millimeter, W) / 2;
+            const hf = min(definition.CoffinFoot / millimeter, W) / 2;
+            const ys = H - min(definition.CoffinShoulder / millimeter, H - 30);
+            sp.kind = "coffin";
+            sp.poly = [[-hf, 0], [hf, 0], [W / 2, ys], [hh, H], [-hh, H], [-W / 2, ys]];
+            sp.hh = hh;
+        }
         else if (shape == PegboardShape.HEX_CLUSTER)
         {
             // flat-top hexagons, centre hex plus six neighbours: 5r wide, 3*sqrt(3)r tall
@@ -252,6 +279,15 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         }
         const Hs = sp.H;
         const Ws = sp.W;
+
+        // eyelet spacing (a coffin's narrow head limits how far apart the eyelets can be)
+        var eyeSp = 0;
+        if (definition.AddEyelets)
+        {
+            eyeSp = definition.EyeletSpacing / millimeter;
+            if (sp.kind == "coffin")
+                eyeSp = min(eyeSp, 2 * sp.hh - definition.EyeletHole / millimeter - 2 * definition.EyeletWall / millimeter - 12);
+        }
 
         // ---------- tile grid (seams fall midway between hole rows/columns) ----------
         const mX = max(1, floor((bedX - DT - 2) / P));
@@ -288,6 +324,13 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             const hw = W / 2;
             const c = sp.c;
             polyLoop(sk, "p", [[-hw + c, 0], [hw - c, 0], [hw, c], [hw, H - c], [hw - c, H], [-hw + c, H], [-hw, H - c], [-hw, c]]);
+            skSolve(sk);
+            extrudeUp(context, id + "board", qSketchRegion(id + "boardSk"), T);
+        }
+        else if (sp.kind == "coffin")
+        {
+            const sk = newSketchOnPlane(context, id + "boardSk", { "sketchPlane" : topPlane });
+            polyLoop(sk, "c", sp.poly);
             skSolve(sk);
             extrudeUp(context, id + "board", qSketchRegion(id + "boardSk"), T);
         }
@@ -328,7 +371,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             const Ro = eyeHole + wall;
             for (var side = 0; side < 2; side += 1)
             {
-                const ex = (side == 0 ? -1 : 1) * definition.EyeletSpacing / millimeter / 2;
+                const ex = (side == 0 ? -1 : 1) * eyeSp / 2;
                 var yMax = -1;
                 var yMin = 1e9;
                 for (var i = 0; i <= 8; i += 1)
@@ -354,7 +397,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             opBoolean(context, id + "earUnion", { "tools" : qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
             for (var side = 0; side < 2; side += 1)
             {
-                const ex = (side == 0 ? -1 : 1) * definition.EyeletSpacing / millimeter / 2;
+                const ex = (side == 0 ? -1 : 1) * eyeSp / 2;
                 var yMax = -1;
                 for (var i = 0; i <= 8; i += 1)
                     yMax = max(yMax, topY(sp, ex - Ro + 2 * Ro * i / 8));
@@ -517,7 +560,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 const er = definition.EyeletHole / millimeter / 2 + definition.EyeletWall / millimeter;
                 for (var side = 0; side < 2; side += 1)
                 {
-                    const ex = (side == 0 ? -1 : 1) * definition.EyeletSpacing / millimeter / 2;
+                    const ex = (side == 0 ? -1 : 1) * eyeSp / 2;
                     for (var s = 0; s < size(seamsX); s += 1)
                         if (abs(seamsX[s] - ex) < er + 1)
                             reportFeatureInfo(context, id, "An eyelet sits on a tile seam. Change the eyelet spacing so it lands inside one tile.");
@@ -528,7 +571,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         }
 
         // ---------- 5. detachable feet ----------
-        if (definition.AddFeet)
+        if (definition.AddFeet && sp.kind != "coffin")
         {
             const fw = definition.FootWidth / millimeter;
             const fd = definition.FootDepth / millimeter;
@@ -583,6 +626,9 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             HeaderBand : 60 * millimeter,
             RecessDepth : 1.2 * millimeter,
             CornerChamfer : 12 * millimeter,
+            CoffinHead : 200 * millimeter,
+            CoffinFoot : 120 * millimeter,
+            CoffinShoulder : 140 * millimeter,
             AddEyelets : true,
             EyeletHole : 9.525 * millimeter,
             EyeletWall : 4 * millimeter,
@@ -663,6 +709,19 @@ function insideShape(sp is map, x is number, y is number) returns boolean
             return false;
         if (ax > 0 && y < sp.c && ax + (sp.c - y) > sp.c)
             return false;
+        return true;
+    }
+    if (sp.kind == "coffin")
+    {
+        if (y < 0 || y > sp.H)
+            return false;
+        for (var i = 0; i < size(sp.poly); i += 1)
+        {
+            const a = sp.poly[i];
+            const b = sp.poly[(i + 1) % size(sp.poly)];
+            if ((b[0] - a[0]) * (y - a[1]) - (b[1] - a[1]) * (x - a[0]) < 0)
+                return false;
+        }
         return true;
     }
     if (sp.kind == "hex")
