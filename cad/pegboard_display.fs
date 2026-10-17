@@ -52,6 +52,7 @@ const COFFFOOT_BOUNDS = { (meter) : [0.03, 0.12, 1.0], (centimeter) : 12.0, (mil
 const COFFSHLD_BOUNDS = { (meter) : [0.03, 0.14, 1.0], (centimeter) : 14.0, (millimeter) : 140.0, (inch) : 5.511811, (foot) : 0.459318, (yard) : 0.153106 } as LengthBoundSpec;
 const STAND_BOUNDS = { (meter) : [0.0, 0.018, 0.06], (centimeter) : 1.8, (millimeter) : 18.0, (inch) : 0.708661, (foot) : 0.059055, (yard) : 0.019685 } as LengthBoundSpec;
 const RIM_BOUNDS = { (meter) : [0.003, 0.01, 0.03], (centimeter) : 1.0, (millimeter) : 10.0, (inch) : 0.393701, (foot) : 0.032808, (yard) : 0.010936 } as LengthBoundSpec;
+const HANGSP_BOUNDS = { (meter) : [0.02, 0.1, 1.0], (centimeter) : 10.0, (millimeter) : 100.0, (inch) : 3.937008, (foot) : 0.328084, (yard) : 0.109361 } as LengthBoundSpec;
 
 const ANGLE_BOUNDS = { (degree) : [5, 15, 30], (radian) : 0.2618 } as AngleBoundSpec;
 const EVERY_BOUNDS = { (unitless) : [1, 4, 20] } as IntegerBoundSpec;
@@ -110,6 +111,15 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
             annotation { "Name" : "Rear rim width" }
             isLength(definition.RimWidth, RIM_BOUNDS);
+
+            annotation { "Name" : "Hide hanging points on the back (keyhole slots, needs rear standoff)" }
+            definition.HiddenHangers is boolean;
+
+            if (definition.HiddenHangers)
+            {
+                annotation { "Name" : "Keyhole spacing (centre to centre)" }
+                isLength(definition.HangerSpacing, HANGSP_BOUNDS);
+            }
         }
 
         if (definition.BoardShape == PegboardShape.HEADER_PLATE)
@@ -300,9 +310,19 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             rimW = definition.RimWidth / millimeter;
         }
 
+        // hidden keyhole hangers (coffin only)
+        var hidden = false;
+        if (sp.kind == "coffin")
+        {
+            hidden = definition.HiddenHangers;
+            if (hidden && st <= 0)
+                throw regenError("Hidden keyhole hangers need a rear standoff depth greater than 0.", ["RearStandoff"]);
+        }
+        const useEars = definition.AddEyelets && !hidden;
+
         // eyelet spacing (a coffin's narrow head limits how far apart the eyelets can be)
         var eyeSp = 0;
-        if (definition.AddEyelets)
+        if (useEars)
         {
             eyeSp = definition.EyeletSpacing / millimeter;
             if (sp.kind == "coffin")
@@ -311,7 +331,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
         // ---------- tile grid (seams fall midway between hole rows/columns) ----------
         const mX = max(1, floor((bedX - DT - 2) / P));
-        const earExtra = definition.AddEyelets ? (definition.EyeletHole / millimeter + 2 * definition.EyeletWall / millimeter + 4) : 0;
+        const earExtra = useEars ? (definition.EyeletHole / millimeter + 2 * definition.EyeletWall / millimeter + 4) : 0;
         const mY = max(1, floor((bedY - DT - 2 - earExtra) / P));
         const nCols = max(1, ceil(Ws / (mX * P) - 0.000001));
         const totalW = nCols * mX * P;
@@ -402,8 +422,69 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
         // ---------- 2. hanging eyelets ----------
         var cutList = [];
-        var cutters = [];
-        if (definition.AddEyelets)
+        var bossRects = [];
+        if (hidden)
+        {
+            // two blocks on the back of the board, each with a keyhole slot facing the wall
+            const hs = min(definition.HangerSpacing / millimeter, 2 * (sp.hh - rimW - 18));
+            const headR = 5.5;       // screw head clearance radius (about 10.5 mm head)
+            const slotHW = 2.6;      // screw shank slot half width
+            const slotLen = 14;
+            const bossTop = Hs - rimW - 2;
+            const ck = bossTop - 8 - headR - slotLen;
+            const bossBottom = ck - headR - 8;
+            for (var side = 0; side < 2; side += 1)
+            {
+                const hx = (side == 0 ? -1 : 1) * hs / 2;
+                fCuboid(context, id + ("boss" ~ side), {
+                            "corner1" : vector(hx - 14, bossBottom, -st) * millimeter,
+                            "corner2" : vector(hx + 14, bossTop, 1) * millimeter
+                        });
+                bossRects = append(bossRects, [hx - 14 - hr - 2, hx + 14 + hr + 2, bossBottom - hr - 2, bossTop + hr + 2]);
+            }
+            opBoolean(context, id + "bossUnion", { "tools" : qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
+            for (var side = 0; side < 2; side += 1)
+            {
+                const hx = (side == 0 ? -1 : 1) * hs / 2;
+                // layer against the wall: large entry circle at the bottom, narrow slot above it
+                fCylinder(context, id + ("cutKa" ~ side), {
+                            "topCenter" : vector(hx, ck, -st + 3) * millimeter,
+                            "bottomCenter" : vector(hx, ck, -st - 1) * millimeter,
+                            "radius" : headR * millimeter
+                        });
+                fCuboid(context, id + ("cutKb" ~ side), {
+                            "corner1" : vector(hx - slotHW, ck, -st - 1) * millimeter,
+                            "corner2" : vector(hx + slotHW, ck + slotLen, -st + 3) * millimeter
+                        });
+                fCylinder(context, id + ("cutKc" ~ side), {
+                            "topCenter" : vector(hx, ck + slotLen, -st + 3) * millimeter,
+                            "bottomCenter" : vector(hx, ck + slotLen, -st - 1) * millimeter,
+                            "radius" : slotHW * millimeter
+                        });
+                // deeper chamber that holds the screw head
+                fCylinder(context, id + ("cutKd" ~ side), {
+                            "topCenter" : vector(hx, ck, -st + 8) * millimeter,
+                            "bottomCenter" : vector(hx, ck, -st + 3) * millimeter,
+                            "radius" : headR * millimeter
+                        });
+                fCuboid(context, id + ("cutKe" ~ side), {
+                            "corner1" : vector(hx - headR, ck, -st + 3) * millimeter,
+                            "corner2" : vector(hx + headR, ck + slotLen, -st + 8) * millimeter
+                        });
+                fCylinder(context, id + ("cutKf" ~ side), {
+                            "topCenter" : vector(hx, ck + slotLen, -st + 8) * millimeter,
+                            "bottomCenter" : vector(hx, ck + slotLen, -st + 3) * millimeter,
+                            "radius" : headR * millimeter
+                        });
+                cutList = append(cutList, qCreatedBy(id + ("cutKa" ~ side), EntityType.BODY));
+                cutList = append(cutList, qCreatedBy(id + ("cutKb" ~ side), EntityType.BODY));
+                cutList = append(cutList, qCreatedBy(id + ("cutKc" ~ side), EntityType.BODY));
+                cutList = append(cutList, qCreatedBy(id + ("cutKd" ~ side), EntityType.BODY));
+                cutList = append(cutList, qCreatedBy(id + ("cutKe" ~ side), EntityType.BODY));
+                cutList = append(cutList, qCreatedBy(id + ("cutKf" ~ side), EntityType.BODY));
+            }
+        }
+        if (useEars)
         {
             const eyeHole = definition.EyeletHole / millimeter / 2;
             const wall = definition.EyeletWall / millimeter;
@@ -459,6 +540,12 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 const hx = x0 + (i + 0.5) * P;
                 const hy = y0 + (j + 0.5) * P;
                 if (!okInset(sp, hx, hy, E))
+                    continue;
+                var inBoss = false;
+                for (var b = 0; b < size(bossRects); b += 1)
+                    if (hx > bossRects[b][0] && hx < bossRects[b][1] && hy > bossRects[b][2] && hy < bossRects[b][3])
+                        inBoss = true;
+                if (inBoss)
                     continue;
                 if ((sp.kind == "plate" || sp.kind == "rect") && hy > Hs - sp.band - hr - 6)
                     continue;
@@ -598,7 +685,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                     });
 
             // warn if an eyelet straddles a seam
-            if (definition.AddEyelets)
+            if (useEars)
             {
                 const er = definition.EyeletHole / millimeter / 2 + definition.EyeletWall / millimeter;
                 for (var side = 0; side < 2; side += 1)
@@ -675,6 +762,8 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             RearStandoff : 18 * millimeter,
             RimWidth : 10 * millimeter,
             SinglePiece : false,
+            HiddenHangers : false,
+            HangerSpacing : 100 * millimeter,
             AddEyelets : true,
             EyeletHole : 9.525 * millimeter,
             EyeletWall : 4 * millimeter,
