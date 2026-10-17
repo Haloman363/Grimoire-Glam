@@ -50,6 +50,8 @@ const CRUSH_BOUNDS = { (meter) : [0.0, 0.0001, 0.0004], (centimeter) : 0.01, (mi
 const COFFHEAD_BOUNDS = { (meter) : [0.04, 0.2, 1.0], (centimeter) : 20.0, (millimeter) : 200.0, (inch) : 7.874016, (foot) : 0.656168, (yard) : 0.218723 } as LengthBoundSpec;
 const COFFFOOT_BOUNDS = { (meter) : [0.03, 0.12, 1.0], (centimeter) : 12.0, (millimeter) : 120.0, (inch) : 4.724409, (foot) : 0.393701, (yard) : 0.131234 } as LengthBoundSpec;
 const COFFSHLD_BOUNDS = { (meter) : [0.03, 0.14, 1.0], (centimeter) : 14.0, (millimeter) : 140.0, (inch) : 5.511811, (foot) : 0.459318, (yard) : 0.153106 } as LengthBoundSpec;
+const STAND_BOUNDS = { (meter) : [0.0, 0.018, 0.06], (centimeter) : 1.8, (millimeter) : 18.0, (inch) : 0.708661, (foot) : 0.059055, (yard) : 0.019685 } as LengthBoundSpec;
+const RIM_BOUNDS = { (meter) : [0.003, 0.01, 0.03], (centimeter) : 1.0, (millimeter) : 10.0, (inch) : 0.393701, (foot) : 0.032808, (yard) : 0.010936 } as LengthBoundSpec;
 
 const ANGLE_BOUNDS = { (degree) : [5, 15, 30], (radian) : 0.2618 } as AngleBoundSpec;
 const EVERY_BOUNDS = { (unitless) : [1, 4, 20] } as IntegerBoundSpec;
@@ -102,6 +104,12 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
             annotation { "Name" : "Shoulder distance from top" }
             isLength(definition.CoffinShoulder, COFFSHLD_BOUNDS);
+
+            annotation { "Name" : "Rear standoff depth (space behind board; 0 = flat back)" }
+            isLength(definition.RearStandoff, STAND_BOUNDS);
+
+            annotation { "Name" : "Rear rim width" }
+            isLength(definition.RimWidth, RIM_BOUNDS);
         }
 
         if (definition.BoardShape == PegboardShape.HEADER_PLATE)
@@ -145,6 +153,9 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
         annotation { "Group Name" : "Printing & joints", "Collapsed By Default" : false }
         {
+            annotation { "Name" : "Single piece (do not split into tiles)" }
+            definition.SinglePiece is boolean;
+
             annotation { "Name" : "Printer bed X" }
             isLength(definition.BedX, BED_BOUNDS);
 
@@ -280,6 +291,15 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         const Hs = sp.H;
         const Ws = sp.W;
 
+        // rear standoff (coffin only): a raised rim on the back keeps the board off the wall
+        var st = 0;
+        var rimW = 0;
+        if (sp.kind == "coffin")
+        {
+            st = definition.RearStandoff / millimeter;
+            rimW = definition.RimWidth / millimeter;
+        }
+
         // eyelet spacing (a coffin's narrow head limits how far apart the eyelets can be)
         var eyeSp = 0;
         if (definition.AddEyelets)
@@ -361,6 +381,25 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                     });
         }
 
+        // ---------- 1b. rear standoff rim ----------
+        if (st > 0)
+        {
+            const rsk = newSketchOnPlane(context, id + "rimSk", { "sketchPlane" : plane(vector(0, 0, -st) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });
+            polyLoop(rsk, "o", sp.poly);
+            skSolve(rsk);
+            extrudeUp(context, id + "rimOuter", qSketchRegion(id + "rimSk"), st);
+            const isk = newSketchOnPlane(context, id + "rimInSk", { "sketchPlane" : plane(vector(0, 0, -st - 1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });
+            polyLoop(isk, "i", insetPoly(sp.poly, rimW));
+            skSolve(isk);
+            extrudeUp(context, id + "rimCut", qSketchRegion(id + "rimInSk"), st + 1);
+            opBoolean(context, id + "rimHollow", {
+                        "targets" : qBodyType(qCreatedBy(id + "rimOuter", EntityType.BODY), BodyType.SOLID),
+                        "tools" : qBodyType(qCreatedBy(id + "rimCut", EntityType.BODY), BodyType.SOLID),
+                        "operationType" : BooleanOperationType.SUBTRACTION
+                    });
+            opBoolean(context, id + "rimUnion", { "tools" : qBodyType(qCreatedBy(id, EntityType.BODY), BodyType.SOLID), "operationType" : BooleanOperationType.UNION });
+        }
+
         // ---------- 2. hanging eyelets ----------
         var cutList = [];
         var cutters = [];
@@ -385,12 +424,12 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 const cy = yMax + eyeHole + wall;
                 const earId = id + "ear" + ("e" ~ side);
                 fCuboid(context, earId + "box", {
-                            "corner1" : vector(ex - Ro, yMin - 4, 0) * millimeter,
+                            "corner1" : vector(ex - Ro, yMin - 4, -st) * millimeter,
                             "corner2" : vector(ex + Ro, cy, T) * millimeter
                         });
                 fCylinder(context, earId + "round", {
                             "topCenter" : vector(ex, cy, T) * millimeter,
-                            "bottomCenter" : vector(ex, cy, 0) * millimeter,
+                            "bottomCenter" : vector(ex, cy, -st) * millimeter,
                             "radius" : Ro * millimeter
                         });
             }
@@ -404,7 +443,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 const cy = yMax + eyeHole + wall;
                 fCylinder(context, id + ("cutEye" ~ side), {
                             "topCenter" : vector(ex, cy, T + 1) * millimeter,
-                            "bottomCenter" : vector(ex, cy, -1) * millimeter,
+                            "bottomCenter" : vector(ex, cy, -st - 1) * millimeter,
                             "radius" : eyeHole * millimeter
                         });
                 cutList = append(cutList, qCreatedBy(id + ("cutEye" ~ side), EntityType.BODY));
@@ -461,7 +500,11 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
         for (var j = 1; j < nRows; j += 1)
             seamsY = append(seamsY, y0 + j * mY * P);
 
-        if (size(seamsX) + size(seamsY) > 0)
+        if (definition.SinglePiece)
+        {
+            reportFeatureInfo(context, id, "Single piece: " ~ roundTo(Ws, 0) ~ " x " ~ roundTo(Hs, 0) ~ " mm. Your printer bed must be at least this large.");
+        }
+        else if (size(seamsX) + size(seamsY) > 0)
         {
             const g = tol;                       // seam gap
             const wt = wn + (DT - g / 2) * tan(alpha * radian);
@@ -497,14 +540,14 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             // kerf strips
             for (var s = 0; s < size(seamsX); s += 1)
                 fCuboid(context, id + ("kerfV" ~ s), {
-                            "corner1" : vector(seamsX[s] - g / 2, -big, -1) * millimeter,
+                            "corner1" : vector(seamsX[s] - g / 2, -big, -st - 1) * millimeter,
                             "corner2" : vector(seamsX[s] + g / 2, big, T + 1) * millimeter
                         });
             for (var s = 0; s < size(seamsX); s += 1)
                 kerfList = append(kerfList, qCreatedBy(id + ("kerfV" ~ s), EntityType.BODY));
             for (var s = 0; s < size(seamsY); s += 1)
                 fCuboid(context, id + ("kerfH" ~ s), {
-                            "corner1" : vector(-big, seamsY[s] - g / 2, -1) * millimeter,
+                            "corner1" : vector(-big, seamsY[s] - g / 2, -st - 1) * millimeter,
                             "corner2" : vector(big, seamsY[s] + g / 2, T + 1) * millimeter
                         });
             for (var s = 0; s < size(seamsY); s += 1)
@@ -512,7 +555,7 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
 
             if (size(dts) > 0)
             {
-                const sockPlane = plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0));
+                const sockPlane = plane(vector(0, 0, -st - 1) * millimeter, vector(0, 0, 1), vector(1, 0, 0));
                 const sockSk = newSketchOnPlane(context, id + "sockSk", { "sketchPlane" : sockPlane });
                 const tailSk = newSketchOnPlane(context, id + "tailSk", { "sketchPlane" : sockPlane });
                 const ribSk = newSketchOnPlane(context, id + "ribSk", { "sketchPlane" : sockPlane });
@@ -537,10 +580,10 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
                 skSolve(sockSk);
                 skSolve(tailSk);
                 skSolve(ribSk);
-                extrudeUp(context, id + "kerfSockets", qSketchRegion(id + "sockSk"), T + 2);
+                extrudeUp(context, id + "kerfSockets", qSketchRegion(id + "sockSk"), T + st + 2);
                 kerfList = append(kerfList, qCreatedBy(id + "kerfSockets", EntityType.BODY));
-                extrudeUp(context, id + "keep" + "tails", qSketchRegion(id + "tailSk"), T + 2);
-                extrudeUp(context, id + "keep" + "ribs", qSketchRegion(id + "ribSk"), T + 2);
+                extrudeUp(context, id + "keep" + "tails", qSketchRegion(id + "tailSk"), T + st + 2);
+                extrudeUp(context, id + "keep" + "ribs", qSketchRegion(id + "ribSk"), T + st + 2);
                 // the dovetail tail (and ribs) are not part of the kerf
                 opBoolean(context, id + "kerfTrim", {
                             "targets" : qUnion(kerfList),
@@ -629,6 +672,9 @@ export const pegboardDisplay = defineFeature(function(context is Context, id is 
             CoffinHead : 200 * millimeter,
             CoffinFoot : 120 * millimeter,
             CoffinShoulder : 140 * millimeter,
+            RearStandoff : 18 * millimeter,
+            RimWidth : 10 * millimeter,
+            SinglePiece : false,
             AddEyelets : true,
             EyeletHole : 9.525 * millimeter,
             EyeletWall : 4 * millimeter,
@@ -667,6 +713,34 @@ function polyLoop(sk is Sketch, name is string, pts is array)
                     "end" : vector(b[0], b[1]) * millimeter
                 });
     }
+}
+
+/** Shrink a convex counter-clockwise polygon [[x, y], ...] inward by d mm. */
+function insetPoly(poly is array, d is number) returns array
+{
+    const n = size(poly);
+    var lines = [];
+    for (var i = 0; i < n; i += 1)
+    {
+        const a = poly[i];
+        const b = poly[(i + 1) % n];
+        const dx = b[0] - a[0];
+        const dy = b[1] - a[1];
+        const len = sqrt(dx * dx + dy * dy);
+        lines = append(lines, { "px" : a[0] - dy / len * d, "py" : a[1] + dx / len * d, "dx" : dx, "dy" : dy });
+    }
+    var out = [];
+    for (var i = 0; i < n; i += 1)
+    {
+        const l1 = lines[(i + n - 1) % n];
+        const l2 = lines[i];
+        const det = -l1.dx * l2.dy + l1.dy * l2.dx;
+        const rx = l2.px - l1.px;
+        const ry = l2.py - l1.py;
+        const t = (-rx * l2.dy + l2.dx * ry) / det;
+        out = append(out, [l1.px + t * l1.dx, l1.py + t * l1.dy]);
+    }
+    return out;
 }
 
 function roundTo(x is number, digits is number) returns number
