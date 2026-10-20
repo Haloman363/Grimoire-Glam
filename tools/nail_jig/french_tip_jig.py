@@ -49,6 +49,9 @@ INTERPRETATION NOTES (where the brief was ambiguous)
     edge over the sidewall, shielding the skin fold from gel and ink.
   * Only the smile edge carries the full 45-degree bevel; the short lateral
     window walls are cut square.
+  * Tested with CadQuery 2.x: --selftest builds all 40 size/style combinations
+    as single valid solids, and --array 10 builds (plate is ~251 mm wide, so
+    check your printer bed).  The 20-position plate and STEP export were not run.
   * Nail bed and finger geometry are not modelled; fit is by nominal radius
     plus --clearance, so print a test fit before running a full set.
 """
