@@ -12,6 +12,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const site = JSON.parse(await readFile(path.join(root, 'config/site.json'), 'utf8'));
 const data = JSON.parse(await readFile(path.join(root, 'data/products.json'), 'utf8'));
+const almanacRaw = JSON.parse(await readFile(process.env.ALMANAC_FILE || path.join(root, 'data/almanac.json'), 'utf8'));
 const exists = (p) => access(p).then(() => true, () => false);
 
 const cname = (await exists(path.join(root, 'CNAME'))) ? (await readFile(path.join(root, 'CNAME'), 'utf8')).trim() : '';
@@ -49,11 +50,29 @@ const stockOf = (p) => {
 };
 const badge = (p) => ({ out: '<span class="badge badge-out">Sold out</span>', low: '<span class="badge">Low stock</span>', in: '' })[stockOf(p)];
 
+// The Almanac: monthly issues from data/almanac.json. An issue goes live on the 1st of its month (YYYY-MM) and the
+// site rebuilds every 30 minutes, so a ready issue publishes itself. With no live issue the page, nav link and
+// home-page strip do not appear at all.
+const todayIso = process.env.ALMANAC_TODAY || new Date().toISOString().slice(0, 10); // ALMANAC_TODAY=YYYY-MM-DD previews a future issue
+const issues = (almanacRaw.issues ?? [])
+  .filter((i) => i.month && i.month <= todayIso.slice(0, 7))
+  .sort((a, b) => b.month.localeCompare(a.month));
+const latestIssue = issues[0] ?? null;
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthLabel = (ym) => `${MONTH_NAMES[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
+const nextMonthName = (ym) => MONTH_NAMES[Number(ym.slice(5, 7)) % 12];
+const KIND_LABEL = { drop: 'New drop', deal: 'Deal', soon: 'Coming soon' };
+const prettyDate = (iso) => (/^\d{4}-\d{2}-\d{2}$/.test(iso) ? `${MONTH_NAMES[Number(iso.slice(5, 7)) - 1].slice(0, 3)} ${Number(iso.slice(8, 10))}` : iso);
+const linkHref = (l) => (/^https?:/.test(l) ? l : url(l));
+const liveNews = (issue, isLatest) =>
+  (issue.news ?? []).filter((n) => !(isLatest && n.kind === 'deal' && n.ends && n.ends < todayIso));
+
 const nav = [
   { label: 'Shop All', href: '/shop/' },
   { label: 'Collections', href: '/#collections' },
   { label: 'Sizing Info', href: '/sizing-info/' },
   { label: 'Custom Sizing', href: '/custom-sizing/' },
+  ...(latestIssue ? [{ label: 'Almanac', href: '/almanac/' }] : []),
   {
     label: 'More',
     children: [
@@ -147,6 +166,7 @@ ${body}
     <div class="foot-col"><h2>Help</h2><ul>
       <li><a href="${url('/sizing-info/')}">Sizing Info</a></li>
       <li><a href="${url('/custom-sizing/')}">Custom Sizing</a></li>
+      ${latestIssue ? `<li><a href="${url('/almanac/')}">The Almanac</a></li>` : ''}
       <li><a href="${url('/shipping-returns/')}">Shipping &amp; Returns</a></li>
       <li><a href="mailto:${esc(site.email)}">Contact</a></li>
     </ul></div>
@@ -224,6 +244,10 @@ add(
 <section class="trust-strip"><div class="wrap trust">
 ${trust.map(([h, t]) => `<div><p class="t-head">${h}</p><p class="t-body">${t}</p></div>`).join('\n')}
 </div></section>
+${latestIssue && liveNews(latestIssue, true).length ? `<section class="wrap section almanac-strip" id="new-this-month">
+  <div class="section-head"><div><h2>New this month</h2><p class="sub-line">${esc(monthLabel(latestIssue.month))}</p></div><a class="textlink" href="${url('/almanac/')}">Read the Almanac</a></div>
+  <div class="news-grid">${liveNews(latestIssue, true).slice(0, 3).map((n) => newsCard(n, '/almanac/')).join('')}</div>
+</section>` : ''}
 ${featured.length ? `<section class="wrap section" id="sets">
   <div class="section-head"><div><h2>Charmed Sculptures</h2><p class="sub-line">Made for your hands.</p></div><a class="textlink" href="${url('/shop/')}">View all sets</a></div>
   ${grid(featured, 'h3')}
@@ -297,6 +321,12 @@ for (const c of data.categories) {
 }
 
 // ---------- product pages ----------
+// config/site.json productVideos: [{match, url}] adds a "Watch how it works" link to products whose name contains `match`.
+function videoLink(p) {
+  const v = (site.productVideos ?? []).find((x) => p.name.toLowerCase().includes(String(x.match).toLowerCase()));
+  return v ? `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a></p>` : '';
+}
+
 function productForm(p) {
   const variationControl =
     p.variations.length > 1
@@ -386,6 +416,7 @@ for (const p of data.products) {
       <h1>${esc(p.name)}</h1>
       <p class="price big" id="price" data-base="${min}">${esc(priceLabel(p))} ${badge(p)}</p>
       ${productForm(p)}
+      ${videoLink(p)}
       <div class="desc">${paras}</div>
     </div>
   </div>
@@ -492,6 +523,66 @@ add(
 </section>`,
   }),
 );
+
+// ---------- the almanac ----------
+function newsCard(n, href) {
+  const chip = KIND_LABEL[n.kind] ?? '';
+  const target = n.link ? linkHref(n.link) : url(href);
+  return `<a class="news-card" href="${target}">
+    ${n.image ? `<div class="news-img"><img src="${url(n.image)}" alt="${esc(n.alt ?? '')}" loading="lazy" width="800" height="600">${chip ? `<span class="chip-tag chip-${esc(n.kind)}">${chip}</span>` : ''}</div>` : chip ? `<span class="chip-tag chip-${esc(n.kind)} chip-inline">${chip}</span>` : ''}
+    ${n.date ? `<p class="news-when">${esc(n.date)}${n.ends && n.kind === 'deal' ? ` &middot; Ends ${esc(prettyDate(n.ends))}` : ''}</p>` : ''}
+    <h3>${esc(n.title)}</h3>
+    ${n.text ? `<p>${esc(n.text)}</p>` : ''}
+  </a>`;
+}
+function issuePage(issue, isLatest) {
+  const news = liveNews(issue, isLatest);
+  // `sections` is [{label, stories:[{title, text, images}]}]; `stories` or the older single `inspired` block still work.
+  const hasBody = (st) => st.text || (st.images ?? []).length;
+  const sections = (issue.sections ?? [{ label: issue.storiesLabel ?? 'Inspired this month', stories: issue.stories ?? (issue.inspired ? [issue.inspired] : []) }])
+    .map((sec) => ({ ...sec, stories: (sec.stories ?? []).filter(hasBody) }))
+    .filter((sec) => sec.stories.length);
+  const up = issue.upcoming;
+  const past = issues.filter((i) => i !== issue);
+  const paras = (t) => String(t ?? '').split(/\n\s*\n/).filter(Boolean).map((p) => `<p>${esc(p.trim())}</p>`).join('');
+  return `<section class="wrap almanac-head">
+  <p class="eyebrow">The Almanac</p>
+  <h1 class="page-title">${esc(monthLabel(issue.month))}</h1>
+  ${issue.headline ? `<p class="alm-headline">${esc(issue.headline)}</p>` : ''}
+  ${issue.intro ? `<div class="alm-intro">${paras(issue.intro)}</div>` : ''}
+  ${issue.introImage ? `<img class="alm-intro-img" src="${url(issue.introImage.src)}" alt="${esc(issue.introImage.alt ?? '')}" loading="lazy">` : ''}
+</section>
+${news.length ? `<section class="wrap section"><div class="section-head"><h2>${isLatest ? 'New in the shop' : 'That month in the shop'}</h2></div>
+  <div class="news-grid">${news.map((n) => newsCard(n, `/almanac/${issue.month}/`)).join('')}</div></section>` : ''}
+${sections.map((sec) => `<section class="alm-inspired"><div class="wrap">
+  <p class="eyebrow">${esc(sec.label)}</p>
+  ${sec.stories.map((st, i) => `<article class="alm-story alm-split${i % 2 ? ' alm-flip' : ''}">
+    <div class="alm-copy"><h2>${esc(st.title ?? 'What moved me')}</h2>${paras(st.text)}</div>
+    ${(st.images ?? []).length ? `<div class="alm-photos alm-photos-${Math.min(st.images.length, 4)}">${st.images.slice(0, 8).map((im) => `<img src="${url(im.src)}" alt="${esc(im.alt ?? '')}" loading="lazy">`).join('')}</div>` : ''}
+  </article>`).join('')}
+</div></section>`).join('')}
+${up && (up.text || (up.items ?? []).length) ? `<section class="wrap section alm-split alm-next">
+  <div class="alm-copy"><p class="eyebrow">Next month</p><h2>${esc(up.title ?? `In the works for ${nextMonthName(issue.month)}`)}</h2>${paras(up.text)}
+  ${(up.items ?? []).length ? `<ul class="alm-list">${up.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul>` : ''}</div>
+  ${up.image ? `<img class="alm-peek" src="${url(up.image.src)}" alt="${esc(up.image.alt ?? '')}" loading="lazy">` : ''}
+</section>` : ''}
+${past.length ? `<section class="wrap section"><div class="section-head"><h2>Past editions</h2></div>
+  <ul class="alm-past">${past.map((i) => `<li><a href="${url(`/almanac/${i.month}/`)}"><b>${esc(monthLabel(i.month))}</b>${i.headline ? `<span>${esc(i.headline)}</span>` : ''}</a></li>`).join('')}</ul></section>` : ''}
+${issue.closing && (issue.closing.text || issue.closing.image) ? `<section class="wrap alm-closing">${issue.closing.title ? `<h2>${esc(issue.closing.title)}</h2>` : ''}${paras(issue.closing.text)}${issue.closing.image ? `<img src="${url(issue.closing.image.src)}" alt="${esc(issue.closing.image.alt ?? '')}" loading="lazy">` : ''}</section>` : ''}
+<section class="wrap alm-follow"><p>Want first looks and drop days? Follow along on <a href="${esc(site.instagram)}" rel="noopener">Instagram</a>.</p></section>`;
+}
+for (const issue of issues) {
+  const isLatest = issue === latestIssue;
+  const body = issuePage(issue, isLatest);
+  const meta = {
+    title: `The Almanac, ${monthLabel(issue.month)}`,
+    description: issue.headline || `News, drops and inspiration from ${site.name}, ${monthLabel(issue.month)}.`,
+    bodyClass: 'page-almanac',
+    body,
+  };
+  if (isLatest) add('/almanac/', layout({ ...meta, path: '/almanac/' }));
+  add(`/almanac/${issue.month}/`, layout({ ...meta, path: `/almanac/${issue.month}/` }));
+}
 
 // ---------- market sizing (QR code on the market table opens this) ----------
 const sizeSelect = (side, i) =>
