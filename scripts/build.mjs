@@ -665,7 +665,7 @@ add(
 // ---------- accessories ----------
 // Each section lists the Square items whose category matches one of its `cats` (case-insensitive); nail savers also match on the item name.
 const accSections = [
-  { title: 'Nail Savers', cats: ['nail savers', 'nail saver'], nameHas: 'nail saver', text: "I don't know about you, but I absolutely HATE when I use my nails as tools. These products have helped save my nails from possible chipping, breaking, and just being overall worn down. Get these and they will help SAVE YOUR NAILS!!" },
+  { title: 'Nail Savers', cats: ['nail savers', 'nail saver'], nameHas: 'nail saver', video: true, text: "I don't know about you, but I absolutely HATE when I use my nails as tools. These products have helped save my nails from possible chipping, breaking, and just being overall worn down. Get these and they will help SAVE YOUR NAILS!!" },
   { title: 'Nail Storage', cats: ['nail storage'], text: 'Here are some cute nail storage items that will help you stay organized when switching sets or even taking a break from your Grimoire nails.' },
   { title: 'Extra Items', cats: ['extra items', 'extras', 'charms & extras', 'charms and extras'], text: "I love designing and printing things to help them come to life. Here are other items that would just be fun to have in your home. I know I've loved them." },
 ];
@@ -674,7 +674,12 @@ const accList = (sec) =>
 const accBody = accSections
   .map((sec) => {
     const list = accList(sec);
-    return `<div class="acc"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p>${list.length ? grid(list, 'h3') : '<p class="acc-soon">New items are coming soon.</p>'}</div>`;
+    const items = list.length ? grid(list, 'h3') : sec.video ? '' : '<p class="acc-soon">New items are coming soon.</p>';
+    const v = site.accessoriesVideo;
+    if (sec.video && v) {
+      return `<div class="acc acc-feature"><div class="acc-feature-row"><a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}" muted loop autoplay playsinline preload="metadata"></video></a><div class="acc-feature-copy"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p><p><a class="textlink" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it fully works here</a></p></div></div>${items}</div>`;
+    }
+    return `<div class="acc"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p>${items}</div>`;
   })
   .join('\n');
 add(
