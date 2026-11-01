@@ -327,10 +327,12 @@ function videoLink(p) {
   return v ? `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a></p>` : '';
 }
 
+// Items whose variations are all sizes (Small, Medium, Large, S, M, L...) label the dropdown "Size"; nail sets keep "Shape".
+const isSizes = (vs) => vs.every((v) => /^(x{0,2}[sml]|x{1,2}l|small|medium|large|mini|standard)/i.test(v.name.trim()));
 function productForm(p) {
   const variationControl =
     p.variations.length > 1
-      ? `<div class="field"><label for="f-var">Shape</label><select id="f-var" name="variation" required>
+      ? `<div class="field"><label for="f-var">${isSizes(p.variations) ? 'Size' : 'Shape'}</label><select id="f-var" name="variation" required>
   ${p.variations.map((v) => `<option value="${v.id}"${v.stock === 'out' ? ' disabled' : ''}>${esc(v.name)}${v.stock === 'out' ? ' (sold out)' : ''}</option>`).join('')}
 </select></div>`
       : `<input type="hidden" name="variation" value="${p.variations[0].id}">`;
