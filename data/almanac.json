@@ -21,7 +21,8 @@
           "title": "New Alani nail savers",
           "text": "Coming in small, medium and large. The small is a keychain, and the medium and large are purse charms.",
           "image": "/assets/almanac/2266a0317889ebf5a61afc52e940b7f7.webp",
-          "alt": "Pink, purple and orange can-shaped nail savers with Alani style designs, scattered on a shiny metal surface"
+          "alt": "Pink, purple and orange can-shaped nail savers with Alani style designs, scattered on a shiny metal surface",
+          "tall": true
         }
       ],
       "sections": [

@@ -7,10 +7,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { slugify } from './lib/transform.mjs';
 import { noEmDash } from './lib/text.mjs';
+import { createHash } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const site = JSON.parse(await readFile(path.join(root, 'config/site.json'), 'utf8'));
+// Short hash of a source file, appended to CSS/JS links so browsers fetch a changed file immediately instead of reusing a cached copy for 10 minutes.
+const fileVer = async (rel) => createHash('sha1').update(await readFile(path.join(root, rel))).digest('hex').slice(0, 8);
+const cssVer = await fileVer('src/css/site.css');
+const jsVer = await fileVer('src/js/app.js');
 const data = JSON.parse(await readFile(path.join(root, 'data/products.json'), 'utf8'));
 const almanacRaw = JSON.parse(await readFile(process.env.ALMANAC_FILE || path.join(root, 'data/almanac.json'), 'utf8'));
 const exists = (p) => access(p).then(() => true, () => false);
@@ -123,7 +128,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 <link rel="icon" href="${url('/assets/favicon.svg')}" type="image/svg+xml">
 <link rel="preload" href="${url('/assets/fonts/bodoni-moda.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${url('/assets/fonts/jost.woff2')}" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${url('/css/site.css')}">
+<link rel="stylesheet" href="${url('/css/site.css')}?v=${cssVer}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
 <body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}" data-email="${esc(site.email)}">
@@ -176,7 +181,7 @@ ${body}
   </div>
   <div class="legal"><p>&copy; ${new Date().getFullYear()} ${esc(site.name)}. &nbsp;&middot;&nbsp; Secure checkout by Square</p></div>
 </footer>
-<script src="${url('/js/app.js')}" defer></script>
+<script src="${url('/js/app.js')}?v=${jsVer}" defer></script>
 ${bodyClass.split(/\s+/).includes('page-sizing') ?`<script src="${url('/js/sizing.js')}" defer></script>` : ''}
 ${bodyClass.split(/\s+/).includes('page-market') ?`<script src="${url('/js/market.js')}" defer></script>` : ''}${bodyClass.split(/\s+/).includes('page-review') ? `<script src="${url('/js/review.js')}" defer></script>` : ''}
 </body>
@@ -540,7 +545,7 @@ function newsCard(n, href) {
   const chip = KIND_LABEL[n.kind] ?? '';
   const target = n.link ? linkHref(n.link) : url(href);
   return `<a class="news-card" href="${target}">
-    ${n.image ? `<div class="news-img"><img src="${url(n.image)}" alt="${esc(n.alt ?? '')}" loading="lazy" width="800" height="600">${chip ? `<span class="chip-tag chip-${esc(n.kind)}">${chip}</span>` : ''}</div>` : chip ? `<span class="chip-tag chip-${esc(n.kind)} chip-inline">${chip}</span>` : ''}
+    ${n.image ? `<div class="news-img${n.tall ? ' news-img-tall' : ''}"><img src="${url(n.image)}" alt="${esc(n.alt ?? '')}" loading="lazy" width="800" height="600">${chip ? `<span class="chip-tag chip-${esc(n.kind)}">${chip}</span>` : ''}</div>` : chip ? `<span class="chip-tag chip-${esc(n.kind)} chip-inline">${chip}</span>` : ''}
     ${n.date ? `<p class="news-when">${esc(n.date)}${n.ends && n.kind === 'deal' ? ` &middot; Ends ${esc(prettyDate(n.ends))}` : ''}</p>` : ''}
     <h3>${esc(n.title)}</h3>
     ${n.text ? `<p>${esc(n.text)}</p>` : ''}
