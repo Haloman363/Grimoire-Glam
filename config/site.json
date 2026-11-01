@@ -17,6 +17,7 @@
   "shipping": {
     "country": "US",
     "flatRateCents": 1000,
-    "freeOverCents": 5000
+    "freeOverCents": 5000,
+    "smallItem": { "match": "nail saver", "rateCents": 400 }
   }
 }

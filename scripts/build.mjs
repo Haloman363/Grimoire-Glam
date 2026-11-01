@@ -34,6 +34,10 @@ const ship = site.shipping ?? { flatRateCents: 1000, freeOverCents: null };
 const shippingLine = ship.freeOverCents
   ? `US shipping is ${dollars(ship.flatRateCents)}, and free on orders over ${dollars(ship.freeOverCents)}.`
   : `Flat-rate US shipping, ${dollars(ship.flatRateCents)}.`;
+// Nail-saver-only carts ship for ship.smallItem.rateCents (the checkout worker sets the same rate; keep wrangler.toml in step).
+const small = ship.smallItem ?? null;
+const smallLine = small ? `US shipping is ${dollars(small.rateCents)} for nail savers${ship.freeOverCents ? `, and free on orders over ${dollars(ship.freeOverCents)}` : ''}.` : null;
+const isSmallItem = (p) => Boolean(small) && p.name.toLowerCase().includes(small.match.toLowerCase());
 const url = (p) => `${basePath}${p}`;
 const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.webp`);
 const categorySlug = (name) => slugify(name);
@@ -131,7 +135,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 <link rel="stylesheet" href="${url('/css/site.css')}?v=${cssVer}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
-<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}" data-email="${esc(site.email)}">
+<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}"${small ? ` data-shipping-small="${esc(smallLine)}" data-small-match="${esc(small.match)}" data-free-over="${ship.freeOverCents ?? ''}"` : ''} data-email="${esc(site.email)}">
 <div class="announce">Made to order, ships in 7-10 days &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Sizes XS to XL or custom fit</a></div>
 <header class="site-header">
   <div class="wrap bar">
@@ -373,7 +377,7 @@ function productForm(p) {
   <p class="form-error" role="alert" hidden></p>
   ${soldOut ? '' : '<div class="field field-qty"><label for="f-qty">Quantity</label><input id="f-qty" name="qty" type="number" min="1" max="99" value="1" inputmode="numeric"></div>'}
   <button class="btn btn-buy" type="submit"${soldOut ? ' disabled' : ''}>${soldOut ? 'Sold out' : 'Add to cart'}</button>
-  <p class="hint">Made to order, ships in 7-10 days. ${shippingLine} Tax, if any, is added at checkout. <a href="${url('/shipping-returns/')}">Shipping &amp; returns</a></p>
+  <p class="hint">Made to order, ships in 7-10 days. ${isSmallItem(p) ? smallLine : shippingLine} Tax, if any, is added at checkout. <a href="${url('/shipping-returns/')}">Shipping &amp; returns</a></p>
 </form>`;
 }
 
@@ -716,7 +720,7 @@ add(
     body: `<section class="wrap narrow"><h1 class="page-title">Shipping &amp; Returns</h1>
 <h2>Shipping</h2>
 <p>Every set is made to order, so it takes a little time to make. Orders ship within 7-10 days of being placed.</p>
-<p>${esc(shippingLine)} We ship within the United States only, for now.</p>
+<p>${esc(shippingLine)}${smallLine ? ` ${esc(`Orders made up only of nail savers: ${smallLine}`)}` : ''} We ship within the United States only, for now.</p>
 <h2>Exchanges and store credit</h2>
 <p>Because each set is made to order and often sized to you, we don't accept returns. If your set doesn't fit or isn't what you hoped for, email us within 14 days of delivery and we'll offer an exchange or store credit toward another set. Exchanges ship with the flat ${dollars(ship.flatRateCents)} shipping rate, and there's no need to send the original back.</p>
 <p>If your order arrives damaged or isn't what you ordered, email us within 14 days of delivery with a photo, and we'll remake or replace it and cover the shipping.</p>
