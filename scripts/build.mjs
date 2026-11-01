@@ -328,7 +328,7 @@ function videoLink(p) {
 }
 
 // Items whose variations are all sizes (Small, Medium, Large, S, M, L...) label the dropdown "Size"; nail sets keep "Shape".
-const isSizes = (vs) => vs.every((v) => /^(x{0,2}[sml]|x{1,2}l|small|medium|large|mini|standard)/i.test(v.name.trim()));
+const isSizes = (vs) => vs.every((v) => /^(x{0,2}[sml]|x{1,2}l|small|medium|large|mini|standard)(?![a-z])/i.test(v.name.trim()));
 function productForm(p) {
   const variationControl =
     p.variations.length > 1
@@ -659,6 +659,20 @@ add(
 );
 
 // ---------- accessories ----------
+// Each section lists the Square items whose category matches one of its `cats` (case-insensitive); nail savers also match on the item name.
+const accSections = [
+  { title: 'Nail Savers', cats: ['nail savers', 'nail saver'], nameHas: 'nail saver', text: "I don't know about you, but I absolutely HATE when I use my nails as tools. These products have helped save my nails from possible chipping, breaking, and just being overall worn down. Get these and they will help SAVE YOUR NAILS!!" },
+  { title: 'Nail Storage', cats: ['nail storage'], text: 'Here are some cute nail storage items that will help you stay organized when switching sets or even taking a break from your Grimoire nails.' },
+  { title: 'Extra Items', cats: ['extra items', 'extras', 'charms & extras', 'charms and extras'], text: "I love designing and printing things to help them come to life. Here are other items that would just be fun to have in your home. I know I've loved them." },
+];
+const accList = (sec) =>
+  data.products.filter((p) => sec.cats.includes((p.category ?? '').toLowerCase()) || (sec.nameHas && p.name.toLowerCase().includes(sec.nameHas)));
+const accBody = accSections
+  .map((sec) => {
+    const list = accList(sec);
+    return `<div class="acc"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p>${list.length ? grid(list, 'h3') : '<p class="acc-soon">New items are coming soon.</p>'}</div>`;
+  })
+  .join('\n');
 add(
   '/nail-accessories/',
   layout({
@@ -666,11 +680,8 @@ add(
     description: '3D printed nail savers, nail storage and extras from The Grimoire Glam Co.',
     path: '/nail-accessories/',
     bodyClass: 'page-accessories',
-    body: `<section class="wrap narrow"><h1 class="page-title">3D Printed Nail Accessories</h1>
-<div class="acc"><h2>Nail Savers</h2><p>I don't know about you, but I absolutely HATE when I use my nails as tools. These products have helped save my nails from possible chipping, breaking, and just being overall worn down. Get these and they will help SAVE YOUR NAILS!!</p></div>
-<div class="acc"><h2>Nail Storage</h2><p>Here are some cute nail storage items that will help you stay organized when switching sets or even taking a break from your Grimoire nails.</p></div>
-<div class="acc"><h2>Extra Items</h2><p>I love designing and printing things to help them come to life. Here are other items that would just be fun to have in your home. I know I've loved them.</p></div>
-<p class="center">New accessories are coming soon.</p></section>`,
+    body: `<section class="wrap"><h1 class="page-title">3D Printed Nail Accessories</h1>
+${accBody}</section>`,
   }),
 );
 

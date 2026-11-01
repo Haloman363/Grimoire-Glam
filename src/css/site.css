@@ -382,3 +382,6 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .alm-closing h2 { font-family: var(--display); font-weight: 400; margin: 0 0 14px; }
 .watch { margin: 14px 0 0; }
 .watch .btn { width: 100%; }
+.acc { max-width: 760px; margin: 0 auto 56px; }
+.acc .grid { margin-top: 24px; max-width: none; }
+.acc-soon { color: var(--muted); font-style: italic; }
