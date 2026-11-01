@@ -13,7 +13,7 @@ const FOREIGN = 'FFVSAQOQ7SIM4KG6QD5NR7PH';
 const post = (body, origin = 'https://shop.example') =>
   new Request('https://w.example/checkout', { method: 'POST', headers: { Origin: origin, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 
-function mockSquare({ tracked = true, qty = 1, sellable = true } = {}) {
+function mockSquare({ tracked = true, qty = 1, sellable = true, itemName = 'Nail Set', price = 2500 } = {}) {
   const calls = [];
   const f = async (url, init) => {
     const body = init.body ? JSON.parse(init.body) : null;
@@ -21,8 +21,8 @@ function mockSquare({ tracked = true, qty = 1, sellable = true } = {}) {
     const ok = (o) => new Response(JSON.stringify(o), { status: 200 });
     if (url.endsWith('/catalog/batch-retrieve') && body.include_related_objects)
       return ok({
-        objects: [{ id: VAR, type: 'ITEM_VARIATION', item_variation_data: { item_id: ITEM, name: 'Stiletto', track_inventory: tracked, sellable } }],
-        related_objects: [{ id: ITEM, type: 'ITEM', item_data: { modifier_list_info: [{ modifier_list_id: LIST, min_selected_modifiers: 1, max_selected_modifiers: 1, enabled: true }, { modifier_list_id: TEXT, enabled: true }] } }],
+        objects: [{ id: VAR, type: 'ITEM_VARIATION', item_variation_data: { item_id: ITEM, name: 'Stiletto', price_money: { amount: price, currency: 'USD' }, track_inventory: tracked, sellable } }],
+        related_objects: [{ id: ITEM, type: 'ITEM', item_data: { name: itemName, modifier_list_info: [{ modifier_list_id: LIST, min_selected_modifiers: 1, max_selected_modifiers: 1, enabled: true }, { modifier_list_id: TEXT, enabled: true }] } }],
       });
     if (url.endsWith('/catalog/batch-retrieve'))
       return ok({
@@ -73,7 +73,7 @@ test('blocks other origins and bad input', async () => {
   assert.throws(() => validateLines({ lines: [] }));
   assert.throws(() => validateLines({ lines: [{ variationId: 'x', quantity: 1 }] }));
   assert.throws(() => validateLines({ lines: [{ variationId: VAR, quantity: 0 }] }));
-  assert.throws(() => validateLines({ lines: [{ variationId: VAR, quantity: 11 }] }));
+  assert.throws(() => validateLines({ lines: [{ variationId: VAR, quantity: 100 }] }));
   assert.throws(() => validateLines({ lines: [{ variationId: VAR, quantity: 1, modifierIds: ['bad id!'] }] }));
   assert.equal(validateLines({ lines: [{ variationId: VAR, quantity: 1, note: 'x'.repeat(500) }] })[0].note.length, 140);
 });
@@ -109,4 +109,25 @@ test('rejects options that do not belong to the item, and enforces required / ma
   assert.equal((await send([MOD, MOD2])).status, 400); // max 1 per list
   assert.equal((await send([MOD, MOD])).status, 400); // duplicates count too
   assert.equal((await send([MOD2])).status, 200);
+});
+
+test('small-item shipping fee: only nail-saver-only carts, only when configured, free at the threshold', async () => {
+  const send = async (envExtra, mock, qty = 2) => {
+    const { f, calls } = mockSquare(mock);
+    const res = await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: qty }] }), { ...env, ...envExtra }, f);
+    assert.equal(res.status, 200);
+    return calls.find((c) => c.url.endsWith('/payment-links')).body.checkout_options;
+  };
+  const saver = { itemName: 'Nail Saver - Alani Soda Can', price: 400, tracked: false };
+  assert.deepEqual((await send({ SMALL_ITEM_SHIPPING_CENTS: '400' }, saver)).shipping_fee, { name: 'Shipping', charge: { amount: 400, currency: 'USD' } });
+  assert.equal((await send({}, saver)).shipping_fee, undefined, 'not configured = no change');
+  assert.equal((await send({ SMALL_ITEM_SHIPPING_CENTS: '400' }, { tracked: false })).shipping_fee, undefined, 'nail sets keep the shop-wide rule');
+  assert.equal((await send({ SMALL_ITEM_SHIPPING_CENTS: '400' }, { ...saver, price: 2500 })).shipping_fee, undefined, '$50 and over: Square free-shipping rule applies');
+  assert.equal((await send({ SMALL_ITEM_SHIPPING_CENTS: 'abc' }, saver)).shipping_fee, undefined, 'bad config is ignored');
+});
+
+test('allows up to 99 of one item', async () => {
+  const { f } = mockSquare({ tracked: false });
+  assert.equal((await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: 99 }] }), env, f)).status, 200);
+  assert.equal((await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: 100 }] }), env, f)).status, 400);
 });

@@ -10,7 +10,7 @@
 const SQUARE_VERSION = '2024-10-17';
 const ID = /^[A-Za-z0-9_-]{10,40}$/;
 const MAX_LINES = 20;
-const MAX_QTY = 10;
+const MAX_QTY = 99;
 const MAX_NOTE = 140;
 
 const squareBase = (env) => (env.SQUARE_ENV === 'sandbox' ? 'https://connect.squareupsandbox.com' : 'https://connect.squareup.com');
@@ -117,7 +117,11 @@ async function checkAvailability(env, fetchImpl, lines) {
     if (v.item_variation_data.track_inventory && env.CHECK_STOCK !== 'false') tracked.push(id);
   }
   await checkModifiers(env, fetchImpl, lines, variations, items);
-  if (!tracked.length) return;
+  const detail = lines.map((l) => {
+    const v = variations.get(l.variationId).item_variation_data;
+    return { itemName: items.get(v.item_id)?.item_data?.name ?? '', cents: (v.price_money?.amount ?? 0) * l.quantity };
+  });
+  if (!tracked.length) return detail;
 
   const counts = new Map();
   const inv = await square(env, fetchImpl, 'POST', '/v2/inventory/counts/batch-retrieve', {
@@ -132,6 +136,22 @@ async function checkAvailability(env, fetchImpl, lines) {
       throw new HttpError(409, `Sorry, "${name}" just sold out or there is not enough in stock. Please update your cart.`);
     }
   }
+  return detail;
+}
+
+// Small-item shipping: when SMALL_ITEM_SHIPPING_CENTS is set and every item in the cart has SMALL_ITEM_MATCH in its name
+// (default "nail saver"), send that flat fee to Square instead of the shop-wide shipping rule. At or over
+// SMALL_ITEM_FREE_OVER_CENTS (default 5000) nothing is sent, so Square's own free-shipping rule applies. Unset = no change.
+export function smallItemShippingFee(env, detail) {
+  const raw = env.SMALL_ITEM_SHIPPING_CENTS;
+  if (raw === undefined || raw === null || String(raw).trim() === '') return null;
+  const cents = Number(raw);
+  if (!Number.isInteger(cents) || cents < 0) return null;
+  const match = String(env.SMALL_ITEM_MATCH || 'nail saver').toLowerCase();
+  if (!detail.length || !detail.every((d) => d.itemName.toLowerCase().includes(match))) return null;
+  const freeOver = env.SMALL_ITEM_FREE_OVER_CENTS === undefined || String(env.SMALL_ITEM_FREE_OVER_CENTS).trim() === '' ? 5000 : Number(env.SMALL_ITEM_FREE_OVER_CENTS);
+  if (detail.reduce((s, d) => s + d.cents, 0) >= freeOver) return null;
+  return { name: 'Shipping', charge: { amount: cents, currency: 'USD' } };
 }
 
 export async function createCheckout(request, env, fetchImpl = fetch) {
@@ -142,7 +162,8 @@ export async function createCheckout(request, env, fetchImpl = fetch) {
     throw new HttpError(400, 'Invalid request.');
   }
   const lines = validateLines(body);
-  await checkAvailability(env, fetchImpl, lines);
+  const detail = await checkAvailability(env, fetchImpl, lines);
+  const shippingFee = smallItemShippingFee(env, detail);
 
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
@@ -160,6 +181,7 @@ export async function createCheckout(request, env, fetchImpl = fetch) {
     order,
     checkout_options: {
       ask_for_shipping_address: true,
+      ...(shippingFee && { shipping_fee: shippingFee }),
       allow_tipping: false,
       ...(env.REDIRECT_URL && { redirect_url: env.REDIRECT_URL }),
     },
