@@ -70,6 +70,88 @@
       "kind": "text",
       "maxLength": 140,
       "options": []
+    },
+    "PT6BI4CNUM57GPB6PAOJDMQJ": {
+      "name": "Flavor",
+      "kind": "list",
+      "maxLength": null,
+      "options": [
+        {
+          "id": "WOMP4FXHDBJHTPCW4PU5AXEZ",
+          "name": "Witches Brew",
+          "priceCents": 0
+        },
+        {
+          "id": "PQUAVEUXKAXFCJ673SXA4OBE",
+          "name": "Pink Slush",
+          "priceCents": 0
+        },
+        {
+          "id": "YNPTFVKHQI6ACIUFQY4SIMUI",
+          "name": "Breezeberry",
+          "priceCents": 0
+        },
+        {
+          "id": "CGSQBSRKU24JPCTPIJST32YG",
+          "name": "Cherry Slush",
+          "priceCents": 0
+        },
+        {
+          "id": "5QLA4IWMJHDJ3HMI4GOQBPBG",
+          "name": "Cosmic Stardust",
+          "priceCents": 0
+        },
+        {
+          "id": "5IMETORAXSXCVNOU4XK2Q3BT",
+          "name": "Cotton Candy",
+          "priceCents": 0
+        },
+        {
+          "id": "HWX66EEGHOZSHEDD7KKSO3U6",
+          "name": "Dream Float",
+          "priceCents": 0
+        },
+        {
+          "id": "RPN7O2RJRMNB4JFSZLZLVFYO",
+          "name": "Juicy Peach",
+          "priceCents": 0
+        },
+        {
+          "id": "FO3IWORELHU4CZDKHYIMY4OZ",
+          "name": "Orange Kiss",
+          "priceCents": 0
+        },
+        {
+          "id": "BD37IA5AOUIKLZCFF3J63AK6",
+          "name": "Sherbet Swirl",
+          "priceCents": 0
+        },
+        {
+          "id": "DO7VAJ5CQMGD4ZOTSGJRBYBE",
+          "name": "Strawberry Sunrise",
+          "priceCents": 0
+        },
+        {
+          "id": "WUG7SRHLBZ7SAEHN2GH4M2QQ",
+          "name": "Watermelon Wave",
+          "priceCents": 0
+        },
+        {
+          "id": "FHQQP72NT2RKQYWAAYM5I6MB",
+          "name": "Blue Slush",
+          "priceCents": 0
+        },
+        {
+          "id": "IRFTCZGSRRQH7XDTU6G2OR2X",
+          "name": "Hawaiian Shaved Ice",
+          "priceCents": 0
+        },
+        {
+          "id": "IUD2TSADR7IG7TVCA3WXJQEV",
+          "name": "Cherry Twist",
+          "priceCents": 0
+        }
+      ]
     }
   },
   "categories": [
@@ -1054,7 +1136,54 @@
         "GVRLDBVFRFUGZSXSGN46NPGA"
       ],
       "updatedAt": "2026-09-05T06:25:10.177Z"
+    },
+    {
+      "id": "HWY6HKMOBFG3UZ3HUGZSHXOH",
+      "slug": "nail-saver-alani-soda-can",
+      "name": "Nail Saver - Alani Soda Can",
+      "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes\nSmall: keychain size ( 2 inches)\nMedium: purse charm size (2 3/4 inches)\nLarge: purse charm size (3 1/4 inches)\nFlavors: Pink Slush, Witch’s Brew, Pumpkin Cream, Cotton Candy, Winter Wonderland, Blue Slush, Hawaiian Shaved Ice, Cherry Slush, etc.",
+      "category": null,
+      "variations": [
+        {
+          "id": "UVVXCKKGIXAUQQZURR73JXV5",
+          "name": "Small",
+          "priceCents": 400,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "2SX4NUSIIF2QLP6Q37DE2R5F",
+          "name": "Medium",
+          "priceCents": 600,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "RAGBFMNAZONSUUQAG5WCCZSU",
+          "name": "Large",
+          "priceCents": 800,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        }
+      ],
+      "modifierLists": [
+        {
+          "id": "PT6BI4CNUM57GPB6PAOJDMQJ",
+          "min": -1,
+          "max": -1
+        }
+      ],
+      "images": [
+        "RWXQAXVWDOJJC466QYPDAZHQ",
+        "7OONL72TODHGMN5EDIZDGMF7",
+        "QLPH3BHBFMT56YCIFQUM6OOI",
+        "E4LPJMD7IZUQUFFU72STOYD3"
+      ],
+      "updatedAt": "2026-11-01T19:05:41.712Z"
     }
   ],
-  "generatedAt": "2026-10-11T21:10:53.173Z"
+  "generatedAt": "2026-11-01T19:54:51.450Z"
 }
