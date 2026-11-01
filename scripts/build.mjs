@@ -187,6 +187,9 @@ ${bodyClass.split(/\s+/).includes('page-market') ?`<script src="${url('/js/marke
 const pages = []; // [path, html]
 const add = (p, html) => pages.push([p, html]);
 
+// config/site.json containPhotos: names (substring match) whose photos show whole instead of cropped square, for tall shots like the nail savers.
+const fitClass = (p) => ((site.containPhotos ?? []).some((m) => p.name.toLowerCase().includes(String(m).toLowerCase())) ? ' fit-contain' : '');
+
 // ---------- cards ----------
 // level: heading level of the product name. Listing pages put cards directly under the h1 (h2); the home page nests them under an h2 section (h3).
 function card(p, level = 'h2') {
@@ -194,7 +197,7 @@ function card(p, level = 'h2') {
   const image = first
     ? `<img src="${img(first, true)}" alt="${esc(p.name)}" loading="lazy" width="520" height="520">`
     : '<div class="ph" role="img" aria-label="Photo coming soon">?</div>';
-  return `<li class="card" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
+  return `<li class="card${fitClass(p)}" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
   <a href="${url(`/shop/${p.slug}/`)}">
     <div class="card-img">${image}${badge(p)}</div>
     ${p.category ? `<p class="card-cat">${esc(p.category)}</p>` : ''}
@@ -376,7 +379,7 @@ for (const p of data.products) {
         .join('\n')
     : '';
   const gallery = p.images.length
-    ? `<div class="gallery"><img class="main-img" src="${img(p.images[0])}" alt="${esc(p.name)}" width="1200" height="1200" fetchpriority="high">
+    ? `<div class="gallery${fitClass(p)}"><img class="main-img" src="${img(p.images[0])}" alt="${esc(p.name)}" width="1200" height="1200" fetchpriority="high">
   ${p.images.length > 1 ? `<ul class="thumbs">${p.images.map((id, n) => `<li><button type="button" data-full="${img(id)}" aria-label="Photo ${n + 1}"><img src="${img(id, true)}" alt="" loading="lazy" width="120" height="120"></button></li>`).join('')}</ul>` : ''}
 </div>`
     : '<div class="gallery"><div class="ph big" role="img" aria-label="Photo coming soon">?</div></div>';

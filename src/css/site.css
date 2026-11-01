@@ -393,3 +393,4 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .acc-feature-copy h2 { margin-top: 0; }
 .acc-feature .grid { margin-top: 32px; }
 @media (max-width: 600px) { .acc-feature-row { grid-template-columns: 1fr; } .acc-feature-row .demo { max-width: 260px; } }
+.fit-contain .card-img img, .fit-contain .main-img, .fit-contain .thumbs img { object-fit: contain; object-position: 50% 50%; }

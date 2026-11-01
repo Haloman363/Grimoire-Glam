@@ -5,6 +5,7 @@
   "email": "buncebeauty@gmail.com",
   "instagram": "https://www.instagram.com/thegrimoireglam",
   "productVideos": [{ "match": "nail saver", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" }],
+  "containPhotos": ["nail saver"],
   "requiredModifiers": ["Flavor"],
   "accessoriesVideo": { "video": "/assets/video/nail-saver-demo.mp4", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" },
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
