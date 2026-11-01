@@ -272,4 +272,8 @@
     // after paying in the other tab the thank-you page empties the cart; refresh this one
     window.addEventListener('storage', function (e) { if (e.key === KEY) renderCart(); });
   }
+  // people who prefer less motion get the still poster instead of the looping clip
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    $$('.demo-loop').forEach(function (v) { v.removeAttribute('autoplay'); v.pause(); });
+  }
 })();

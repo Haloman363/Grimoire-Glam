@@ -321,13 +321,17 @@ for (const c of data.categories) {
 }
 
 // ---------- product pages ----------
-// config/site.json productVideos: [{match, url}] adds a "Watch how it works" link to products whose name contains `match`.
+// config/site.json productVideos: [{match, url, video?, poster?}] for products whose name contains `match`.
+// With a `video` file it shows a silent looping clip that opens `url` (Instagram) in a new tab; without one, a "Watch how it works" button.
 function videoLink(p) {
   const v = (site.productVideos ?? []).find((x) => p.name.toLowerCase().includes(String(x.match).toLowerCase()));
-  return v ? `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a></p>` : '';
+  if (!v) return '';
+  if (v.video) {
+    return `<a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}"${v.poster ? ` poster="${url(v.poster)}"` : ''} muted loop autoplay playsinline preload="metadata"></video><span class="demo-cap">Watch how it works on Instagram</span></a>`;
+  }
+  return `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a></p>`;
 }
 
-// Items whose variations are all sizes (Small, Medium, Large, S, M, L...) label the dropdown "Size"; nail sets keep "Shape".
 const isSizes = (vs) => vs.every((v) => /^(x{0,2}[sml]|x{1,2}l|small|medium|large|mini|standard)(?![a-z])/i.test(v.name.trim()));
 function productForm(p) {
   const variationControl =
