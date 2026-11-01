@@ -396,3 +396,5 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .fit-contain .card-img img, .fit-contain .main-img, .fit-contain .thumbs img { object-fit: contain; object-position: 50% 50%; }
 .news-img-tall { aspect-ratio: 4 / 5; }
 .watch { margin-bottom: 22px; }
+.field-qty input { width: 96px; padding: 12px; font: 500 15px var(--sans); text-align: center; background: var(--paper); border: 1px solid var(--line); border-radius: 2px; }
+.qty-input { width: 56px; height: 36px; text-align: center; font: 500 15px var(--sans); background: var(--paper); border: 1px solid var(--line); border-radius: 2px; margin: 0 6px; }

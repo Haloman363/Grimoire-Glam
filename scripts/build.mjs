@@ -371,6 +371,7 @@ function productForm(p) {
   ${variationControl}
   ${modControls}
   <p class="form-error" role="alert" hidden></p>
+  ${soldOut ? '' : '<div class="field field-qty"><label for="f-qty">Quantity</label><input id="f-qty" name="qty" type="number" min="1" max="99" value="1" inputmode="numeric"></div>'}
   <button class="btn btn-buy" type="submit"${soldOut ? ' disabled' : ''}>${soldOut ? 'Sold out' : 'Add to cart'}</button>
   <p class="hint">Made to order, ships in 7-10 days. ${shippingLine} Tax, if any, is added at checkout. <a href="${url('/shipping-returns/')}">Shipping &amp; returns</a></p>
 </form>`;

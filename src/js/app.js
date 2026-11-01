@@ -187,13 +187,14 @@
       var existing = lines.filter(function (l) { return l.key === key; })[0];
       var unit = v.priceCents + sel.modifiers.reduce(function (s, m) { return s + m.priceCents; }, 0);
       var cap = v.quantity == null ? 99 : Math.max(1, v.quantity);
+      var addQty = Math.max(1, Math.min(99, parseInt(form.elements.qty && form.elements.qty.value, 10) || 1));
       if (existing) {
         if (existing.qty >= cap) return fail('That is all we have in stock right now.');
-        existing.qty++;
+        existing.qty = Math.min(cap, existing.qty + addQty);
       } else {
         lines.push({
           key: key, slug: p.slug, name: p.name, image: p.image, variationId: v.id, variationName: v.name, variationLabel: p.variationLabel,
-          modifiers: sel.modifiers, note: sel.note, qty: 1, unitCents: unit, cap: cap
+          modifiers: sel.modifiers, note: sel.note, qty: Math.min(cap, addQty), unitCents: unit, cap: cap
         });
       }
       save(lines);
@@ -234,7 +235,9 @@
         plus.onclick = function () { if (l.qty < (l.cap || 99)) { l.qty++; save(lines); renderCart(); } };
         var rm = el('button', 'linkbtn', 'Remove'); rm.type = 'button';
         rm.onclick = function () { lines.splice(i, 1); save(lines); renderCart(); };
-        q.appendChild(minus); q.appendChild(el('span', null, String(l.qty))); q.appendChild(plus); q.appendChild(rm);
+        var num = el('input', 'qty-input'); num.type = 'number'; num.min = '1'; num.max = String(l.cap || 99); num.value = String(l.qty); num.setAttribute('aria-label', 'Quantity');
+        num.onchange = function () { var n = parseInt(num.value, 10) || 1; l.qty = Math.max(1, Math.min(l.cap || 99, n)); save(lines); renderCart(); };
+        q.appendChild(minus); q.appendChild(num); q.appendChild(plus); q.appendChild(rm);
         mid.appendChild(q);
         row.appendChild(mid);
         row.appendChild(el('div', 'line-total', money(l.unitCents * l.qty)));
