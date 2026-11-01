@@ -192,7 +192,7 @@
         existing.qty++;
       } else {
         lines.push({
-          key: key, slug: p.slug, name: p.name, image: p.image, variationId: v.id, variationName: v.name,
+          key: key, slug: p.slug, name: p.name, image: p.image, variationId: v.id, variationName: v.name, variationLabel: p.variationLabel,
           modifiers: sel.modifiers, note: sel.note, qty: 1, unitCents: unit, cap: cap
         });
       }
@@ -223,7 +223,7 @@
         var mid = el('div');
         var h = el('h3'); var link = el('a', null, l.name); link.href = base + '/shop/' + l.slug + '/'; h.appendChild(link); mid.appendChild(h);
         var ul = el('ul', 'opts');
-        ul.appendChild(el('li', null, 'Shape: ' + l.variationName));
+        ul.appendChild(el('li', null, (l.variationLabel || 'Shape') + ': ' + l.variationName));
         l.modifiers.forEach(function (m) { ul.appendChild(el('li', null, m.listName + ': ' + m.name)); });
         if (l.note) ul.appendChild(el('li', null, 'Sizing: ' + l.note));
         mid.appendChild(ul);

@@ -349,7 +349,8 @@ function productForm(p) {
   <textarea id="f-m${n}" name="text:${ref.id}" rows="3" maxlength="${m.maxLength ?? 140}" placeholder="Optional unless you chose Custom size"></textarea>
   <p class="hint"><a href="${url('/custom-sizing/')}" target="_blank" rel="noopener">Open the custom sizing tool</a> to measure and generate your code.</p></div>`;
       }
-      const required = ref.min >= 1;
+      // Square sends -1 for "use the set's default", so config/site.json requiredModifiers forces a choice for lists like Flavor
+      const required = ref.min >= 1 || (site.requiredModifiers ?? []).includes(m.name);
       return `<div class="field"><label for="f-m${n}">${esc(m.name)}</label><select id="f-m${n}" name="mod:${ref.id}"${required ? ' required' : ''}>
   ${required ? '<option value="">Choose&hellip;</option>' : '<option value="">None</option>'}
   ${m.options.map((o) => `<option value="${o.id}">${esc(o.name)}${o.priceCents ? ` (+${money(o.priceCents)})` : ''}</option>`).join('')}
@@ -386,7 +387,8 @@ for (const p of data.products) {
     name: p.name,
     image: p.images[0] ? img(p.images[0], true) : null,
     variations: p.variations,
-    modifierLists: p.modifierLists.map((r) => ({ ...r, ...mods[r.id] })),
+    variationLabel: isSizes(p.variations) ? 'Size' : 'Shape',
+    modifierLists: p.modifierLists.map((r) => ({ ...r, ...mods[r.id], min: (site.requiredModifiers ?? []).includes(mods[r.id].name) ? Math.max(r.min, 1) : r.min })),
   };
   const { min } = priceRange(p);
   const jsonld = {
