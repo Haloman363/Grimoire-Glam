@@ -160,6 +160,7 @@
     "The Conservatory",
     "Ribbons & Rites",
     "Whispers to Come",
+    "Nail Savers",
     "Seasonal Sets"
   ],
   "products": [
@@ -1142,7 +1143,7 @@
       "slug": "nail-saver-alani-soda-can",
       "name": "Nail Saver - Alani Soda Can",
       "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes\nSmall: keychain size ( 2 inches)\nMedium: purse charm size (2 3/4 inches)\nLarge: purse charm size (3 1/4 inches)\nFlavors: Pink Slush, Witch’s Brew, Pumpkin Cream, Cotton Candy, Winter Wonderland, Blue Slush, Hawaiian Shaved Ice, Cherry Slush, etc.",
-      "category": null,
+      "category": "Nail Savers",
       "variations": [
         {
           "id": "UVVXCKKGIXAUQQZURR73JXV5",
@@ -1182,8 +1183,8 @@
         "QLPH3BHBFMT56YCIFQUM6OOI",
         "E4LPJMD7IZUQUFFU72STOYD3"
       ],
-      "updatedAt": "2026-11-01T19:05:41.712Z"
+      "updatedAt": "2026-11-01T20:33:23.504Z"
     }
   ],
-  "generatedAt": "2026-11-01T19:54:51.450Z"
+  "generatedAt": "2026-11-01T20:52:15.120Z"
 }
