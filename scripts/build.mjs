@@ -101,7 +101,7 @@ const navHtml = nav
   .map((n) =>
     n.children
       ? `<li class="has-sub"><button type="button" aria-expanded="false" aria-haspopup="true">${n.label}</button><ul class="sub">${n.children
-          .map((c) => `<li><a href="${c.external ? c.href : url(c.href)}"${c.external ? ' rel="noopener"' : ''}>${c.label}</a></li>`)
+          .map((c) => `<li><a href="${c.external ? c.href : url(c.href)}"${c.external ? ' target="_blank" rel="noopener"' : ''}>${c.label}</a></li>`)
           .join('')}</ul></li>`
       : `<li><a href="${url(n.href)}">${n.label}</a></li>`,
   )
@@ -166,7 +166,7 @@ ${body}
       <li><a href="${url('/shop/')}">Shop All</a></li>
       <li><a href="${url('/#collections')}">Collections</a></li>
       <li><a href="${url('/nail-accessories/')}">Nail Accessories</a></li>
-      <li><a href="${esc(site.giftCardUrl)}" rel="noopener">Gift Card</a></li>
+      <li><a href="${esc(site.giftCardUrl)}" target="_blank" rel="noopener">Gift Card</a></li>
     </ul></div>
     <div class="foot-col"><h2>Help</h2><ul>
       <li><a href="${url('/sizing-info/')}">Sizing Info</a></li>
