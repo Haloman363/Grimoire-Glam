@@ -1183,14 +1183,14 @@
         "QLPH3BHBFMT56YCIFQUM6OOI",
         "E4LPJMD7IZUQUFFU72STOYD3"
       ],
-      "updatedAt": "2026-11-01T20:33:23.504Z"
+      "updatedAt": "2026-11-11T22:44:25.203Z"
     },
     {
       "id": "LXLM7L4MVOXBSUPQT7KI76XA",
       "slug": "nail-saver-coca-cola",
       "name": "Nail Saver - Coca-Cola",
       "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes Small: keychain size (2 inches) Medium: purse charm size (2 3/4 inches) Large: purse charm size (3 1/4 inches)\nFlavors: Coca-Cola, Diet Coke, Coke Zero Sugar, Sprite, Fanta Orange etc.",
-      "category": null,
+      "category": "Nail Savers",
       "variations": [
         {
           "id": "ZIQAGCGRQDB7KQIP4QQBWKQA",
@@ -1219,8 +1219,116 @@
       ],
       "modifierLists": [],
       "images": [],
-      "updatedAt": "2026-11-11T22:36:47.366Z"
+      "updatedAt": "2026-11-11T22:40:53.01Z"
+    },
+    {
+      "id": "H5B7FXMJH3CCWUHQG52QB3ZZ",
+      "slug": "nail-saver-pepsi-soda-can",
+      "name": "Nail Saver - Pepsi Soda Can",
+      "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes Small: keychain size (2 inches) Medium: purse charm size (2 3/4 inches) Large: purse charm size (3 1/4 inches)\nFlavors: Pepsi, Diet Pepsi, Pepsi Zero Sugar, Mountain Dew, Diet Mountain Dew etc",
+      "category": "Nail Savers",
+      "variations": [
+        {
+          "id": "YIRHFBKZVOUFGYNJPVNCF4M4",
+          "name": "Small",
+          "priceCents": 400,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "X7TJ3CDJBADBA3VLZSQ3HOOC",
+          "name": "Medium",
+          "priceCents": 600,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "ZHQVD3BXGKNELL7XTYUQRGJT",
+          "name": "Large",
+          "priceCents": 800,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        }
+      ],
+      "modifierLists": [],
+      "images": [],
+      "updatedAt": "2026-11-11T22:40:29.691Z"
+    },
+    {
+      "id": "YK7EVREP7NLWCYPAZXJEBPRE",
+      "slug": "nail-saver-dr-pepper-soda-can",
+      "name": "Nail Saver - Dr. Pepper Soda Can",
+      "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes Small: keychain size (2 inches) Medium: purse charm size (2 3/4 inches) Large: purse charm size (3 1/4 inches)\nFlavors: Dr Pepper, Diet Dr Pepper, Dr Pepper Zero Sugar etc.",
+      "category": "Nail Savers",
+      "variations": [
+        {
+          "id": "ZZ2C6SLROGRU4B743FZLY5Y2",
+          "name": "Small",
+          "priceCents": 400,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "ZU2XB7IUIE2UIPLJITNLDJKD",
+          "name": "Medium",
+          "priceCents": 600,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "I5LRN5ES5LRIRBJOEZF5CW2K",
+          "name": "Large",
+          "priceCents": 800,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        }
+      ],
+      "modifierLists": [],
+      "images": [],
+      "updatedAt": "2026-11-11T22:40:44.204Z"
+    },
+    {
+      "id": "YPLX6OONSGS2NDYFLWR2BNDZ",
+      "slug": "halloween-nail-savers",
+      "name": "Halloween Nail Savers",
+      "description": "",
+      "category": "Nail Savers",
+      "variations": [
+        {
+          "id": "6V6UJBFVIXUN7TIJNUMK2R6K",
+          "name": "Small",
+          "priceCents": 400,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "UKTRTRFBUA5EXESUNGUYN6QE",
+          "name": "Medium",
+          "priceCents": 600,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "NZDZMS4QS7DNFWYLDHH53LUC",
+          "name": "Large",
+          "priceCents": 800,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        }
+      ],
+      "modifierLists": [],
+      "images": [],
+      "updatedAt": "2026-11-11T22:57:13.877Z"
     }
   ],
-  "generatedAt": "2026-11-11T22:38:30.286Z"
+  "generatedAt": "2026-11-11T23:18:25.612Z"
 }
