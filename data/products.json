@@ -4,7 +4,7 @@
     "EITKJQNGTQUI2N3RZRC4ZGL2": {
       "name": "Size",
       "kind": "list",
-      "maxLength": null,
+      "maxLength": 150,
       "options": [
         {
           "id": "5B3CL5GVRM5NEFHLLBM4KSOJ",
@@ -41,7 +41,7 @@
     "KLV473EAQVYL53FMBJRWM3Z7": {
       "name": "Length",
       "kind": "list",
-      "maxLength": null,
+      "maxLength": 150,
       "options": [
         {
           "id": "CCVSAQOQ7SIM4KG6QD5NR7PH",
@@ -152,6 +152,249 @@
           "priceCents": 0
         }
       ]
+    },
+    "Z4S2BXYFZQLEIVU5YK5B4H2Z": {
+      "name": "Flavors",
+      "kind": "list",
+      "maxLength": 150,
+      "options": [
+        {
+          "id": "UXXICJ2ZTIQ4W5JOD3CW2ETZ",
+          "name": "Coca-Cola",
+          "priceCents": 0
+        },
+        {
+          "id": "74DUBS6XP4IWNXJGPINPMUDD",
+          "name": "Diet Coke W/ Lime",
+          "priceCents": 0
+        },
+        {
+          "id": "7OTFDVSYBKFBMIVZCDS4XNVJ",
+          "name": "Diet coke",
+          "priceCents": 0
+        },
+        {
+          "id": "3VGDUQZBXYGEGKSZFINIQLVC",
+          "name": "Coke Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "BOGANKWAZFBT6GLD5UBPK37R",
+          "name": "Cherry Coke",
+          "priceCents": 0
+        },
+        {
+          "id": "P4IYJO3IIHLLHWKIOSWL7FND",
+          "name": "Cherry Coke Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "TQPXP27YFJFDWUQJOMCOVP65",
+          "name": "Vanilla Coke",
+          "priceCents": 0
+        },
+        {
+          "id": "YAR6DOAC5RZLMVSDTFIXUEHI",
+          "name": "Sprite",
+          "priceCents": 0
+        },
+        {
+          "id": "U7IZZACHXWYWWOSL2DRGD4Y2",
+          "name": "Sprite Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "AB6C4TLVLA4PPNS7XZVAGNX4",
+          "name": "Fanta Orange",
+          "priceCents": 0
+        },
+        {
+          "id": "JIMVW626MS4T3K5SCSX6ET66",
+          "name": "Fanta Strawberry",
+          "priceCents": 0
+        },
+        {
+          "id": "NXU2WX7OSNR4JAQAT7XRCBUV",
+          "name": "Fanta Grape",
+          "priceCents": 0
+        },
+        {
+          "id": "MLJQUOXNPA2OMSBLNDHAWBXT",
+          "name": "Fanta Pinapple",
+          "priceCents": 0
+        },
+        {
+          "id": "WNI3NIJNZEPKQ2Z7RKAVZTG5",
+          "name": "Mello Yellow",
+          "priceCents": 0
+        },
+        {
+          "id": "SH7D5ACMYWBCWE7LJ2BKYSPL",
+          "name": "Root Beer",
+          "priceCents": 0
+        }
+      ]
+    },
+    "FVBI2OU7QJR7YGJ77NTRVZSF": {
+      "name": "Flavors",
+      "kind": "list",
+      "maxLength": 150,
+      "options": [
+        {
+          "id": "P7HC246YU2USCTXP7NLYL3QC",
+          "name": "Pepsi",
+          "priceCents": 0
+        },
+        {
+          "id": "BTC2CNHO5FHZNW3NTFGA4MSM",
+          "name": "Diet Pepsi",
+          "priceCents": 0
+        },
+        {
+          "id": "Y6PHUOFHMK5MJMHKKM5ZCB22",
+          "name": "Pepsi Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "4CAIXATVWRFX6IYMPRKLE3A4",
+          "name": "Pepsi Wild Cherry",
+          "priceCents": 0
+        },
+        {
+          "id": "CW3HJZH2MB45LT5ZSEWVUW4G",
+          "name": "Pepsi Vanilla",
+          "priceCents": 0
+        },
+        {
+          "id": "QLMSACAWZTXEVN6OXFKQMMKK",
+          "name": "Mountain Dew",
+          "priceCents": 0
+        },
+        {
+          "id": "MB4R2GHZYZDACJBW77UFGTSI",
+          "name": "Diet Mountain Dew",
+          "priceCents": 0
+        },
+        {
+          "id": "KUA2PEBYDPSNOYIZLU6TZKPJ",
+          "name": "Mountain Dew Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "OTT4ZHWHQE7DDE2LLAN3FLTJ",
+          "name": "Mountain Dew Code Red",
+          "priceCents": 0
+        },
+        {
+          "id": "ACF3QQ5H4RKW75K2AWGAK4QW",
+          "name": "Mountain Dew Baja Blast",
+          "priceCents": 0
+        },
+        {
+          "id": "A2WO6ZLD6QZRFN2YRNG3H37C",
+          "name": "Mountain Dew Livewire",
+          "priceCents": 0
+        },
+        {
+          "id": "UKC6SLPR46EXIFVGJZLNN74Z",
+          "name": "Mug Root Beer",
+          "priceCents": 0
+        },
+        {
+          "id": "WHISBG5VWXWD6TDVM25ENPOW",
+          "name": "Starry",
+          "priceCents": 0
+        },
+        {
+          "id": "JA5DNCKX64I273PNXX5DV36X",
+          "name": "Crush Orange",
+          "priceCents": 0
+        }
+      ]
+    },
+    "AMQSGDWQI3LY5M6Z2THE4M2A": {
+      "name": "Flavors",
+      "kind": "list",
+      "maxLength": 150,
+      "options": [
+        {
+          "id": "AT6QNYWPVDGMVONQLNMMS35R",
+          "name": "Dr. Pepper",
+          "priceCents": 0
+        },
+        {
+          "id": "5TN46XSXSC6ATKOWKRK7FJLR",
+          "name": "Diet Dr. Pepper",
+          "priceCents": 0
+        },
+        {
+          "id": "ZRBTWUFHI6EWXIA32IOX5D6M",
+          "name": "Dr. Pepper Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "CYJTDHGONPIRPUPCQDDGE3BE",
+          "name": "Dr. Pepper Cherry",
+          "priceCents": 0
+        },
+        {
+          "id": "XS53VTXXOFZGKI334PBOIKLU",
+          "name": "Dr. Pepper Cherry Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "QKSSMVZVURMJSDUCKDXRPNXZ",
+          "name": "Dr. Pepper Cream Soda",
+          "priceCents": 0
+        },
+        {
+          "id": "FQO47CWCP4YKVDVBSVVPDBTZ",
+          "name": "Dr. Pepper Strawberries and Cream",
+          "priceCents": 0
+        },
+        {
+          "id": "XYTRLJBURYAV2GPY34FQMB7P",
+          "name": "Dr. Dr. Pepper Strawberries and Cream Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "RSA5TYQL5GI6E6NDL3AGHMGP",
+          "name": "Dr. Pepper Creamy Coconut",
+          "priceCents": 0
+        },
+        {
+          "id": "CWMR74DZOX2R6L7OOUNQOYRQ",
+          "name": "Dr. Pepper Creamy coconut Zero Sugar",
+          "priceCents": 0
+        },
+        {
+          "id": "MWLANZAJHA4X6TYX46OA5JQF",
+          "name": "Dr. Pepper Dark Berry",
+          "priceCents": 0
+        }
+      ]
+    },
+    "R4L6RBWMIDDO23LDVTCJPDLB": {
+      "name": "Flavors",
+      "kind": "list",
+      "maxLength": 150,
+      "options": [
+        {
+          "id": "OOHYZBXA4ZY5BNCPD2ZGXKDC",
+          "name": "Dead Cute",
+          "priceCents": 0
+        },
+        {
+          "id": "7X36FCAXKWLQRHRDZV22OQHR",
+          "name": "Poison",
+          "priceCents": 0
+        },
+        {
+          "id": "5BNB4RWMGJIXT7PTCALM25FH",
+          "name": "Witchy Ghost",
+          "priceCents": 0
+        }
+      ]
     }
   },
   "categories": [
@@ -239,7 +482,7 @@
         "GVRLDBVFRFUGZSXSGN46NPGA",
         "EULZAMX57TUKTNKDO6LGE5KP"
       ],
-      "updatedAt": "2026-09-23T04:44:55.475Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "3HM26BEEVXD7SWVXO5V2OL2Q",
@@ -314,7 +557,7 @@
         "TIULUGUU65IZKMRFKA3CW3D2",
         "UGR5T4QDSBYNXO3OWWVWEXT7"
       ],
-      "updatedAt": "2026-09-23T04:44:56.142Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "ZFUZUCFQZO2E2H7XSEFAGJTO",
@@ -395,7 +638,7 @@
         "DOJHECR7JAKUJU7RD3LJFZRI",
         "EULZAMX57TUKTNKDO6LGE5KP"
       ],
-      "updatedAt": "2026-09-23T04:44:56.803Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "KTMGKO3E32M6XLP4JN56PXMZ",
@@ -471,7 +714,7 @@
         "ZLPEZU5XFYCXYFX4ONCUEZMJ",
         "TPYQLABWHTYTY2NZPHHTGWJC"
       ],
-      "updatedAt": "2026-09-23T04:44:57.443Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "54TUDMR5PMS6MY7RQI7VFZ7L",
@@ -543,7 +786,7 @@
         "QD2NPREZLON35WIDO3LJNYUL",
         "VAKMNVVE5MUSRXDW2CITGTH7"
       ],
-      "updatedAt": "2026-09-23T04:44:58.073Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "2ITJRKMIV5HTC6OPFYBRQVKM",
@@ -619,7 +862,7 @@
         "STMMSMVO4T3CNA2GDXM3EHIK",
         "DS4GQ4BTR63FCQDRABRKKQPW"
       ],
-      "updatedAt": "2026-09-23T04:44:58.602Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "AQ3KN7AAVX6HMR7SHCQDRNUU",
@@ -696,7 +939,7 @@
         "GVRLDBVFRFUGZSXSGN46NPGA",
         "EULZAMX57TUKTNKDO6LGE5KP"
       ],
-      "updatedAt": "2026-09-23T04:44:58.794Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "6ANCO2AFLJZDVTXT2D2BJM6H",
@@ -773,7 +1016,7 @@
         "GVRLDBVFRFUGZSXSGN46NPGA",
         "EULZAMX57TUKTNKDO6LGE5KP"
       ],
-      "updatedAt": "2026-09-23T04:44:58.992Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "XOXS4ZTCFP65O25JLOPFV3BP",
@@ -850,7 +1093,7 @@
         "GVRLDBVFRFUGZSXSGN46NPGA",
         "EULZAMX57TUKTNKDO6LGE5KP"
       ],
-      "updatedAt": "2026-09-23T04:44:59.332Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "4L5TSAQPHAAC5W2OZEG6TRDY",
@@ -926,7 +1169,7 @@
         "A5OA5V7S47WRSXVCRKVF7PM5",
         "QTYWTWQQRTOKSYRMKP2WVFNK"
       ],
-      "updatedAt": "2026-07-02T16:59:47.692Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "F7MX5C2B6EEZG6JZQRGQNJ43",
@@ -994,7 +1237,7 @@
         }
       ],
       "images": [],
-      "updatedAt": "2026-09-23T04:44:59.822Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "7XQPUEX3VSKGUWNLXQKTXECS",
@@ -1012,7 +1255,18 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": -1,
+          "max": -1
+        },
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [
         "33XHDIQASUUD3COICQC3H6LA",
         "D2KXSUIKXLRTQ5XHD2JAJG3H",
@@ -1023,7 +1277,7 @@
         "EULZAMX57TUKTNKDO6LGE5KP",
         "GVRLDBVFRFUGZSXSGN46NPGA"
       ],
-      "updatedAt": "2026-09-05T06:10:50.619Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "764VFLZTRIITQXSFNJI6QJMF",
@@ -1041,7 +1295,18 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": -1,
+          "max": -1
+        },
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [
         "SA5Q6Y26XEY47I2SMVM3TKSG",
         "MMYY46VTAD272QJDRQTOX3NN",
@@ -1053,7 +1318,7 @@
         "EULZAMX57TUKTNKDO6LGE5KP",
         "GVRLDBVFRFUGZSXSGN46NPGA"
       ],
-      "updatedAt": "2026-09-05T06:13:25.738Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "MWLG5E7DXQVGIO5YBOYZC2RU",
@@ -1071,14 +1336,25 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": -1,
+          "max": -1
+        },
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [
         "JLZ5WBHNQ622IVVOIQWFRTCX",
         "HJCBOT37KKAUCZSUCWY3OAI7",
         "RUDMXNZDSLJXE27EGQDWTMSZ",
         "524CF5LFZAB2TBRLW3YVZHCC"
       ],
-      "updatedAt": "2026-09-05T06:18:51.931Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "F23AOGWEWKCGG73T6XSBQ373",
@@ -1096,7 +1372,18 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": -1,
+          "max": -1
+        },
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [
         "SRTZRGLTWTHPCAAEM26FAP3S",
         "FZSASSJW7R6X2JXNH6MOGMHZ",
@@ -1108,7 +1395,7 @@
         "EULZAMX57TUKTNKDO6LGE5KP",
         "GVRLDBVFRFUGZSXSGN46NPGA"
       ],
-      "updatedAt": "2026-09-05T06:21:17.708Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "HIG2T3AMLS6GZGWDVRC2MBLO",
@@ -1126,7 +1413,18 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "KLV473EAQVYL53FMBJRWM3Z7",
+          "min": -1,
+          "max": -1
+        },
+        {
+          "id": "EITKJQNGTQUI2N3RZRC4ZGL2",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [
         "ANPPQCFI4K7TSXTUSQGQMOXA",
         "GOITQJRCSUQWTLLI3IRU7Y3U",
@@ -1136,7 +1434,7 @@
         "EULZAMX57TUKTNKDO6LGE5KP",
         "GVRLDBVFRFUGZSXSGN46NPGA"
       ],
-      "updatedAt": "2026-09-05T06:25:10.177Z"
+      "updatedAt": "2026-11-11T23:25:52.818Z"
     },
     {
       "id": "HWY6HKMOBFG3UZ3HUGZSHXOH",
@@ -1217,9 +1515,15 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "Z4S2BXYFZQLEIVU5YK5B4H2Z",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [],
-      "updatedAt": "2026-11-11T22:40:53.01Z"
+      "updatedAt": "2026-11-11T23:25:05.291Z"
     },
     {
       "id": "H5B7FXMJH3CCWUHQG52QB3ZZ",
@@ -1253,9 +1557,15 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "FVBI2OU7QJR7YGJ77NTRVZSF",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [],
-      "updatedAt": "2026-11-11T22:40:29.691Z"
+      "updatedAt": "2026-11-11T23:24:54.105Z"
     },
     {
       "id": "YK7EVREP7NLWCYPAZXJEBPRE",
@@ -1289,15 +1599,21 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "AMQSGDWQI3LY5M6Z2THE4M2A",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [],
-      "updatedAt": "2026-11-11T22:40:44.204Z"
+      "updatedAt": "2026-11-11T23:24:47.247Z"
     },
     {
       "id": "YPLX6OONSGS2NDYFLWR2BNDZ",
       "slug": "halloween-nail-savers",
       "name": "Halloween Nail Savers",
-      "description": "",
+      "description": "Spooky season, but make it nail friendly. Opening a soda can shouldn’t cost you a nail, and these little Halloween charms are designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nPick your creature:\nDead Cute: a tiny coffin with a skull in a bow\nPoison: a bubbling poison cauldron\nWitchy Ghost: a ghost in a witch’s hat\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s with you for every can, every pumpkin latte and every trick or treat run.\nSizes Small: keychain size (2 inches) Medium: purse charm size (2 3/4 inches) Large: purse charm size (3 1/4 inches)\nChoose your design and size, and they’ll be made just for you.",
       "category": "Nail Savers",
       "variations": [
         {
@@ -1325,10 +1641,16 @@
           "quantity": null
         }
       ],
-      "modifierLists": [],
+      "modifierLists": [
+        {
+          "id": "R4L6RBWMIDDO23LDVTCJPDLB",
+          "min": -1,
+          "max": -1
+        }
+      ],
       "images": [],
-      "updatedAt": "2026-11-11T22:57:13.877Z"
+      "updatedAt": "2026-11-11T23:24:35.448Z"
     }
   ],
-  "generatedAt": "2026-11-11T23:18:25.612Z"
+  "generatedAt": "2026-11-11T23:28:08.720Z"
 }
