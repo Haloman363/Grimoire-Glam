@@ -1184,7 +1184,43 @@
         "E4LPJMD7IZUQUFFU72STOYD3"
       ],
       "updatedAt": "2026-11-01T20:33:23.504Z"
+    },
+    {
+      "id": "LXLM7L4MVOXBSUPQT7KI76XA",
+      "slug": "nail-saver-coca-cola",
+      "name": "Nail Saver - Coca-Cola",
+      "description": "Opening a soda can shouldn’t cost you a nail. This mini can charm is designed to pop the tab for you, so you can open your drink without breaking a nail or hurting your fingers.\nEach one is designed and made by me in Utah. Clip it onto your keys or hang it from your bag, so it’s always with you when you need it.\nSizes Small: keychain size (2 inches) Medium: purse charm size (2 3/4 inches) Large: purse charm size (3 1/4 inches)\nFlavors: Coca-Cola, Diet Coke, Coke Zero Sugar, Sprite, Fanta Orange etc.",
+      "category": null,
+      "variations": [
+        {
+          "id": "ZIQAGCGRQDB7KQIP4QQBWKQA",
+          "name": "Small",
+          "priceCents": 400,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "TDZGLTXBL3XDTE325GSRHQRF",
+          "name": "Medium",
+          "priceCents": 600,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        },
+        {
+          "id": "LI67P3WDGBOFLCR7WR32RJSW",
+          "name": "Large",
+          "priceCents": 800,
+          "unit": null,
+          "stock": "untracked",
+          "quantity": null
+        }
+      ],
+      "modifierLists": [],
+      "images": [],
+      "updatedAt": "2026-11-11T22:36:47.366Z"
     }
   ],
-  "generatedAt": "2026-11-01T20:52:15.120Z"
+  "generatedAt": "2026-11-11T22:38:30.286Z"
 }
