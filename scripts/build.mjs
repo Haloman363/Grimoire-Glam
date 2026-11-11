@@ -39,6 +39,7 @@ const small = ship.smallItem ?? null;
 const smallLine = small ? `US shipping is ${dollars(small.rateCents)} for nail savers${ship.freeOverCents ? `, and free on orders over ${dollars(ship.freeOverCents)}` : ''}.` : null;
 const isSmallItem = (p) => Boolean(small) && p.name.toLowerCase().includes(small.match.toLowerCase());
 const url = (p) => `${basePath}${p}`;
+const soonImg = (small = false) => url(`/assets/img/brand/photo-coming-soon${small ? '-sm' : ''}.webp`); // shown for products that have no photo yet
 const img = (id, small = false) => url(`/assets/img/products/${id}${small ? '-sm' : ''}.webp`);
 const categorySlug = (name) => slugify(name);
 
@@ -205,7 +206,7 @@ function card(p, level = 'h2') {
   const first = p.images[0];
   const image = first
     ? `<img src="${img(first, true)}" alt="${esc(p.name)}" loading="lazy" width="520" height="520">`
-    : '<div class="ph" role="img" aria-label="Photo coming soon">?</div>';
+    : `<img src="${soonImg(true)}" alt="Photo coming soon" loading="lazy" width="520" height="520">`;
   return `<li class="card${fitClass(p)}" data-category="${esc(p.category ? categorySlug(p.category) : '')}">
   <a href="${url(`/shop/${p.slug}/`)}">
     <div class="card-img">${image}${badge(p)}</div>
@@ -392,13 +393,13 @@ for (const p of data.products) {
     ? `<div class="gallery${fitClass(p)}"><img class="main-img" src="${img(p.images[0])}" alt="${esc(p.name)}" width="1200" height="1200" fetchpriority="high">
   ${p.images.length > 1 ? `<ul class="thumbs">${p.images.map((id, n) => `<li><button type="button" data-full="${img(id)}" aria-label="Photo ${n + 1}"><img src="${img(id, true)}" alt="" loading="lazy" width="120" height="120"></button></li>`).join('')}</ul>` : ''}
 </div>`
-    : '<div class="gallery"><div class="ph big" role="img" aria-label="Photo coming soon">?</div></div>';
+    : `<div class="gallery"><img class="main-img" src="${soonImg()}" alt="Photo coming soon" width="1200" height="1200"></div>`;
 
   const clientData = {
     id: p.id,
     slug: p.slug,
     name: p.name,
-    image: p.images[0] ? img(p.images[0], true) : null,
+    image: p.images[0] ? img(p.images[0], true) : soonImg(true),
     variations: p.variations,
     variationLabel: isSizes(p.variations) ? 'Size' : 'Shape',
     modifierLists: p.modifierLists.map((r) => ({ ...r, ...mods[r.id], min: (site.requiredModifiers ?? []).includes(mods[r.id].name) ? Math.max(r.min, 1) : r.min })),
