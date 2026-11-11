@@ -170,7 +170,7 @@
         },
         {
           "id": "7OTFDVSYBKFBMIVZCDS4XNVJ",
-          "name": "Diet coke",
+          "name": "Diet Coke",
           "priceCents": 0
         },
         {
@@ -220,12 +220,12 @@
         },
         {
           "id": "MLJQUOXNPA2OMSBLNDHAWBXT",
-          "name": "Fanta Pinapple",
+          "name": "Fanta Pineapple",
           "priceCents": 0
         },
         {
           "id": "WNI3NIJNZEPKQ2Z7RKAVZTG5",
-          "name": "Mello Yellow",
+          "name": "Mello Yello",
           "priceCents": 0
         },
         {
@@ -354,7 +354,7 @@
         },
         {
           "id": "XYTRLJBURYAV2GPY34FQMB7P",
-          "name": "Dr. Dr. Pepper Strawberries and Cream Zero Sugar",
+          "name": "Dr. Pepper Strawberries and Cream Zero Sugar",
           "priceCents": 0
         },
         {
@@ -364,7 +364,7 @@
         },
         {
           "id": "CWMR74DZOX2R6L7OOUNQOYRQ",
-          "name": "Dr. Pepper Creamy coconut Zero Sugar",
+          "name": "Dr. Pepper Creamy Coconut Zero Sugar",
           "priceCents": 0
         },
         {
@@ -1523,7 +1523,7 @@
         }
       ],
       "images": [],
-      "updatedAt": "2026-11-11T23:25:05.291Z"
+      "updatedAt": "2026-11-11T23:35:51.459Z"
     },
     {
       "id": "H5B7FXMJH3CCWUHQG52QB3ZZ",
@@ -1607,7 +1607,7 @@
         }
       ],
       "images": [],
-      "updatedAt": "2026-11-11T23:24:47.247Z"
+      "updatedAt": "2026-11-11T23:36:45.31Z"
     },
     {
       "id": "YPLX6OONSGS2NDYFLWR2BNDZ",
@@ -1652,5 +1652,5 @@
       "updatedAt": "2026-11-11T23:24:35.448Z"
     }
   ],
-  "generatedAt": "2026-11-11T23:28:08.720Z"
+  "generatedAt": "2026-11-11T23:44:04.115Z"
 }
