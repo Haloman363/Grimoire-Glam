@@ -6,7 +6,7 @@
   "instagram": "https://www.instagram.com/thegrimoireglam",
   "productVideos": [{ "match": "nail saver", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" }],
   "containPhotos": ["nail saver"],
-  "requiredModifiers": ["Flavor"],
+  "requiredModifiers": ["Flavor", "Flavors", "Design"],
   "accessoriesVideo": { "video": "/assets/video/nail-saver-demo.mp4", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" },
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",
   "squareLocationId": "L4YE869D48SSP",
