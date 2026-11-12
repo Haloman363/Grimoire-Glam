@@ -136,7 +136,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}${og ? `<me
 <link rel="stylesheet" href="${url('/css/site.css')}?v=${cssVer}">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
 </head>
-<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}"${small ? ` data-shipping-small="${esc(smallLine)}" data-small-match="${esc(small.match)}" data-free-over="${ship.freeOverCents ?? ''}"` : ''} data-email="${esc(site.email)}">
+<body class="${bodyClass}" data-base="${basePath}" data-checkout-api="${esc(site.checkoutApi)}" data-shipping="${esc(shippingLine)}"${site.pickup ? ` data-pickup-label="${esc(site.pickup.label)}" data-pickup-days="${esc(site.pickup.days.join(','))}" data-pickup-zips="${esc(site.pickup.zips.join(','))}"` : ''}${small ? ` data-shipping-small="${esc(smallLine)}" data-small-match="${esc(small.match)}" data-free-over="${ship.freeOverCents ?? ''}"` : ''} data-email="${esc(site.email)}">
 <div class="announce">Made to order, ships in 7-10 days &nbsp;&middot;&nbsp; <a href="${url('/sizing-info/')}">Sizes XS to XL or custom fit</a></div>
 <header class="site-header">
   <div class="wrap bar">
@@ -721,7 +721,7 @@ add(
     body: `<section class="wrap narrow"><h1 class="page-title">Shipping &amp; Returns</h1>
 <h2>Shipping</h2>
 <p>Every set is made to order, so it takes a little time to make. Orders ship within 7-10 days of being placed.</p>
-<p>${esc(shippingLine)}${smallLine ? ` ${esc(`Orders made up only of nail savers: ${smallLine}`)}` : ''} We ship within the United States only, for now.</p>
+<p>${esc(shippingLine)}${site.pickup ? ` ${esc(`${site.pickup.label}: free. If your ZIP code is eligible you'll see it as a choice in your cart; pick a ${site.pickup.days.join(' or ')}, and after you order I'll message you to set up a time to pick up.`)}` : ''}${smallLine ? ` ${esc(`Orders made up only of nail savers: ${smallLine}`)}` : ''} We ship within the United States only, for now.</p>
 <h2>Exchanges and store credit</h2>
 <p>Because each set is made to order and often sized to you, we don't accept returns. If your set doesn't fit or isn't what you hoped for, email us within 14 days of delivery and we'll offer an exchange or store credit toward another set. Exchanges ship with the flat ${dollars(ship.flatRateCents)} shipping rate, and there's no need to send the original back.</p>
 <p>If your order arrives damaged or isn't what you ordered, email us within 14 days of delivery with a photo, and we'll remake or replace it and cover the shipping.</p>

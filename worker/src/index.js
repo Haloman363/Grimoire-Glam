@@ -154,6 +154,18 @@ export function smallItemShippingFee(env, detail) {
   return { name: 'Shipping', charge: { amount: cents, currency: 'USD' } };
 }
 
+// Local pickup: only for ZIP codes on the PICKUP_ZIPS list and a day from PICKUP_DAYS. The browser's choice is re-checked here.
+export function validatePickup(body, env) {
+  if (!body || body.pickup == null || body.pickup === false) return null;
+  const zips = String(env.PICKUP_ZIPS || '').split(',').map((s) => s.trim()).filter(Boolean);
+  const days = String(env.PICKUP_DAYS || 'Friday,Saturday').split(',').map((s) => s.trim()).filter(Boolean);
+  const zip = String(body.pickup.zip ?? '').trim();
+  const day = String(body.pickup.day ?? '').trim();
+  if (!zips.length || !/^\d{5}$/.test(zip) || !zips.includes(zip)) throw new HttpError(400, 'Local pickup is not available for that ZIP code.');
+  if (!days.includes(day)) throw new HttpError(400, 'Please choose a pickup day.');
+  return { zip, day };
+}
+
 export async function createCheckout(request, env, fetchImpl = fetch) {
   let body;
   try {
@@ -163,7 +175,8 @@ export async function createCheckout(request, env, fetchImpl = fetch) {
   }
   const lines = validateLines(body);
   const detail = await checkAvailability(env, fetchImpl, lines);
-  const shippingFee = smallItemShippingFee(env, detail);
+  const pickup = validatePickup(body, env);
+  const shippingFee = pickup ? null : smallItemShippingFee(env, detail);
 
   const order = {
     location_id: env.SQUARE_LOCATION_ID,
@@ -175,12 +188,15 @@ export async function createCheckout(request, env, fetchImpl = fetch) {
       ...(l.note && { note: l.note }),
     })),
     pricing_options: { auto_apply_taxes: true },
+    // A pickup order is a normal order with no shipping, labelled so it is easy to spot in Square (Square's own pickup type can show the shop's street address to the customer).
+    ...(pickup && { ticket_name: `LOCAL PICKUP - ${pickup.day}`, metadata: { delivery: 'local pickup', pickup_day: pickup.day, pickup_zip: pickup.zip } }),
   };
   const data = await square(env, fetchImpl, 'POST', '/v2/online-checkout/payment-links', {
     idempotency_key: crypto.randomUUID(),
     order,
+    ...(pickup && { payment_note: `LOCAL PICKUP (Cache Valley). Preferred day: ${pickup.day}. Message the customer to set a time.` }),
     checkout_options: {
-      ask_for_shipping_address: true,
+      ask_for_shipping_address: !pickup,
       ...(shippingFee && { shipping_fee: shippingFee }),
       allow_tipping: false,
       ...(env.REDIRECT_URL && { redirect_url: env.REDIRECT_URL }),

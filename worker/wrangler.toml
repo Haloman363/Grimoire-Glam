@@ -14,6 +14,9 @@ CHECK_STOCK = "false"
 SMALL_ITEM_SHIPPING_CENTS = "400"
 SMALL_ITEM_MATCH = "nail saver"
 SMALL_ITEM_FREE_OVER_CENTS = "5000"
+# Local pickup (Cache County, UT and Franklin County, ID): ZIP codes that may choose it, and the days offered. Empty PICKUP_ZIPS turns pickup off.
+PICKUP_ZIPS = "84304,84305,84308,84318,84319,84320,84321,84322,84323,84325,84326,84327,84328,84332,84333,84335,84338,84339,84341,83228,83232,83237,83263,83280,83286"
+PICKUP_DAYS = "Friday,Saturday"
 # Comma separated: every address the storefront is served from (no trailing slash).
 ALLOWED_ORIGINS = "https://grimoireglam.com,https://www.grimoireglam.com,https://haloman363.github.io"
 # Where Square sends the customer after paying.

@@ -131,3 +131,35 @@ test('allows up to 99 of one item', async () => {
   assert.equal((await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: 99 }] }), env, f)).status, 200);
   assert.equal((await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: 100 }] }), env, f)).status, 400);
 });
+
+test('local pickup: allowed ZIP and day give a no-shipping order labelled LOCAL PICKUP; everything else is refused', async () => {
+  const penv = { ...env, PICKUP_ZIPS: '84321,84341,83263', PICKUP_DAYS: 'Friday,Saturday', SMALL_ITEM_SHIPPING_CENTS: '400' };
+  const run = async (pickup, extraEnv = {}, mock = {}) => {
+    const { f, calls } = mockSquare({ tracked: false, ...mock });
+    const res = await handle(post({ lines: [{ variationId: VAR, modifierIds: [MOD], quantity: 1 }], ...(pickup !== undefined && { pickup }) }), { ...penv, ...extraEnv }, f);
+    return { res, link: calls.find((c) => c.url.endsWith('/payment-links'))?.body };
+  };
+  const ok = await run({ zip: '84321', day: 'Friday' });
+  assert.equal(ok.res.status, 200);
+  assert.equal(ok.link.checkout_options.ask_for_shipping_address, false, 'no shipping address asked');
+  assert.equal(ok.link.checkout_options.shipping_fee, undefined, 'no shipping fee');
+  assert.equal(ok.link.order.ticket_name, 'LOCAL PICKUP - Friday');
+  assert.equal(ok.link.order.metadata.pickup_zip, '84321');
+  assert.ok(ok.link.payment_note.includes('Friday'));
+  assert.equal(ok.link.order.fulfillments, undefined, "Square's own pickup type is not used");
+
+  const idaho = await run({ zip: '83263', day: 'Saturday' });
+  assert.equal(idaho.res.status, 200, 'Preston, Idaho is on the list');
+
+  const saver = await run({ zip: '84341', day: 'Saturday' }, {}, { itemName: 'Nail Saver - Alani Soda Can', price: 400 });
+  assert.equal(saver.link.checkout_options.shipping_fee, undefined, 'the nail saver shipping fee is not added to a pickup order');
+
+  assert.equal((await run({ zip: '90210', day: 'Friday' })).res.status, 400, 'ZIP not on the list');
+  assert.equal((await run({ zip: '84321', day: 'Monday' })).res.status, 400, 'day not offered');
+  assert.equal((await run({ zip: '8432', day: 'Friday' })).res.status, 400, 'malformed ZIP');
+  assert.equal((await run({ zip: '84321', day: 'Friday' }, { PICKUP_ZIPS: '' })).res.status, 400, 'pickup switched off');
+
+  const normal = await run(undefined);
+  assert.equal(normal.link.checkout_options.ask_for_shipping_address, true, 'normal orders still ask for a shipping address');
+  assert.equal(normal.link.order.ticket_name, undefined);
+});

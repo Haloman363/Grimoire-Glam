@@ -6,6 +6,7 @@
   "instagram": "https://www.instagram.com/thegrimoireglam",
   "productVideos": [{ "match": "nail saver", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" }],
   "containPhotos": ["nail saver"],
+  "pickup": { "label": "Local Pickup (Cache County)", "days": ["Friday", "Saturday"], "zips": ["84304","84305","84308","84318","84319","84320","84321","84322","84323","84325","84326","84327","84328","84332","84333","84335","84338","84339","84341","83228","83232","83237","83263","83280","83286"] },
   "requiredModifiers": ["Flavor", "Flavors", "Design"],
   "accessoriesVideo": { "video": "/assets/video/nail-saver-demo.mp4", "url": "https://www.instagram.com/reel/Ddb9cK3y6Rj/" },
   "giftCardUrl": "https://squareup.com/gift/ML3KKR25F4GHT/order",

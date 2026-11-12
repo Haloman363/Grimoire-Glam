@@ -399,3 +399,12 @@ tbody th { text-align: left; background: var(--paper); font-weight: 500; }
 .watch { margin-bottom: 22px; }
 .field-qty input { width: 96px; padding: 12px; font: 500 15px var(--sans); text-align: center; background: var(--paper); border: 1px solid var(--line); border-radius: 2px; }
 .qty-input { width: 56px; height: 36px; text-align: center; font: 500 15px var(--sans); background: var(--paper); border: 1px solid var(--line); border-radius: 2px; margin: 0 6px; }
+
+.delivery { border: 1px solid var(--line); border-radius: 2px; padding: 16px 18px 18px; margin: 20px 0 8px; }
+.delivery legend { font: 500 11px var(--sans); text-transform: uppercase; letter-spacing: .18em; color: var(--muted); padding: 0 6px; }
+.delivery-zip { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+.delivery-zip label { flex: 0 0 100%; font: 500 11px var(--sans); text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+.delivery-zip input { width: 190px; padding: 12px; font: 500 15px var(--sans); background: var(--paper); border: 1px solid var(--line); border-radius: 2px; }
+.delivery-zip .btn { padding: 12px 20px; }
+.delivery-opt { display: flex; gap: 10px; align-items: center; padding: 8px 0; cursor: pointer; }
+.delivery-days { margin: 6px 0 0 26px; padding-top: 4px; }

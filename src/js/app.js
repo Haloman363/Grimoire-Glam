@@ -244,11 +244,47 @@
         root.appendChild(row);
       });
       var t = el('div', 'cart-total'); t.appendChild(el('span', null, 'Subtotal')); t.appendChild(el('strong', null, money(total))); root.appendChild(t);
-      var shipText = document.body.getAttribute('data-shipping') || 'Shipping is added at checkout.';
+      // ---- delivery: Local Pickup is offered only when the ZIP code is on the pickup list
+      var pickupZips = (document.body.getAttribute('data-pickup-zips') || '').split(',').filter(Boolean);
+      var pickupLabel = document.body.getAttribute('data-pickup-label') || 'Local pickup';
+      var pickupDays = (document.body.getAttribute('data-pickup-days') || '').split(',').filter(Boolean);
+      var DKEY = 'grimoireDelivery.v1';
+      var delivery = {}; try { delivery = JSON.parse(localStorage.getItem(DKEY)) || {}; } catch (e) { delivery = {}; }
+      var saveDelivery = function () { try { localStorage.setItem(DKEY, JSON.stringify(delivery)); } catch (e) { /* private mode: choice just isn't remembered */ } };
+      var zipEligible = pickupZips.length > 0 && pickupZips.indexOf(delivery.zip) !== -1;
+      if (!zipEligible) delivery.method = 'ship';
+      var pickupOn = zipEligible && delivery.method === 'pickup';
+      if (pickupOn && pickupDays.indexOf(delivery.day) === -1) delivery.day = '';
+      if (pickupZips.length) {
+        var box = el('fieldset', 'delivery');
+        box.appendChild(el('legend', null, 'Delivery'));
+        var zipRow = el('div', 'delivery-zip');
+        var zipLabel = el('label', null, 'ZIP code'); zipLabel.setAttribute('for', 'delivery-zip');
+        var zipIn = el('input'); zipIn.id = 'delivery-zip'; zipIn.type = 'text'; zipIn.inputMode = 'numeric'; zipIn.maxLength = 5; zipIn.autocomplete = 'postal-code'; zipIn.value = delivery.zip || ''; zipIn.placeholder = 'Enter your ZIP code';
+        var zipBtn = el('button', 'btn btn-ghost', 'See options'); zipBtn.type = 'button';
+        var applyZip = function () { var z = (zipIn.value || '').replace(/\D/g, '').slice(0, 5); delivery.zip = z; if (pickupZips.indexOf(z) === -1) delivery.method = 'ship'; saveDelivery(); renderCart(); };
+        zipBtn.onclick = applyZip; zipIn.onkeydown = function (e) { if (e.key === 'Enter') { e.preventDefault(); applyZip(); } };
+        zipRow.appendChild(zipLabel); zipRow.appendChild(zipIn); zipRow.appendChild(zipBtn); box.appendChild(zipRow);
+        var choice = function (name, value, text, checked, onPick) { var l = el('label', 'delivery-opt'); var r = el('input'); r.type = 'radio'; r.name = name; r.value = value; r.checked = checked; r.onchange = onPick; l.appendChild(r); l.appendChild(el('span', null, text)); return l; };
+        if (zipEligible) {
+          box.appendChild(choice('delivery-method', 'ship', 'Ship it to me', !pickupOn, function () { delivery.method = 'ship'; saveDelivery(); renderCart(); }));
+          box.appendChild(choice('delivery-method', 'pickup', pickupLabel + ', free', pickupOn, function () { delivery.method = 'pickup'; saveDelivery(); renderCart(); }));
+          if (pickupOn) {
+            var days = el('div', 'delivery-days'); days.appendChild(el('p', 'hint', 'Pickup is on ' + pickupDays.join(' and ') + '. Which day do you prefer?'));
+            pickupDays.forEach(function (d) { days.appendChild(choice('delivery-day', d, d, delivery.day === d, function () { delivery.day = d; saveDelivery(); renderCart(); })); });
+            days.appendChild(el('p', 'hint', 'After you order, I\u2019ll message you to set up a time to pick up.'));
+            box.appendChild(days);
+          }
+        } else if (delivery.zip && delivery.zip.length === 5) {
+          box.appendChild(el('p', 'hint', 'Local pickup is only offered in Cache Valley. Shipping is available to your ZIP code.'));
+        }
+        root.appendChild(box);
+      }
+      var shipText = pickupOn ? 'Local pickup is free, with no shipping charge.' : (document.body.getAttribute('data-shipping') || 'Shipping is added at checkout.');
       var smallText = document.body.getAttribute('data-shipping-small'), smallMatch = (document.body.getAttribute('data-small-match') || '').toLowerCase();
       var freeOver = parseInt(document.body.getAttribute('data-free-over'), 10);
       // a cart made only of the small items (nail savers) ships at their lower rate, same rule as the checkout worker
-      if (smallText && smallMatch && lines.every(function (l) { return l.name.toLowerCase().indexOf(smallMatch) !== -1; }) && !(freeOver && total >= freeOver)) shipText = smallText;
+      if (!pickupOn && smallText && smallMatch && lines.every(function (l) { return l.name.toLowerCase().indexOf(smallMatch) !== -1; }) && !(freeOver && total >= freeOver)) shipText = smallText;
       root.appendChild(el('p', 'hint', shipText + ' Tax, if any, is added at checkout. Everything is made to order.'));
       var foot = el('div', 'cart-foot');
       var go = el('button', 'btn', 'Checkout'); go.type = 'button';
@@ -256,6 +292,7 @@
       go.onclick = function () {
         msg.hidden = true;
         if (!checkoutApi) { msg.textContent = 'Checkout is not connected yet. Please email us to place your order.'; msg.hidden = false; return; }
+        if (pickupOn && !delivery.day) { msg.textContent = 'Please choose a pickup day (' + pickupDays.join(' or ') + ').'; msg.hidden = false; return; }
         go.disabled = true; go.textContent = 'Taking you to Square…';
         // Square's page has no way back to this site, so open it in a new tab and keep the cart open here.
         // The tab must be opened inside the click; if the browser blocks it, fall back to this tab.
@@ -263,7 +300,7 @@
         try { tab = window.open('', '_blank'); } catch (e) { tab = null; }
         fetch(checkoutApi + '/checkout', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lines: lines.map(function (l) { return { variationId: l.variationId, modifierIds: l.modifiers.map(function (m) { return m.id; }), note: l.note, quantity: l.qty }; }) })
+          body: JSON.stringify({ pickup: pickupOn ? { zip: delivery.zip, day: delivery.day } : undefined, lines: lines.map(function (l) { return { variationId: l.variationId, modifierIds: l.modifiers.map(function (m) { return m.id; }), note: l.note, quantity: l.qty }; }) })
         }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Checkout failed'); return j; }); })
           .then(function (j) {
             // only ever leave for Square's hosted checkout, whatever the API returns
