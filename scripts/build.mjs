@@ -340,9 +340,9 @@ function videoLink(p) {
   const v = (site.productVideos ?? []).find((x) => p.name.toLowerCase().includes(String(x.match).toLowerCase()));
   if (!v) return '';
   if (v.video) {
-    return `<a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}"${v.poster ? ` poster="${url(v.poster)}"` : ''} muted loop autoplay playsinline preload="metadata"></video><span class="demo-cap">Watch how it works on Instagram</span></a>`;
+    return `<a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}"${v.poster ? ` poster="${url(v.poster)}"` : ''} muted loop autoplay playsinline preload="metadata"></video><span class="demo-cap">Watch how it works on Instagram</span>${v.note ? `<span class="demo-note">${esc(v.note)}</span>` : ''}</a>`;
   }
-  return `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a></p>`;
+  return `<p class="watch"><a class="btn btn-ghost" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it works</a>${v.note ? `<span class="demo-note">${esc(v.note)}</span>` : ''}</p>`;
 }
 
 const isSizes = (vs) => vs.every((v) => /^(x{0,2}[sml]|x{1,2}l|small|medium|large|mini|standard)(?![a-z])/i.test(v.name.trim()));
@@ -693,7 +693,7 @@ const accBody = accSections
     const items = list.length ? grid(list, 'h3') : sec.video ? '' : '<p class="acc-soon">New items are coming soon.</p>';
     const v = site.accessoriesVideo;
     if (sec.video && v) {
-      return `<div class="acc acc-feature"><div class="acc-feature-row"><a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}" muted loop autoplay playsinline preload="metadata"></video></a><div class="acc-feature-copy"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p><p><a class="textlink" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it fully works here</a></p></div></div>${items}</div>`;
+      return `<div class="acc acc-feature"><div class="acc-feature-row"><a class="demo" href="${esc(v.url)}" target="_blank" rel="noopener" aria-label="Watch how it works on Instagram (opens in a new tab)"><video class="demo-loop" src="${url(v.video)}" muted loop autoplay playsinline preload="metadata"></video></a><div class="acc-feature-copy"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p>${v.note ? `<p class="demo-note">${esc(v.note)}</p>` : ''}<p><a class="textlink" href="${esc(v.url)}" target="_blank" rel="noopener">Watch how it fully works here</a></p></div></div>${items}</div>`;
     }
     return `<div class="acc"><h2>${esc(sec.title)}</h2><p>${esc(sec.text)}</p>${items}</div>`;
   })
